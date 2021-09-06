@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fr.eni</groupId>
-    <artifactId>ENI-Encheres</artifactId>
+    <artifactId>ENI_Encheres</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>ENI-Encheres</name>
+    <name>ENI_Encheres</name>
     <packaging>war</packaging>
 
     <properties>

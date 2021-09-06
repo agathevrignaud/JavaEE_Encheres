@@ -1,4 +1,4 @@
-package fr.eni.eni_encheres;
+package fr.eni.example;
 
 import java.io.*;
 import javax.servlet.http.*;
