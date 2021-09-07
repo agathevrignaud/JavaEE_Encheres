@@ -4,6 +4,8 @@ import fr.eni.bo.Utilisateur;
 import fr.eni.dal.DAOFactory;
 import fr.eni.dal.UtilisateurDAO;
 
+import java.util.List;
+
 public class UtilisateurManager {
     private UtilisateurDAO utilisateurDAO;
 
@@ -11,8 +13,11 @@ public class UtilisateurManager {
         utilisateurDAO = DAOFactory.getUtilisateurDAO();
     }
 
-    public Utilisateur lecture()
-    {
-        return utilisateurDAO.read();
+    public List<Utilisateur> getAllUsers() {
+        return utilisateurDAO.selectAll();
+    }
+
+    public Utilisateur getUserById(int userId) {
+        return utilisateurDAO.selectById(userId);
     }
 }

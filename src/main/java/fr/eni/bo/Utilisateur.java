@@ -3,47 +3,31 @@ package fr.eni.bo;
 public class Utilisateur {
 
     private String pseudo;
-
     private String nom;
-
     private String prenom;
-
     private String email;
-
     private String telephone;
-
     private String rue;
-
-    private String codePostale;
-
+    private String codePostal;
     private String ville;
-
     private String motDePasse;
-
     private int credit;
-
     private boolean administrateur;
 
-    public Utilisateur() {};
 
-    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostale, String ville, String motDePasse, int credit, boolean administrateur) {
+    public Utilisateur() {};
+    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, int credit, boolean administrateur) {
         this.pseudo = pseudo;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.telephone = telephone;
         this.rue = rue;
-        this.codePostale = codePostale;
+        this.codePostal = codePostal;
         this.ville = ville;
         this.motDePasse = motDePasse;
         this.credit = credit;
         this.administrateur = administrateur;
-    }
-
-    public Utilisateur(String pseudo, String nom, String prenom) {
-        this.pseudo = pseudo;
-        this.nom = nom;
-        this.prenom = prenom;
     }
 
     public String getPseudo() {
@@ -94,12 +78,12 @@ public class Utilisateur {
         this.rue = rue;
     }
 
-    public String getCodePostale() {
-        return codePostale;
+    public String getCodePostal() {
+        return codePostal;
     }
 
-    public void setCodePostale(String codePostale) {
-        this.codePostale = codePostale;
+    public void setCodePostal(String codePostal) {
+        this.codePostal = codePostal;
     }
 
     public String getVille() {

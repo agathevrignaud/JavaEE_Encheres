@@ -47,9 +47,6 @@ public class ServletPoolConnexion extends HttpServlet {
             out.println("Une erreur est survenue lors de l'utilisation de la base de données : " + e.getMessage());
         }
 
-        UtilisateurManager leManager = new UtilisateurManager();
-        System.out.println("Affichage User : " + leManager.lecture());
-
     }
 
     /**
