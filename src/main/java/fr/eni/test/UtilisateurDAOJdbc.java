@@ -1,5 +1,7 @@
-package fr.eni.dal;
+package fr.eni.test;
 import fr.eni.bo.Utilisateur;
+import fr.eni.dal.ConnectionProvider;
+import fr.eni.dal.UtilisateurDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

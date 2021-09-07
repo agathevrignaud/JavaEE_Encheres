@@ -19,7 +19,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
     private static final String SELECT_ARTICLES_BY_CATEGORY = "SELECT no_article, nom_article, prix_vente, date_fin_encheres, no_utilisateur " +
             "FROM ARTICLES_VENDUS WHERE no_categorie=?";
 
-    // TODO : à modifier par un système de switch/case selon ce qui est remplit côté user ?
+    // TODO : à modifier par un système de switch/case selon ce qui est rempli côté user ?
 
     @Override
     public List<ArticleVendu> selectAll() {
