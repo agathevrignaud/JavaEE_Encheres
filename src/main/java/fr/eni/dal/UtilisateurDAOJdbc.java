@@ -1,5 +1,4 @@
 package fr.eni.dal;
-
 import fr.eni.bo.Utilisateur;
 
 import java.sql.Connection;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UtilisateurDAOJdbc implements UtilisateurDAO {
-
     private static final String SELECT_ALL_USERS = "SELECT * FROM UTILISATEURS";
     private static final String SELECT_USER_BY_ID = "SELECT * FROM UTILISATEURS WHERE NO_UTILISATEUR=?";
     private static final String INSERT_USER = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?,?,?)";
@@ -90,7 +88,6 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         }
 
         // TODO : Revoir l'histoire des Generated_Keys (récupérer le no_utilisateur après création ?)
-
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(INSERT_USER);
 
@@ -139,6 +136,13 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 
     @Override
     public void deleteUser(int userId) {
-
+        try(Connection cnx = ConnectionProvider.getConnection())
+        {
+            PreparedStatement pstmt = cnx.prepareStatement(DELETE_USER);
+            pstmt.setInt(1, userId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

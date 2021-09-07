@@ -69,7 +69,7 @@ public class UtilisateurManager {
         return isValid;
     }
 
-    public void updateUser(int userId, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws Exception {
+    public void updateUserData(int userId, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws Exception {
         if (isUserInfoValid(pseudo, email, motDePasse, motDePasseConfirmation)) {
             Utilisateur lUtilisateur = new Utilisateur(userId, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
             utilisateurDAO.updateUserData(lUtilisateur);
@@ -80,7 +80,7 @@ public class UtilisateurManager {
     }
 
     public void deleteUser(int userId) {
-
+        utilisateurDAO.deleteUser(userId);
     }
 
 }
