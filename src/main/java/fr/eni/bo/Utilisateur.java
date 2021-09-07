@@ -1,5 +1,7 @@
 package fr.eni.bo;
 
+import java.util.List;
+
 public class Utilisateur {
     private int no_utilisateur;
     private String pseudo;
@@ -13,6 +15,7 @@ public class Utilisateur {
     private String motDePasse;
     private int credit;
     private boolean administrateur;
+    private List<ArticleVendu> lesVentes;
 
     public Utilisateur() {};
     public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, int credit, boolean administrateur) {
@@ -125,4 +128,10 @@ public class Utilisateur {
         this.administrateur = administrateur;
     }
 
+    public List<ArticleVendu> getLesVentes() {
+        return lesVentes;
+    }
+    public void setLesVentes(List<ArticleVendu> lesVentes) {
+        this.lesVentes = lesVentes;
+    }
 }
