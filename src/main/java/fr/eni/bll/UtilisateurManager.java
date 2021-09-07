@@ -78,13 +78,17 @@ public class UtilisateurManager {
         }
     }
 
-    public void deleteUser(int userId) {
-        utilisateurDAO.deleteUser(userId);
+    public void deleteUser(int idUser) {
+        utilisateurDAO.deleteUser(idUser);
+    }
+
+    public void updateUserAccountStatus(int idUser) {
+        utilisateurDAO.updateUserAccountStatus(idUser);
     }
 
     public boolean authenticateUser(String login, String mdp) {
         boolean isAuthenticated = false ;
-        List<Utilisateur> lesUtilisateurs = new ArrayList<Utilisateur>();
+        List<Utilisateur> lesUtilisateurs = utilisateurDAO.selectAll();
         for (Utilisateur unUtilisateur : lesUtilisateurs) {
             if (unUtilisateur.getPseudo().equals(login) || unUtilisateur.getEmail().equals(login)) {
                 isAuthenticated = (unUtilisateur.getMotDePasse().equals(mdp));
