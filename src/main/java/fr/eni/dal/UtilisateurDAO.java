@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface UtilisateurDAO {
     public List<Utilisateur> selectAll();
-    public Utilisateur selectById(int userId);
+    public Utilisateur selectById(int idUser);
     public void createUser(Utilisateur lUtilisateur);
     public void updateUserData(Utilisateur lUtilisateur);
-    public void deleteUser(int userId);
+    public void deleteUser(int idUser);
 }

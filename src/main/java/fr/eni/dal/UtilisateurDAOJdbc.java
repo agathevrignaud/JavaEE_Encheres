@@ -49,12 +49,12 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
     }
 
     @Override
-    public Utilisateur selectById(int userId) {
+    public Utilisateur selectById(int idUser) {
         Utilisateur lUtilisateur = new Utilisateur();
         try(Connection cnx = ConnectionProvider.getConnection())
         {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_USER_BY_ID);
-            pstmt.setInt(1, userId);
+            pstmt.setInt(1, idUser);
             ResultSet rs = pstmt.executeQuery();
             if(rs.next())
             {
@@ -133,11 +133,10 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
     }
 
     @Override
-    public void deleteUser(int userId) {
-        try(Connection cnx = ConnectionProvider.getConnection())
-        {
+    public void deleteUser(int idUser) {
+        try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(DELETE_USER);
-            pstmt.setInt(1, userId);
+            pstmt.setInt(1, idUser);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
