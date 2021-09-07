@@ -15,10 +15,11 @@ public class Utilisateur {
     private String motDePasse;
     private int credit;
     private boolean administrateur;
+    private boolean compteActif;
     private List<ArticleVendu> lesVentes;
 
     public Utilisateur() {};
-    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, int credit, boolean administrateur) {
+    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse) {
         this.pseudo = pseudo;
         this.nom = nom;
         this.prenom = prenom;
@@ -28,8 +29,6 @@ public class Utilisateur {
         this.codePostal = codePostal;
         this.ville = ville;
         this.motDePasse = motDePasse;
-        this.credit = credit;
-        this.administrateur = administrateur;
     }
     public Utilisateur(int no_utilisateur, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse) {
         this.no_utilisateur = no_utilisateur;
@@ -126,6 +125,13 @@ public class Utilisateur {
     }
     public void setAdministrateur(boolean administrateur) {
         this.administrateur = administrateur;
+    }
+
+    public boolean isCompteActif() {
+        return compteActif;
+    }
+    public void setCompteActif(boolean compteActif) {
+        this.compteActif = compteActif;
     }
 
     public List<ArticleVendu> getLesVentes() {

@@ -2,6 +2,8 @@
 --   type :      SQL Server 2012
 --
 
+-- TODO : update le script avec du default / bricoler statut administrateur/compteActif/credit
+
 CREATE TABLE CATEGORIES (
                             no_categorie   INTEGER IDENTITY(1,1) NOT NULL,
                             libelle        VARCHAR(30) NOT NULL
@@ -20,7 +22,7 @@ CREATE TABLE ENCHERES (
 ALTER TABLE ENCHERES ADD constraint enchere_pk PRIMARY KEY (no_utilisateur, no_article)
 
 CREATE TABLE RETRAITS (
-                          no_article         INTEGER NOT NULL,
+                          no_article       INTEGER NOT NULL,
                           rue              VARCHAR(30) NOT NULL,
                           code_postal      VARCHAR(15) NOT NULL,
                           ville            VARCHAR(30) NOT NULL
@@ -39,8 +41,9 @@ CREATE TABLE UTILISATEURS (
                               code_postal      VARCHAR(10) NOT NULL,
                               ville            VARCHAR(30) NOT NULL,
                               mot_de_passe     VARCHAR(30) NOT NULL,
-                              credit           INTEGER NOT NULL,
-                              administrateur   bit NOT NULL
+                              credit           INTEGER NOT NULL DEFAULT 0,
+                              administrateur   bit NOT NULL DEFAULT 0,
+                              compteActif      bit NOT NULL DEFAULT 1
 )
 
 ALTER TABLE UTILISATEURS ADD constraint utilisateur_pk PRIMARY KEY (no_utilisateur)

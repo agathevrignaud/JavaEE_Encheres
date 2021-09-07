@@ -13,10 +13,11 @@ import java.util.List;
 public class UtilisateurDAOJdbc implements UtilisateurDAO {
     private static final String SELECT_ALL_USERS = "SELECT * FROM UTILISATEURS";
     private static final String SELECT_USER_BY_ID = "SELECT * FROM UTILISATEURS WHERE NO_UTILISATEUR=?";
-    private static final String INSERT_USER = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String INSERT_USER = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?)";
     private static final String UPDATE_USER_DATA = "UPDATE UTILISATEURS SET " +
             "pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? " +
             "WHERE no_utilisateur=?";
+    private static final String UPDATE_USER_ACCOUNT_STATUS = "UPDATE UTILISATEURS SET compteActif=? WHERE no_utilisateur=?";
     private static final String DELETE_USER = "DELETE FROM UTILISATEURS WHERE no_utilisateur=?";
 
     @Override
@@ -39,6 +40,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
                 lUtilisateur.setMotDePasse(rs.getString("mot_de_passe"));
                 lUtilisateur.setCredit(rs.getInt("credit"));
                 lUtilisateur.setAdministrateur(rs.getBoolean("administrateur"));
+                lUtilisateur.setCompteActif(rs.getBoolean("compteActif"));
             }
             lesUtilisateurs.add(lUtilisateur);
         } catch(Exception e) {
@@ -56,8 +58,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_USER_BY_ID);
             pstmt.setInt(1, idUser);
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next())
-            {
+            if(rs.next()) {
                 lUtilisateur.setPseudo(rs.getString("pseudo"));
                 lUtilisateur.setNom(rs.getString("nom"));
                 lUtilisateur.setPrenom(rs.getString("prenom"));
@@ -69,6 +70,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
                 lUtilisateur.setMotDePasse(rs.getString("mot_de_passe"));
                 lUtilisateur.setCredit(rs.getInt("credit"));
                 lUtilisateur.setAdministrateur(rs.getBoolean("administrateur"));
+                lUtilisateur.setCompteActif(rs.getBoolean("compteActif"));
             }
         }
         catch(Exception e)
@@ -98,8 +100,6 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.setString(7,lUtilisateur.getCodePostal());
             pstmt.setString(8,lUtilisateur.getVille());
             pstmt.setString(9,lUtilisateur.getMotDePasse());
-            pstmt.setInt(10,lUtilisateur.getCredit());
-            pstmt.setBoolean(11,lUtilisateur.isAdministrateur());
 
             pstmt.executeUpdate();
             pstmt.close();
@@ -126,6 +126,21 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.setString(9,lUtilisateur.getMotDePasse());
             pstmt.setInt(10,lUtilisateur.getNo_utilisateur());
 
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateUserAccountStatus(int idUser) {
+        Utilisateur lUtilisateur = this.selectById(idUser);
+
+        try(Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pstmt = cnx.prepareStatement(UPDATE_USER_ACCOUNT_STATUS);
+
+            pstmt.setBoolean(1, !lUtilisateur.isCompteActif());
+            pstmt.setInt(2, idUser);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

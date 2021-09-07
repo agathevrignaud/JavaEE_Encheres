@@ -9,8 +9,6 @@ import java.util.List;
 
 public class UtilisateurManager {
     private UtilisateurDAO utilisateurDAO;
-    private static final int DEFAULT_CREDIT = 0 ;
-    private static final boolean DEFAULT_ISADMIN = false ;
 
     public UtilisateurManager() {
         utilisateurDAO = DAOFactory.getUtilisateurDAO();
@@ -24,7 +22,7 @@ public class UtilisateurManager {
     }
     public void addNewUser(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws Exception {
         if (isUserInfoValid(pseudo, email, motDePasse, motDePasseConfirmation)) {
-            Utilisateur lUtilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, DEFAULT_CREDIT, DEFAULT_ISADMIN);
+            Utilisateur lUtilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
             utilisateurDAO.createUser(lUtilisateur);
         } else {
             System.out.println("Erreur lors de l'ajout de l'utilisateur");

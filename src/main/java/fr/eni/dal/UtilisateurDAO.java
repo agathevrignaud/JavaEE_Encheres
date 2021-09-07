@@ -9,5 +9,6 @@ public interface UtilisateurDAO {
     public Utilisateur selectById(int idUser);
     public void createUser(Utilisateur lUtilisateur);
     public void updateUserData(Utilisateur lUtilisateur);
+    public void updateUserAccountStatus(int idUser);
     public void deleteUser(int idUser);
 }

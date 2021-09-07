@@ -1,9 +1,7 @@
 package fr.eni.bll;
 
 import fr.eni.bo.ArticleVendu;
-import fr.eni.bo.Categorie;
 import fr.eni.dal.ArticleVenduDAO;
-import fr.eni.dal.CategorieDAO;
 import fr.eni.dal.DAOFactory;
 
 import java.util.List;

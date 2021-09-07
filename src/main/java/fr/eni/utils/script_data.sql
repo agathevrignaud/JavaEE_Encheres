@@ -1,7 +1,10 @@
 INSERT INTO UTILISATEURS VALUES
-('pseudo','Vrignaud', 'Agathe', 'email', '0123456789', 'rue truc', '35000', 'Rennes', 'mdp', 14, 0),
-('pseudo','StAlme', 'Raphaël', 'email', '0123456789', 'rue truc', '35000', 'Rennes', 'mdp', 14, 0),
-('pseudo','Launay', 'Ewen','email', '0123456789', 'rue truc', '35000', 'Rennes', 'mdp', 14, 1);
+('pseudo','Vrignaud', 'Agathe', 'email', '0123456789', 'rue truc', '35000', 'Rennes', 'mdp'),
+('pseudo','StAlme', 'Raphaël', 'email', '0123456789', 'rue truc', '35000', 'Rennes', 'mdp'),
+('pseudo','Launay', 'Ewen','email', '0123456789', 'rue truc', '35000', 'Rennes', 'mdp');
+
+INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, administrateur) VALUES
+('admin','admin', 'admin', 'email', '0123456789', 'rue truc', '35000', 'Rennes', 'mdp', 1);
 
 INSERT INTO CATEGORIES VALUES
 ('Informatique'),
