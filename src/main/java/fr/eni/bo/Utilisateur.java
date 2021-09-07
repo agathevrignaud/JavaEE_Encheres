@@ -28,6 +28,18 @@ public class Utilisateur {
         this.credit = credit;
         this.administrateur = administrateur;
     }
+    public Utilisateur(int no_utilisateur, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse) {
+        this.no_utilisateur = no_utilisateur;
+        this.pseudo = pseudo;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.telephone = telephone;
+        this.rue = rue;
+        this.codePostal = codePostal;
+        this.ville = ville;
+        this.motDePasse = motDePasse;
+    }
 
     public int getNo_utilisateur() {
         return no_utilisateur;

@@ -5,6 +5,7 @@ import fr.eni.bo.Utilisateur;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +15,9 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
     private static final String SELECT_USER_BY_ID = "SELECT * FROM UTILISATEURS WHERE NO_UTILISATEUR=?";
     private static final String INSERT_USER = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?,?,?)";
     private static final String UPDATE_USER_DATA = "UPDATE UTILISATEURS SET " +
-            "pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=?, credit=?";
-    private static final String DELETE_USER = "DELETE FROM UTILISATEURS WHERE NO_UTILISATEUR=?";
+            "pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? " +
+            "WHERE no_utilisateur=?";
+    private static final String DELETE_USER = "DELETE FROM UTILISATEURS WHERE no_utilisateur=?";
 
     @Override
     public List<Utilisateur> selectAll() {
@@ -113,8 +115,26 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
     }
 
     @Override
-    public void updateUserData(int userId) {
+    public void updateUserData(Utilisateur lUtilisateur) {
+        try(Connection cnx = ConnectionProvider.getConnection())
+        {
+            PreparedStatement pstmt = cnx.prepareStatement(UPDATE_USER_DATA);
 
+            pstmt.setString(1,lUtilisateur.getPseudo());
+            pstmt.setString(2,lUtilisateur.getNom());
+            pstmt.setString(3,lUtilisateur.getPrenom());
+            pstmt.setString(4,lUtilisateur.getEmail());
+            pstmt.setString(5,lUtilisateur.getTelephone());
+            pstmt.setString(6,lUtilisateur.getRue());
+            pstmt.setString(7,lUtilisateur.getCodePostal());
+            pstmt.setString(8,lUtilisateur.getVille());
+            pstmt.setString(9,lUtilisateur.getMotDePasse());
+            pstmt.setInt(10,lUtilisateur.getNo_utilisateur());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
