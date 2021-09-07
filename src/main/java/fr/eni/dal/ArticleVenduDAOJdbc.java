@@ -15,7 +15,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
     private static final String SELECT_ALL_ARTICLES = "SELECT no_article, nom_article, prix_vente, date_fin_encheres, no_utilisateur " +
             "FROM ARTICLES_VENDUS WHERE date_fin_encheres >= ?";
     private static final String SELECT_ARTICLES_BY_NAME = "SELECT no_article, nom_article, prix_vente, date_fin_encheres, no_utilisateur " +
-            "FROM ARTICLES_VENDUS WHERE nom_article LIKE ?";
+            "FROM ARTICLES_VENDUS WHERE nom_article LIKE %?%";
     private static final String SELECT_ARTICLES_BY_CATEGORY = "SELECT no_article, nom_article, prix_vente, date_fin_encheres, no_utilisateur " +
             "FROM ARTICLES_VENDUS WHERE no_categorie=?";
 
