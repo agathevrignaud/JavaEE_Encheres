@@ -1,5 +1,7 @@
 package fr.eni.servlets;
 
+import fr.eni.bll.UtilisateurManager;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -44,6 +46,10 @@ public class ServletPoolConnexion extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             out.println("Une erreur est survenue lors de l'utilisation de la base de données : " + e.getMessage());
         }
+
+        UtilisateurManager leManager = new UtilisateurManager();
+        System.out.println("Affichage User : " + leManager.lecture());
+
     }
 
     /**

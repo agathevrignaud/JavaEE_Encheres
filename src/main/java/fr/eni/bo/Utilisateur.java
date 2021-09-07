@@ -24,6 +24,28 @@ public class Utilisateur {
 
     private boolean administrateur;
 
+    public Utilisateur() {};
+
+    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostale, String ville, String motDePasse, int credit, boolean administrateur) {
+        this.pseudo = pseudo;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.telephone = telephone;
+        this.rue = rue;
+        this.codePostale = codePostale;
+        this.ville = ville;
+        this.motDePasse = motDePasse;
+        this.credit = credit;
+        this.administrateur = administrateur;
+    }
+
+    public Utilisateur(String pseudo, String nom, String prenom) {
+        this.pseudo = pseudo;
+        this.nom = nom;
+        this.prenom = prenom;
+    }
+
     public String getPseudo() {
         return pseudo;
     }
@@ -110,5 +132,14 @@ public class Utilisateur {
 
     public void setAdministrateur(boolean administrateur) {
         this.administrateur = administrateur;
+    }
+
+    @Override
+    public String toString() {
+        return "Utilisateur{" +
+                "pseudo='" + pseudo + '\'' +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                '}';
     }
 }
