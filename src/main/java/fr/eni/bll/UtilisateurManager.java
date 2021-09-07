@@ -23,7 +23,6 @@ public class UtilisateurManager {
     }
 
     public void addNewUser(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws Exception {
-        // TODO : Ajouter contrôles sur les infos de l'Utilisateur
         if (isUserInfoValid(pseudo, email, motDePasse, motDePasseConfirmation)) {
             Utilisateur lUtilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, DEFAULT_CREDIT, DEFAULT_ISADMIN);
             utilisateurDAO.createUser(lUtilisateur);
@@ -41,12 +40,13 @@ public class UtilisateurManager {
         boolean isValid = true ;
         List<Utilisateur> lesUtilisateurs = utilisateurDAO.selectAll();
 
+    // TODO : ajouter un regex pour vérifier la validité de l'email
+
         // Uniquement des caractères alphanumériques
-        String regexPattern = "^[a-zA-Z0-9]*$";
-        if (!pseudo.matches(regexPattern)) {
+        String regexPatternPseudo = "^[a-zA-Z0-9]*$";
+        if (!pseudo.matches(regexPatternPseudo)) {
             isValid = false ;
         }
-
         // pseudo + email uniques
         for (Utilisateur unUtilisateur : lesUtilisateurs) {
             if (unUtilisateur.getPseudo() == pseudo || unUtilisateur.getEmail() == email) {
@@ -60,7 +60,7 @@ public class UtilisateurManager {
 
     public boolean isPasswordValid(String mdp, String mdpConf) {
         boolean isValid = true ;
-        String regexPattern = "^[a-zA-Z0-9]*$"; // TODO : Recupérer un pattern pour les contraintes de l'énoncé
+        String regexPattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,12}$";
 
         if (!mdp.matches(regexPattern)) {
             isValid = false ;
