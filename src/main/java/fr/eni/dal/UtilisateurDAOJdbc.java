@@ -24,12 +24,10 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         List<Utilisateur> lesUtilisateurs = new ArrayList<Utilisateur>();
         Utilisateur lUtilisateur = new Utilisateur();
 
-        try(Connection cnx = ConnectionProvider.getConnection())
-        {
+        try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_USERS);
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next())
-            {
+            if(rs.next()) {
                 lUtilisateur.setPseudo(rs.getString("pseudo"));
                 lUtilisateur.setNom(rs.getString("nom"));
                 lUtilisateur.setPrenom(rs.getString("prenom"));
@@ -43,9 +41,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
                 lUtilisateur.setAdministrateur(rs.getBoolean("administrateur"));
             }
             lesUtilisateurs.add(lUtilisateur);
-        }
-        catch(Exception e)
-        {
+        } catch(Exception e) {
             e.printStackTrace();
         }
 
@@ -147,5 +143,5 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             e.printStackTrace();
         }
     }
-    
+
 }

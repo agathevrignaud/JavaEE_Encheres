@@ -5,5 +5,9 @@ public abstract class DAOFactory {
         {
             return new UtilisateurDAOJdbc();
         }
+    public static CategorieDAO getCategorieDAO()
+    {
+        return new CategorieDAOJdbc();
+    }
 }
 
