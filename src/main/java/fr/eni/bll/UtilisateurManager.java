@@ -4,6 +4,7 @@ import fr.eni.bo.Utilisateur;
 import fr.eni.dal.DAOFactory;
 import fr.eni.dal.UtilisateurDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UtilisateurManager {
@@ -83,4 +84,14 @@ public class UtilisateurManager {
         utilisateurDAO.deleteUser(userId);
     }
 
+    public boolean authenticateUser(String login, String mdp) {
+        boolean isAuthenticated = false ;
+        List<Utilisateur> lesUtilisateurs = new ArrayList<Utilisateur>();
+        for (Utilisateur unUtilisateur : lesUtilisateurs) {
+            if (unUtilisateur.getPseudo().equals(login) || unUtilisateur.getEmail().equals(login)) {
+                isAuthenticated = (unUtilisateur.getMotDePasse().equals(mdp));
+            }
+        }
+        return isAuthenticated;
+    }
 }

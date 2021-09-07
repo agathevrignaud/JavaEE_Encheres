@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO : Ajouter des logs + meilleure gestion des erreurs avec un système de codes/messages
+
 public class UtilisateurDAOJdbc implements UtilisateurDAO {
     private static final String SELECT_ALL_USERS = "SELECT * FROM UTILISATEURS";
     private static final String SELECT_USER_BY_ID = "SELECT * FROM UTILISATEURS WHERE NO_UTILISATEUR=?";
@@ -145,4 +147,5 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             e.printStackTrace();
         }
     }
+    
 }
