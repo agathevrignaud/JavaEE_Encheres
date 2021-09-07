@@ -12,6 +12,10 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 
     private static final String SELECT_ALL_USERS = "SELECT * FROM UTILISATEURS";
     private static final String SELECT_USER_BY_ID = "SELECT * FROM UTILISATEURS WHERE NO_UTILISATEUR=?";
+    private static final String INSERT_USER = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String UPDATE_USER_DATA = "UPDATE UTILISATEURS SET " +
+            "pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=?, credit=?";
+    private static final String DELETE_USER = "DELETE FROM UTILISATEURS WHERE NO_UTILISATEUR=?";
 
     @Override
     public List<Utilisateur> selectAll() {
@@ -75,5 +79,46 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         }
 
         return lUtilisateur;
+    }
+
+    @Override
+    public void createUser(Utilisateur lUtilisateur) {
+        if(lUtilisateur==null) {
+            //throw exception
+        }
+
+        // TODO : Revoir l'histoire des Generated_Keys (récupérer le no_utilisateur après création ?)
+
+        try(Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pstmt = cnx.prepareStatement(INSERT_USER);
+
+            pstmt.setString(1,lUtilisateur.getPseudo());
+            pstmt.setString(2,lUtilisateur.getNom());
+            pstmt.setString(3,lUtilisateur.getPrenom());
+            pstmt.setString(4,lUtilisateur.getEmail());
+            pstmt.setString(5,lUtilisateur.getTelephone());
+            pstmt.setString(6,lUtilisateur.getRue());
+            pstmt.setString(7,lUtilisateur.getCodePostal());
+            pstmt.setString(8,lUtilisateur.getVille());
+            pstmt.setString(9,lUtilisateur.getMotDePasse());
+            pstmt.setInt(10,lUtilisateur.getCredit());
+            pstmt.setBoolean(11,lUtilisateur.isAdministrateur());
+
+            pstmt.executeUpdate();
+            pstmt.close();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateUserData(int userId) {
+
+    }
+
+    @Override
+    public void deleteUser(int userId) {
+
     }
 }
