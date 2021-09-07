@@ -21,7 +21,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 
     @Override
     public List<Utilisateur> selectAll() {
-        List<Utilisateur> lesUtilisateurs = new ArrayList<Utilisateur>();
+        List<Utilisateur> lesUtilisateurs = new ArrayList<>();
         Utilisateur lUtilisateur = new Utilisateur();
 
         try(Connection cnx = ConnectionProvider.getConnection()) {
