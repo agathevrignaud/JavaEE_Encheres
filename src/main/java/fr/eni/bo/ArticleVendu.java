@@ -10,10 +10,10 @@ public class ArticleVendu {
     private Date dateFinEnchere;
     private int miseAPrix;
     private int prixVente;
-    private char etatVente;
+    private String etatVente;
     private Retrait lieuRetrait;
     private Categorie laCategorie;
-    private Utilisateur leVendeur;
+    private int no_utilisateur;
 
     public ArticleVendu() {}
 
@@ -60,8 +60,8 @@ public class ArticleVendu {
         this.prixVente = prixVente;
     }
 
-    public char getEtatVente() { return etatVente; }
-    public void setEtatVente(char etatVente) { this.etatVente = etatVente;}
+    public String getEtatVente() { return etatVente; }
+    public void setEtatVente(String etatVente) { this.etatVente = etatVente;}
 
     public Retrait getLieuRetrait() { return lieuRetrait; }
     public void setLieuRetrait(Retrait lieuRetrait) {
@@ -71,6 +71,6 @@ public class ArticleVendu {
     public Categorie getLaCategorie() { return laCategorie; }
     public void setLaCategorie(Categorie laCategorie) { this.laCategorie = laCategorie; }
 
-    public Utilisateur getLeVendeur() { return leVendeur; }
-    public void setLeVendeur(Utilisateur leVendeur) { this.leVendeur = leVendeur; }
+    public int getNo_utilisateur() { return no_utilisateur;}
+    public void setNo_utilisateur(int no_utilisateur) { this.no_utilisateur = no_utilisateur;}
 }

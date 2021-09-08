@@ -1,92 +1,62 @@
 package fr.eni.dal;
 
 import fr.eni.bo.ArticleVendu;
+import fr.eni.bo.Categorie;
+import fr.eni.bo.Retrait;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
 
-    private static final String SELECT_ALL_ARTICLES = "SELECT no_article, nom_article, prix_vente, date_fin_encheres, no_utilisateur " +
-            "FROM ARTICLES_VENDUS WHERE date_fin_encheres >= ?";
-    private static final String SELECT_ARTICLES_BY_NAME = "SELECT no_article, nom_article, prix_vente, date_fin_encheres, no_utilisateur " +
-            "FROM ARTICLES_VENDUS WHERE nom_article LIKE %?%";
-    private static final String SELECT_ARTICLES_BY_CATEGORY = "SELECT no_article, nom_article, prix_vente, date_fin_encheres, no_utilisateur " +
-            "FROM ARTICLES_VENDUS WHERE no_categorie=?";
+    private static final String SELECT_ALL_ARTICLES = "SELECT A.no_article, A.nom_article, A.description, " +
+            "A.date_debut_encheres, A.date_fin_encheres, A.prix_initial, A.prix_vente, A.no_utilisateur, C.*, " +
+            "R.rue, R.ville, R.code_postal " +
+            "FROM ARTICLES_VENDUS A " +
+            "INNER JOIN UTILISATEURS U " +
+            "ON A.no_utilisateur = U.no_utilisateur " +
+            "INNER JOIN CATEGORIES C " +
+            "ON A.no_categorie = C.no_categorie" +
+            "INNER JOIN RETRAITS R " +
+            "ON A.no_article = R.no_article";
 
-    // TODO : à modifier par un système de switch/case selon ce qui est rempli côté user ?
+    // TODO : fournir List<ArticleVendu> avec toutes les infos, le tri se fera côté front ?
 
     @Override
     public List<ArticleVendu> selectAll() {
         List<ArticleVendu> lesArticles = new ArrayList<>();
         ArticleVendu lArticle = new ArticleVendu();
+        Retrait lieuRetrait = new Retrait();
+        Categorie laCategorie = new Categorie();
 
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_ARTICLES);
-            pstmt.setDate(1, Date.valueOf(LocalDate.now()));
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next())
-            {
-                lArticle.setNo_article(rs.getInt("no_article"));
-                lArticle.setNomArticle(rs.getString("nom_article"));
-                lArticle.setPrixVente(rs.getInt("prix_vente"));
-                lArticle.setDateFinEnchere(rs.getDate("date_fin_encheres"));
+            if(rs.next()) {
+                lArticle.setNo_article(rs.getInt("A.no_article"));
+                lArticle.setNomArticle(rs.getString("A.nom_article"));
+                lArticle.setDescription(rs.getString("A.description"));
+                lArticle.setDateDebutEnchere(rs.getDate("A.date_debut_encheres"));
+                lArticle.setDateFinEnchere(rs.getDate("A.date_fin_encheres"));
+                // TODO : check si prix non nuls
+                lArticle.setMiseAPrix(rs.getInt("A.prix_initial"));
+                lArticle.setPrixVente(rs.getInt("A.prix_vente"));
+                lArticle.setEtatVente(rs.getString("A.etat_vente"));
 
-            }
-            lesArticles.add(lArticle);
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+                lieuRetrait.setNo_article(rs.getInt("A.no_article"));
+                lieuRetrait.setRue(rs.getString("R.rue"));
+                lieuRetrait.setCodePostal(rs.getString("R.code_postal"));
+                lieuRetrait.setVille(rs.getString("R.ville"));
+                lArticle.setLieuRetrait(lieuRetrait);
 
-        return lesArticles;
-    }
+                laCategorie.setNo_categorie(rs.getInt("C.no_categorie"));
+                laCategorie.setLibelle(rs.getString("C.libelle"));
+                lArticle.setLaCategorie(laCategorie);
 
-    @Override
-    public List<ArticleVendu> selectByNameSearch(String nomArticle) {
-        List<ArticleVendu> lesArticles = new ArrayList<>();
-        ArticleVendu lArticle = new ArticleVendu();
-
-        try(Connection cnx = ConnectionProvider.getConnection()) {
-            PreparedStatement pstmt = cnx.prepareStatement(SELECT_ARTICLES_BY_NAME);
-            pstmt.setString(1, nomArticle);
-            ResultSet rs = pstmt.executeQuery();
-            if(rs.next())
-            {
-                lArticle.setNo_article(rs.getInt("no_article"));
-                lArticle.setNomArticle(rs.getString("nom_article"));
-                lArticle.setPrixVente(rs.getInt("prix_vente"));
-                lArticle.setDateFinEnchere(rs.getDate("date_fin_encheres"));
-
-            }
-            lesArticles.add(lArticle);
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        return lesArticles;
-    }
-
-    @Override
-    public List<ArticleVendu> selectByCategory(int idCategory) {
-        List<ArticleVendu> lesArticles = new ArrayList<>();
-        ArticleVendu lArticle = new ArticleVendu();
-
-        try(Connection cnx = ConnectionProvider.getConnection()) {
-            PreparedStatement pstmt = cnx.prepareStatement(SELECT_ARTICLES_BY_CATEGORY);
-            pstmt.setInt(1, idCategory);
-            ResultSet rs = pstmt.executeQuery();
-            if(rs.next())
-            {
-                lArticle.setNo_article(rs.getInt("no_article"));
-                lArticle.setNomArticle(rs.getString("nom_article"));
-                lArticle.setPrixVente(rs.getInt("prix_vente"));
-                lArticle.setDateFinEnchere(rs.getDate("date_fin_encheres"));
-
+                lArticle.setNo_utilisateur(rs.getInt("A.no_utilisateur"));
             }
             lesArticles.add(lArticle);
         } catch(Exception e) {
