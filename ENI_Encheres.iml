@@ -60,7 +60,6 @@
     <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-util-scan:9.0.50" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-jaspic-api:9.0.50" level="project" />
     <orderEntry type="library" name="Maven: com.microsoft.sqlserver:mssql-jdbc:9.4.0.jre16" level="project" />
-    <orderEntry type="library" name="Maven: jstl:jstl:1.2" level="project" />
     <orderEntry type="library" name="javax.servlet.jstl" level="project" />
   </component>
 </module>
