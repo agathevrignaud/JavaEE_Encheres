@@ -25,9 +25,8 @@
         <label for="streetName">Adresse :</label><input type="text" id="streetName"><br/>
         <label for="zip"></label>Code postal :<input type="text" minlength="5" maxlength="5" id="zip"><br/>
         <label for="city"></label>Ville :<input type="text" id="city"><br/>
-
     </fieldset>
-
 </form>
+<button value="" name="Modifier">Modifier</button>
 </body>
 </html>
