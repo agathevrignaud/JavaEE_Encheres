@@ -1,16 +1,17 @@
 package fr.eni.bo;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class ArticleVendu {
     private int no_article;
     private String nomArticle;
     private String description;
-    private Date dateDebutEnchere;
-    private Date dateFinEnchere;
+    private LocalDate dateDebutEnchere;
+    private LocalDate dateFinEnchere;
     private int miseAPrix;
     private int prixVente;
-    private String etatVente;
+    private String etatVente; // A - en attente, C - en cours, F - finie
     private Retrait lieuRetrait;
     private Categorie laCategorie;
     private int no_utilisateur;
@@ -36,17 +37,17 @@ public class ArticleVendu {
         this.description = description;
     }
 
-    public Date getDateDebutEnchere() {
+    public LocalDate getDateDebutEnchere() {
         return dateDebutEnchere;
     }
-    public void setDateDebutEnchere(Date dateDebutEnchere) {
+    public void setDateDebutEnchere(LocalDate dateDebutEnchere) {
         this.dateDebutEnchere = dateDebutEnchere;
     }
 
-    public Date getDateFinEnchere() {
+    public LocalDate getDateFinEnchere() {
         return dateFinEnchere;
     }
-    public void setDateFinEnchere(Date dateFinEnchere) {
+    public void setDateFinEnchere(LocalDate dateFinEnchere) {
         this.dateFinEnchere = dateFinEnchere;
     }
 

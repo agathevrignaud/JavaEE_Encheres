@@ -14,7 +14,7 @@ import java.util.List;
 public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
 
     private static final String SELECT_ALL_ARTICLES = "SELECT A.no_article, A.nom_article, A.description, " +
-            "A.date_debut_encheres, A.date_fin_encheres, A.prix_initial, A.prix_vente, A.no_utilisateur, C.*, " +
+            "A.date_debut_encheres, A.date_fin_encheres, A.prix_initial, A.prix_vente, A.etat_vente, A.no_utilisateur, C.*, " +
             "R.rue, R.ville, R.code_postal " +
             "FROM ARTICLES_VENDUS A " +
             "INNER JOIN UTILISATEURS U " +
@@ -24,7 +24,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
             "INNER JOIN RETRAITS R " +
             "ON A.no_article = R.no_article";
     private static final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article,description,date_debut_encheres, " +
-            "date_fin_encheres, prix_initial,no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?)";
+            "date_fin_encheres, prix_initial, etat_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?,?)";
 
     // TODO : fournir List<ArticleVendu> avec toutes les infos, le tri se fera côté front ?
 
@@ -42,8 +42,8 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
                 lArticle.setNo_article(rs.getInt("A.no_article"));
                 lArticle.setNomArticle(rs.getString("A.nom_article"));
                 lArticle.setDescription(rs.getString("A.description"));
-                lArticle.setDateDebutEnchere(rs.getDate("A.date_debut_encheres"));
-                lArticle.setDateFinEnchere(rs.getDate("A.date_fin_encheres"));
+                lArticle.setDateDebutEnchere(rs.getDate("A.date_debut_encheres").toLocalDate());
+                lArticle.setDateFinEnchere(rs.getDate("A.date_fin_encheres").toLocalDate());
                 // TODO : check si prix non nuls
                 lArticle.setMiseAPrix(rs.getInt("A.prix_initial"));
                 lArticle.setPrixVente(rs.getInt("A.prix_vente"));
@@ -81,11 +81,12 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
 
             pstmt.setString(1,lArticle.getNomArticle());
             pstmt.setString(2,lArticle.getDescription());
-            pstmt.setDate(3, (Date) lArticle.getDateDebutEnchere());
-            pstmt.setDate(4, (Date) lArticle.getDateFinEnchere());
+            pstmt.setDate(3, Date.valueOf(lArticle.getDateDebutEnchere()));
+            pstmt.setDate(4, Date.valueOf(lArticle.getDateFinEnchere()));
             pstmt.setInt(5,lArticle.getMiseAPrix());
-            pstmt.setInt(6,lArticle.getNo_utilisateur());
-            pstmt.setInt(7,lArticle.getLaCategorie().getNo_categorie());
+            pstmt.setString(6, lArticle.getEtatVente());
+            pstmt.setInt(7,lArticle.getNo_utilisateur());
+            pstmt.setInt(8,lArticle.getLaCategorie().getNo_categorie());
 
             pstmt.executeUpdate();
             pstmt.close();
