@@ -6,9 +6,7 @@ public class Retrait {
     private String codePostal;
     private String ville;
 
-    public Retrait(int no_article) {
-        this.no_article = no_article;
-    }
+    public Retrait() {}
 
     public int getNo_article() {
         return no_article;
@@ -17,16 +15,12 @@ public class Retrait {
         this.no_article = no_article;
     }
 
-    public String getRue() {
-        return rue;
-    }
+    public String getRue() { return rue; }
     public void setRue(String rue) {
         this.rue = rue;
     }
 
-    public String getCodePostal() {
-        return codePostal;
-    }
+    public String getCodePostal() { return codePostal; }
     public void setCodePostal(String codePostal) {
         this.codePostal = codePostal;
     }

@@ -13,9 +13,8 @@ import java.util.List;
 // TODO : Ajouter des logs + meilleure gestion des erreurs avec un système de codes/messages
 
 public class UtilisateurDAOJdbc implements UtilisateurDAO {
-    private static final String SELECT_ALL_USERS = "SELECT * FROM UTILISATEURS";
+    private static final String SELECT_ALL_USERS = "SELECT * FROM UTILISATEURS U";
     private static final String SELECT_USER_BY_ID = "SELECT * FROM UTILISATEURS WHERE NO_UTILISATEUR=?";
-    private static final String SELECT_ARTICLES_SOLD_BY_USER = "SELECT ";
     private static final String INSERT_USER = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?)";
     private static final String UPDATE_USER_DATA = "UPDATE UTILISATEURS SET " +
             "pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? " +
@@ -58,8 +57,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
     @Override
     public Utilisateur selectById(int idUser) {
         Utilisateur lUtilisateur = new Utilisateur();
-        try(Connection cnx = ConnectionProvider.getConnection())
-        {
+        try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_USER_BY_ID);
             pstmt.setInt(1, idUser);
             ResultSet rs = pstmt.executeQuery();
@@ -78,8 +76,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
                 lUtilisateur.setCompteActif(rs.getBoolean("compteActif"));
             }
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             e.printStackTrace();
         }
 
