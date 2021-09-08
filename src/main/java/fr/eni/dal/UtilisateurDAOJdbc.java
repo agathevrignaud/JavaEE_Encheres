@@ -3,10 +3,7 @@ import fr.eni.bo.Utilisateur;
 import fr.eni.dal.ConnectionProvider;
 import fr.eni.dal.UtilisateurDAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +12,7 @@ import java.util.List;
 public class UtilisateurDAOJdbc implements UtilisateurDAO {
     private static final String SELECT_ALL_USERS = "SELECT * FROM UTILISATEURS U";
     private static final String SELECT_USER_BY_ID = "SELECT * FROM UTILISATEURS WHERE NO_UTILISATEUR=?";
-    private static final String INSERT_USER = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?)";
+    private static final String INSERT_USER = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
     private static final String UPDATE_USER_DATA = "UPDATE UTILISATEURS SET " +
             "pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? " +
             "WHERE no_utilisateur=?";
@@ -89,9 +86,8 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             //throw exception
         }
 
-        // TODO : Revoir l'histoire des Generated_Keys (récupérer le no_utilisateur après création ?)
         try(Connection cnx = ConnectionProvider.getConnection()) {
-            PreparedStatement pstmt = cnx.prepareStatement(INSERT_USER);
+            PreparedStatement pstmt = cnx.prepareStatement(INSERT_USER, Statement.RETURN_GENERATED_KEYS);
 
             pstmt.setString(1,lUtilisateur.getPseudo());
             pstmt.setString(2,lUtilisateur.getNom());
@@ -102,8 +98,17 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.setString(7,lUtilisateur.getCodePostal());
             pstmt.setString(8,lUtilisateur.getVille());
             pstmt.setString(9,lUtilisateur.getMotDePasse());
-
+            pstmt.setInt(10, 0);
+            pstmt.setBoolean(11, false );
+            pstmt.setBoolean(12, true);
             pstmt.executeUpdate();
+
+            ResultSet rs = pstmt.getGeneratedKeys();
+
+            if(rs != null){
+                lUtilisateur.setNo_utilisateur(rs.getInt(1));
+            }
+
             pstmt.close();
         }
         catch(Exception e) {

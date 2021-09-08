@@ -1,26 +1,27 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 <head>
     <title>Create account</title>
 </head>
 <body>
-<p>Mon profil</p>
-<form action="ServletCreateAccount">
-    pseudo:<input type="text" id="pseudo">
-    nom: <input type="text" id="surname">
-    prenom: <input type="text" id="name">
-    email: <input type="text" id="email">
-    telephone: <input type="text" id="phone">
-    rue: <input type="text" name="" id="street">
-    code postal: <input type="text" id="cp">
-    ville: <input type="text" id="city">
-    mot de passe: <input type="text" id="password">
-    confirmation: <input type="text" id="confirm">
-    <button type="submit">Créer</button>
-    <button><a href="home">Annuler</a></button>
+<form action="signup" method="post">
+    <fieldset>
+        <legend>Mon profil</legend>
+        <label for="pseudo">Pseudo:</label><input type="text" name="pseudo" id="pseudo"><br/>
+        <label for="surname">Nom: </label><input type="text" name="surname" id="surname"><br/>
+        <label for="name">Prénom: </label><input type="text" name="name" id="name"><br/>
+        <label for="mail">Email: </label><input type="email" name="mail" id="mail"><br/>
+        <label for="phone">Telephone: </label><input type="text" name="phone" id="phone"><br/>
+        <label for="street"></label>Rue:<input type="text" name="street" id="street"><br/>
+        <label for="zip">Code postal: </label><input type="text" name="zip" id="zip" pattern="[0-9]{5}" minlength="5"
+                                                     maxlength="5"><br/>
+        <label for="city">Ville:</label><input type="text" name="city" id="city"><br/>
+        <label for="password">Mot de passe:</label><input type="password" name="password" id="password"><br/>
+        <label for="confirmPwd">Confirmation:</label><input type="password" name="confirmPwd" id="confirmPwd"><br/>
+        <input type="submit" value="Créer">
+        <button><a href="home">Annuler</a></button>
+    </fieldset>
 </form>
 </body>
 </html>
