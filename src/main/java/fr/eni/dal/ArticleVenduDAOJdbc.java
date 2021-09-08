@@ -26,11 +26,13 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
     private static final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article,description,date_debut_encheres, " +
             "date_fin_encheres, prix_initial, etat_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?,?)";
 
+
     // TODO : fournir List<ArticleVendu> avec toutes les infos, le tri se fera côté front ?
 
     @Override
     public List<ArticleVendu> selectAll() {
         List<ArticleVendu> lesArticles = new ArrayList<>();
+
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_ARTICLES);
             ResultSet rs = pstmt.executeQuery();
@@ -44,6 +46,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
                 lArticle.setDescription(rs.getString("A.description"));
                 lArticle.setDateDebutEnchere(rs.getDate("A.date_debut_encheres").toLocalDate());
                 lArticle.setDateFinEnchere(rs.getDate("A.date_fin_encheres").toLocalDate());
+
                 // TODO : check si prix non nuls
                 lArticle.setMiseAPrix(rs.getInt("A.prix_initial"));
                 lArticle.setPrixVente(rs.getInt("A.prix_vente"));
@@ -71,36 +74,10 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
     }
 
     @Override
-<<<<<<< HEAD
     public void createArticle(ArticleVendu lArticle) {
-        if(lArticle==null) {
-            //throw exception
-=======
-    public List<ArticleVendu> selectByNameSearch(String nomArticle) {
-        List<ArticleVendu> lesArticles = new ArrayList<>();
-        ArticleVendu lArticle = new ArticleVendu();
-
-        try(Connection cnx = ConnectionProvider.getConnection()) {
-            PreparedStatement pstmt = cnx.prepareStatement(SELECT_ARTICLES_BY_NAME);
-            pstmt.setString(1, nomArticle);
-            ResultSet rs = pstmt.executeQuery();
-            if(rs.next())
-            {
-                lArticle.setNo_article(rs.getInt("no_article"));
-                lArticle.setNomArticle(rs.getString("nom_article"));
-                lArticle.setPrixVente(rs.getInt("prix_vente"));
-                lArticle.setDateFinEnchere(rs.getDate("date_fin_encheres"));
-
-            }
-            lesArticles.add(lArticle);
-        } catch(Exception e) {
-            e.printStackTrace();
->>>>>>> a3e33bf (Started Reworking ArticleVendu to fit nested objects leVendeur + laCategorie)
-        }
 
         // TODO : Revoir l'histoire des Generated_Keys (récupérer le no_article après création ?)
         try(Connection cnx = ConnectionProvider.getConnection()) {
-<<<<<<< HEAD
             PreparedStatement pstmt = cnx.prepareStatement(INSERT_ARTICLE);
 
             pstmt.setString(1,lArticle.getNomArticle());
@@ -116,21 +93,6 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
             pstmt.close();
         }
         catch(Exception e) {
-=======
-            PreparedStatement pstmt = cnx.prepareStatement(SELECT_ARTICLES_BY_CATEGORY);
-            pstmt.setInt(1, idCategory);
-            ResultSet rs = pstmt.executeQuery();
-            if(rs.next())
-            {
-                lArticle.setNo_article(rs.getInt("no_article"));
-                lArticle.setNomArticle(rs.getString("nom_article"));
-                lArticle.setPrixVente(rs.getInt("prix_vente"));
-                lArticle.setDateFinEnchere(rs.getDate("date_fin_encheres"));
-
-            }
-            lesArticles.add(lArticle);
-        } catch(Exception e) {
->>>>>>> a3e33bf (Started Reworking ArticleVendu to fit nested objects leVendeur + laCategorie)
             e.printStackTrace();
         }
     }
