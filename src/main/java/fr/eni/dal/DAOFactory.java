@@ -1,7 +1,5 @@
 package fr.eni.dal;
 
-import fr.eni.test.UtilisateurDAOJdbc;
-
 public abstract class DAOFactory {
     public static UtilisateurDAO getUtilisateurDAO()
         {
