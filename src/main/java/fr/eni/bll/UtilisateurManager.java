@@ -78,12 +78,20 @@ public class UtilisateurManager {
         }
     }
 
-    public void deleteUser(int idUser) {
-        utilisateurDAO.deleteUser(idUser);
-    }
-
     public void updateUserAccountStatus(int idUser) {
         utilisateurDAO.updateUserAccountStatus(idUser);
+    }
+
+    public void updateUserCredit(int creditSpent, int idUser) throws Exception {
+        if ((utilisateurDAO.selectById(idUser).getCredit() - creditSpent) < 0) {
+            throw new Exception();
+        } else {
+            utilisateurDAO.updateUserCredit(utilisateurDAO.selectById(idUser).getCredit() - creditSpent, idUser);
+        }
+    }
+
+    public void deleteUser(int idUser) {
+        utilisateurDAO.deleteUser(idUser);
     }
 
     public boolean authenticateUser(String login, String mdp) {
