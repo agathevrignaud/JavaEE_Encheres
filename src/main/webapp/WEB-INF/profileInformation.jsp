@@ -1,4 +1,4 @@
-<%--
+<%@ page import="fr.eni.bo.Utilisateur" %><%--
   Created by IntelliJ IDEA.
   User: rsaintalme2021
   Date: 08/09/2021
@@ -16,10 +16,12 @@
     <h2>Eni Enchères</h2>
 </header>
 <body>
+
+
 <form action="/ServletDisplayProfile" method="post">
     <fieldset>
         <legend>Mes informations</legend>
-        <label for="username"> Pseudo :</label><input type="text" id="username" ><br/>
+        <label for="username"> Pseudo :</label><input type="text" id="username" value="${userInfo}" ><br/>
         <label for="name">Nom :</label><input type="text" id="name" ><br/>
         <label for="surname">Prénom :</label><input type="text" id="surname" ><br/>
         <label for="mail"></label>Mail :<input type="email" id="mail" ><br/>
