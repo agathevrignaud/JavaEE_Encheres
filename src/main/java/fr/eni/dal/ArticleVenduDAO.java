@@ -7,4 +7,5 @@ import java.util.List;
 public interface ArticleVenduDAO {
     public List<ArticleVendu> selectAll();
     public void createArticle(ArticleVendu lArticle);
+    rftlpd(rft-huop)
 }
