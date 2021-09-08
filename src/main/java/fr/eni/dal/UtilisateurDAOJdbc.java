@@ -20,7 +20,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             "pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? " +
             "WHERE no_utilisateur=?";
     private static final String UPDATE_USER_ACCOUNT_STATUS = "UPDATE UTILISATEURS SET compteActif=? WHERE no_utilisateur=?";
-    // TODO : Update credit quand l'utilisateur enchérit / est doublé par qqn d'autre
+    private static final String UPDATE_USER_CREDIT = "UPDATE UTILISATEURS SET credit=? WHERE no_utilisateur=?";
 
     private static final String DELETE_USER = "DELETE FROM UTILISATEURS WHERE no_utilisateur=?";
 
@@ -142,6 +142,18 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             PreparedStatement pstmt = cnx.prepareStatement(UPDATE_USER_ACCOUNT_STATUS);
 
             pstmt.setBoolean(1, !lUtilisateur.isCompteActif());
+            pstmt.setInt(2, idUser);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateUserCredit(int newCredit, int idUser) {
+        try(Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pstmt = cnx.prepareStatement(UPDATE_USER_CREDIT);
+            pstmt.setInt(1, newCredit);
             pstmt.setInt(2, idUser);
             pstmt.executeUpdate();
         } catch (SQLException e) {
