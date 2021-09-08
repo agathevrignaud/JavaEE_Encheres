@@ -1,9 +1,6 @@
 package fr.eni.dal;
 
 import fr.eni.bo.Enchere;
-import fr.eni.bo.Utilisateur;
-
-import java.lang.reflect.Array;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,12 +14,12 @@ public class EnchereDAOJdbc implements EnchereDAO {
     public List<Enchere> selectByIdArticle(int idArticle) {
         List<Enchere> lesEncheres = new ArrayList<>();
 
-        try(Connection cnx = ConnectionProvider.getConnection()) {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_ENCHERES);
             pstmt.setInt(1, idArticle);
             ResultSet rs = pstmt.executeQuery();
 
-            while(rs.next()) {
+            while (rs.next()) {
                 Enchere lEnchere = new Enchere();
 
                 lEnchere.setNo_utilisateur(rs.getInt("no_utilisateur"));
@@ -32,8 +29,7 @@ public class EnchereDAOJdbc implements EnchereDAO {
 
                 lesEncheres.add(lEnchere);
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -42,6 +38,7 @@ public class EnchereDAOJdbc implements EnchereDAO {
 
     @Override
     public void createEnchere(Enchere lEnchere) {
+
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(INSERT_ENCHERE);
             pstmt.setInt(1, lEnchere.getNo_utilisateur());
