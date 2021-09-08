@@ -14,4 +14,5 @@ public class ArticleVenduManager {
     public List<ArticleVendu> getAllArticles() {
         return articleVenduDAO.selectAll();
     }
+
 }

@@ -5,6 +5,7 @@ import fr.eni.bo.Categorie;
 import fr.eni.bo.Retrait;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
             "ON A.no_categorie = C.no_categorie" +
             "INNER JOIN RETRAITS R " +
             "ON A.no_article = R.no_article";
+    private static final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article,description,date_debut_encheres, " +
+            "date_fin_encheres, prix_initial,no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?)";
 
     // TODO : fournir List<ArticleVendu> avec toutes les infos, le tri se fera côté front ?
 
@@ -64,6 +67,32 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
         }
 
         return lesArticles;
+    }
+
+    @Override
+    public void createArticle(ArticleVendu lArticle) {
+        if(lArticle==null) {
+            //throw exception
+        }
+
+        // TODO : Revoir l'histoire des Generated_Keys (récupérer le no_article après création ?)
+        try(Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pstmt = cnx.prepareStatement(INSERT_ARTICLE);
+
+            pstmt.setString(1,lArticle.getNomArticle());
+            pstmt.setString(2,lArticle.getDescription());
+            pstmt.setDate(3, (Date) lArticle.getDateDebutEnchere());
+            pstmt.setDate(4, (Date) lArticle.getDateFinEnchere());
+            pstmt.setInt(5,lArticle.getMiseAPrix());
+            pstmt.setInt(6,lArticle.getNo_utilisateur());
+            pstmt.setInt(7,lArticle.getLaCategorie().getNo_categorie());
+
+            pstmt.executeUpdate();
+            pstmt.close();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
