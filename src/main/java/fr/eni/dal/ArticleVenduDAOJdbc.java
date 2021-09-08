@@ -36,7 +36,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
                 lArticle.setNomArticle(rs.getString("nom_article"));
                 lArticle.setPrixVente(rs.getInt("prix_vente"));
                 lArticle.setDateFinEnchere(rs.getDate("date_fin_encheres"));
-                lArticle.setNo_utilisateur(rs.getInt("no_utilisateur"));
+
             }
             lesArticles.add(lArticle);
         } catch(Exception e) {
@@ -61,7 +61,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
                 lArticle.setNomArticle(rs.getString("nom_article"));
                 lArticle.setPrixVente(rs.getInt("prix_vente"));
                 lArticle.setDateFinEnchere(rs.getDate("date_fin_encheres"));
-                lArticle.setNo_utilisateur(rs.getInt("no_utilisateur"));
+
             }
             lesArticles.add(lArticle);
         } catch(Exception e) {
@@ -86,7 +86,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
                 lArticle.setNomArticle(rs.getString("nom_article"));
                 lArticle.setPrixVente(rs.getInt("prix_vente"));
                 lArticle.setDateFinEnchere(rs.getDate("date_fin_encheres"));
-                lArticle.setNo_utilisateur(rs.getInt("no_utilisateur"));
+
             }
             lesArticles.add(lArticle);
         } catch(Exception e) {
