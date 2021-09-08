@@ -17,9 +17,11 @@ public class UtilisateurManager {
     public List<Utilisateur> getAllUsers() {
         return utilisateurDAO.selectAll();
     }
+
     public Utilisateur getUserById(int userId) {
         return utilisateurDAO.selectById(userId);
     }
+
     public void addNewUser(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws Exception {
         if (isUserInfoValid(pseudo, email, motDePasse, motDePasseConfirmation)) {
             Utilisateur lUtilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
@@ -33,6 +35,7 @@ public class UtilisateurManager {
     public boolean isUserInfoValid(String pseudo, String email, String mdp, String mdpConf) {
         return isPseudoAndEmailValid(pseudo, email) && isPasswordValid(mdp, mdpConf) ;
     }
+
     public boolean isPseudoAndEmailValid(String pseudo, String email) {
         boolean isValid = true ;
         List<Utilisateur> lesUtilisateurs = utilisateurDAO.selectAll();
@@ -54,6 +57,7 @@ public class UtilisateurManager {
 
         return isValid;
     }
+
     public boolean isPasswordValid(String mdp, String mdpConf) {
         boolean isValid = true ;
         String regexPattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,12}$";

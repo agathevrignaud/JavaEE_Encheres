@@ -15,4 +15,7 @@ public class ArticleVenduManager {
         return articleVenduDAO.selectAll();
     }
 
+    public void addNewArticle() {
+
+    }
 }
