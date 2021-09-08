@@ -19,5 +19,4 @@ public class RetraitManager {
         retraitDAO.createRetrait(lieuRetrait);
     }
 
-    // TODO : ajouter une purge des lieux non utilisés en BDD sur le panneau admin
 }
