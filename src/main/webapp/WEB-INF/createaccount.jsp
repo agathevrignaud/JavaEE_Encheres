@@ -9,16 +9,16 @@
 <body>
 <p>Mon profil</p>
 <form action="ServletCreateAccount">
-    pseudo:<input type="text">
-    nom: <input type="text">
-    prenom: <input type="text">
-    email: <input type="text">
-    telephone: <input type="text">
-    rue: <input type="text" name="" id="">
-    code postal: <input type="text">
-    ville: <input type="text">
-    mot de passe: <input type="text">
-    confirmation: <input type="text">
+    pseudo:<input type="text" id="pseudo">
+    nom: <input type="text" id="surname">
+    prenom: <input type="text" id="name">
+    email: <input type="text" id="email">
+    telephone: <input type="text" id="phone">
+    rue: <input type="text" name="" id="street">
+    code postal: <input type="text" id="cp">
+    ville: <input type="text" id="city">
+    mot de passe: <input type="text" id="password">
+    confirmation: <input type="text" id="confirm">
     <button type="submit">Créer</button>
     <button><a href="home">Annuler</a></button>
 </form>
