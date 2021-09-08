@@ -75,6 +75,9 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
 
     @Override
     public void createArticle(ArticleVendu lArticle) {
+        if(lArticle==null) {
+            //throw exception
+        }
 
         // TODO : Revoir l'histoire des Generated_Keys (récupérer le no_article après création ?)
         try(Connection cnx = ConnectionProvider.getConnection()) {
