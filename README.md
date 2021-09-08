@@ -30,7 +30,7 @@ Pre-requisites : SQL Server
    1) Right-click > Properties
    2) Activate the service at the start of Windows, then click Apply
    3) Start the service & close the window
-5) Restart the computer *OR* kill all SQL Server tasks running (desk & in the background)
+5) Restart the computer (shutdown /r) *OR* kill all SQL Server tasks running (desk & in the background)
 6) (IntelliJ) In the project : 
    1) Create a folder 'META-INF' in folder 'webapp'
    2) Create a file 'context.xml' 

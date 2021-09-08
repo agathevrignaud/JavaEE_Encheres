@@ -17,3 +17,6 @@ INSERT INTO ARTICLES_VENDUS VALUES
 ('Veste en Jean', 'Manque un bouton à la poche droite', '06-09-2021', '11-09-2021', 80, 80, 3, 3)
 ;
 
+INSERT INTO ENCHERES VALUES
+(2,3,'2021-09-10 10:30:50',220),
+(3,3,'2021-09-10 11:45:22',250);
