@@ -37,7 +37,11 @@ public class UtilisateurManager {
         return isPseudoAndEmailValid(idUser, pseudo, email) && isPasswordValid(mdp, mdpConf) ;
     }
 
+<<<<<<< HEAD
     public boolean isPseudoAndEmailValid(int idUser, String pseudo, String email) {
+=======
+    public boolean isPseudoAndEmailValid(String pseudo, String email) {
+>>>>>>> 7b45712 (Fixed stuff here and there)
         boolean isValid = true ;
         List<Utilisateur> lesUtilisateurs = utilisateurDAO.selectAll();
 

@@ -19,6 +19,7 @@ public class ArticleVenduManager {
         return articleVenduDAO.selectAll();
     }
 
+<<<<<<< HEAD
     public void addNewArticle(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
                               int miseAPrix, String etatVente, int idUser, Categorie laCategorie, Retrait lieuRetrait)  {
         ArticleVendu lArticle = new ArticleVendu();
@@ -36,4 +37,9 @@ public class ArticleVenduManager {
         articleVenduDAO.createArticle(lArticle);
     }
 
+=======
+    public void addNewArticle() {
+
+    }
+>>>>>>> 7b45712 (Fixed stuff here and there)
 }
