@@ -8,6 +8,13 @@ public class Retrait {
 
     public Retrait() {}
 
+    public Retrait(int no_article, String rue, String codePostal, String ville) {
+        this.no_article = no_article;
+        this.rue = rue;
+        this.codePostal = codePostal;
+        this.ville = ville;
+    }
+
     public int getNo_article() {
         return no_article;
     }
