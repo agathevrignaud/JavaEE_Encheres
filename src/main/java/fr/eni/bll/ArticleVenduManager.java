@@ -6,7 +6,6 @@ import fr.eni.bo.Retrait;
 import fr.eni.dal.ArticleVenduDAO;
 import fr.eni.dal.DAOFactory;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
