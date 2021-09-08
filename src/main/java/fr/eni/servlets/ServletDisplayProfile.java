@@ -16,7 +16,7 @@ public class ServletDisplayProfile extends HttpServlet {
         //  TODO : Ajouter dynamiquement l'Id de l'utilisateur (pour l'instant sur 2 pour prouver que ça marche)
         UtilisateurManager utilisateurManager = new UtilisateurManager();
         Utilisateur lUtilisateur = utilisateurManager.getUserById(2);
-
+        System.out.println(lUtilisateur.getPseudo());
         request.setAttribute("userInfo", lUtilisateur);
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/profileInformation.jsp");
