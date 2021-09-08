@@ -5,7 +5,6 @@ import fr.eni.bo.Retrait;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.List;
 
 public class RetraitDAOJdbc implements RetraitDAO{
 
@@ -29,7 +28,6 @@ public class RetraitDAOJdbc implements RetraitDAO{
         catch(Exception e) {
             e.printStackTrace();
         }
-
         return lieuRetrait;
     }
 
@@ -37,11 +35,9 @@ public class RetraitDAOJdbc implements RetraitDAO{
     public void createRetrait(Retrait lieuRetrait) {
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(INSERT_RETRAIT);
-
             pstmt.setString(1,lieuRetrait.getRue());
             pstmt.setString(2,lieuRetrait.getCodePostal());
             pstmt.setString(3,lieuRetrait.getVille());
-
             pstmt.executeUpdate();
             pstmt.close();
         }
