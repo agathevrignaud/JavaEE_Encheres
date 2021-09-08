@@ -8,17 +8,16 @@ public class ArticleVendu {
     private String description;
     private Date dateDebutEnchere;
     private Date dateFinEnchere;
-    private int prixInitial;
+    private int miseAPrix;
     private int prixVente;
+    private char etatVente;
     private Retrait lieuRetrait;
-    private int no_utilisateur;
-    private int no_categorie;
+    private Categorie laCategorie;
+    private Utilisateur leVendeur;
 
     public ArticleVendu() {}
 
-    public int getNo_article() {
-        return no_article;
-    }
+    public int getNo_article() { return no_article; }
     public void setNo_article(int no_article) {
         this.no_article = no_article;
     }
@@ -51,12 +50,8 @@ public class ArticleVendu {
         this.dateFinEnchere = dateFinEnchere;
     }
 
-    public int getPrixInitial() {
-        return prixInitial;
-    }
-    public void setPrixInitial(int prixInitial) {
-        this.prixInitial = prixInitial;
-    }
+    public int getMiseAPrix() { return miseAPrix; }
+    public void setMiseAPrix(int miseAPrix) { this.miseAPrix = miseAPrix;}
 
     public int getPrixVente() {
         return prixVente;
@@ -65,24 +60,17 @@ public class ArticleVendu {
         this.prixVente = prixVente;
     }
 
-    public Retrait getLieuRetrait() {
-        return lieuRetrait;
-    }
+    public char getEtatVente() { return etatVente; }
+    public void setEtatVente(char etatVente) { this.etatVente = etatVente;}
+
+    public Retrait getLieuRetrait() { return lieuRetrait; }
     public void setLieuRetrait(Retrait lieuRetrait) {
         this.lieuRetrait = lieuRetrait;
     }
 
-    public int getNo_utilisateur() {
-        return no_utilisateur;
-    }
-    public void setNo_utilisateur(int no_utilisateur) {
-        this.no_utilisateur = no_utilisateur;
-    }
+    public Categorie getLaCategorie() { return laCategorie; }
+    public void setLaCategorie(Categorie laCategorie) { this.laCategorie = laCategorie; }
 
-    public int getNo_categorie() {
-        return no_categorie;
-    }
-    public void setNo_categorie(int no_categorie) {
-        this.no_categorie = no_categorie;
-    }
+    public Utilisateur getLeVendeur() { return leVendeur; }
+    public void setLeVendeur(Utilisateur leVendeur) { this.leVendeur = leVendeur; }
 }

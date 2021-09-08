@@ -1,4 +1,4 @@
-package fr.eni.test;
+package fr.eni.dal;
 import fr.eni.bo.Utilisateur;
 import fr.eni.dal.ConnectionProvider;
 import fr.eni.dal.UtilisateurDAO;
@@ -15,11 +15,14 @@ import java.util.List;
 public class UtilisateurDAOJdbc implements UtilisateurDAO {
     private static final String SELECT_ALL_USERS = "SELECT * FROM UTILISATEURS";
     private static final String SELECT_USER_BY_ID = "SELECT * FROM UTILISATEURS WHERE NO_UTILISATEUR=?";
+    private static final String SELECT_ARTICLES_SOLD_BY_USER = "SELECT ";
     private static final String INSERT_USER = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?)";
     private static final String UPDATE_USER_DATA = "UPDATE UTILISATEURS SET " +
             "pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? " +
             "WHERE no_utilisateur=?";
     private static final String UPDATE_USER_ACCOUNT_STATUS = "UPDATE UTILISATEURS SET compteActif=? WHERE no_utilisateur=?";
+    // TODO : Update credit quand l'utilisateur enchérit / est doublé par qqn d'autre
+
     private static final String DELETE_USER = "DELETE FROM UTILISATEURS WHERE no_utilisateur=?";
 
     @Override
