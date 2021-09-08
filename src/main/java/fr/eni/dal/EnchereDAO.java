@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EnchereDAO {
-    public List<Enchere> selectAll();
-    public Enchere selectById(int idUser, int idArticle, LocalDateTime date);
+    public List<Enchere> selectByIdArticle(int idArticle);
     public void createEnchere(Enchere lEnchere);
 }

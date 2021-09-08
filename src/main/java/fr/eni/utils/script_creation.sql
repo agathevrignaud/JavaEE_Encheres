@@ -2,8 +2,6 @@
 --   type :      SQL Server 2012
 --
 
--- TODO : update le script avec du default / bricoler statut administrateur/compteActif/credit
-
 CREATE TABLE CATEGORIES (
                             no_categorie   INTEGER IDENTITY(1,1) NOT NULL,
                             libelle        VARCHAR(30) NOT NULL
