@@ -14,7 +14,9 @@ public class EnchereManager {
         enchereDAO = DAOFactory.getEnchereDAO();
     }
 
-    public List<Enchere> getAllEncheresByIdArticle(int idArticle) { return enchereDAO.selectByIdArticle(idArticle); }
+    public List<Enchere> getAllEncheresByIdArticle(int idArticle) {
+        return enchereDAO.selectByIdArticle(idArticle);
+    }
 
     public void addNewEnchere(int idUser, int idArticle, LocalDateTime dateEnchere, int montantEnchere) throws Exception {
         Enchere lEnchereAvant = getAllEncheresByIdArticle(idArticle).get(0);

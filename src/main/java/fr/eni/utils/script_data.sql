@@ -18,5 +18,10 @@ INSERT INTO ARTICLES_VENDUS VALUES
 ;
 
 INSERT INTO ENCHERES VALUES
+<<<<<<< HEAD
  (2,1,'2021-09-10 10:30:50',220),
  (3,1,'2021-09-10 11:45:22',250);
+=======
+(2,3,'2021-09-10 10:30:50',220),
+(3,3,'2021-09-10 11:45:22',250);
+>>>>>>> 4acf7b3 (Added EnchereManger + Fixed wrong DateTime format in Enchere BO)

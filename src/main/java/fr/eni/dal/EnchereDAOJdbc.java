@@ -2,7 +2,6 @@ package fr.eni.dal;
 
 import fr.eni.bo.Enchere;
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,6 @@ public class EnchereDAOJdbc implements EnchereDAO {
                 lEnchere.setNo_utilisateur(rs.getInt("no_utilisateur"));
                 lEnchere.setNo_article(rs.getInt("no_article"));
                 lEnchere.setDateEnchere(rs.getTimestamp("date_enchere").toLocalDateTime());
-                lEnchere.setMontantEnchere(rs.getInt("montant_enchere"));
 
                 lesEncheres.add(lEnchere);
             }
@@ -38,7 +36,6 @@ public class EnchereDAOJdbc implements EnchereDAO {
 
     @Override
     public void createEnchere(Enchere lEnchere) {
-
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(INSERT_ENCHERE);
             pstmt.setInt(1, lEnchere.getNo_utilisateur());
