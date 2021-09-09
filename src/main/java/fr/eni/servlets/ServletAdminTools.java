@@ -27,25 +27,80 @@ import javax.sql.DataSource;
 /**
  * Servlet implementation class ServletTestPoolConnexion
  */
-@WebServlet("/AdminTools")
+@WebServlet(
+        urlPatterns= {
+                "/adminTools",
+                "/deactivateAccount",
+                "/reactivateAccount",
+                "/deleteAccount",
+                "/editCategory",
+                "/deleteCategory",
+                "/createNewCategory"
+        })
 public class ServletAdminTools extends HttpServlet {
     private static final UtilisateurManager utilisateurManager = new UtilisateurManager();
     private static final CategorieManager categorieManager = new CategorieManager();
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Utilisateur> lesUtilisateurs = utilisateurManager.getAllUsers();
-        request.setAttribute("lesUtilisateurs", lesUtilisateurs);
+        loadUserList(request, utilisateurManager);
+        loadCategoryList(request, categorieManager);
 
-        List<Categorie> lesCategories = categorieManager.getAllCategories();
-        request.setAttribute("lesCategories", lesCategories);
-
+        switch (request.getServletPath()) {
+            //  User Account Management
+            case "/deactivateAccount":
+            case "/reactivateAccount":
+                utilisateurManager.updateUserAccountStatus(Integer.parseInt(request.getParameter("idUser")));
+                loadUserList(request, utilisateurManager);
+                break;
+            case "/deleteAccount":
+                utilisateurManager.deleteUser(Integer.parseInt(request.getParameter("idUser")));
+                loadUserList(request, utilisateurManager);
+                break;
+            //  Category Management
+            case "/editCategory":
+                //  TODO : Régler le souci du nom qui n'est pas pris en compte
+                try {
+                    categorieManager.updateCategory(Integer.parseInt(request.getParameter("idCategory")),request.getParameter("newName"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                loadCategoryList(request, categorieManager);
+                break;
+            case "/deleteCategory":
+                int nbrOfUses = categorieManager.getAllUses(Integer.parseInt(request.getParameter("idCategory")));
+                if (nbrOfUses > 0) {
+                    System.out.println("Nope");
+                    request.setAttribute("deleteCategoryError", true);
+                } else {
+                    categorieManager.deleteCategory(Integer.parseInt(request.getParameter("idCategory")));
+                }
+                loadCategoryList(request, categorieManager);
+                break;
+        }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/adminTools.jsp") ;
         requestDispatcher.forward(request, response) ;
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
+        if (request.getParameter("newCategory") != null) {
+            try {
+                categorieManager.addNewCategory(request.getParameter("newCategory"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            doGet(request, response);
+        }
+    }
+
+    private void loadUserList(HttpServletRequest request, UtilisateurManager utilisateurManager) {
+        List<Utilisateur> lesUtilisateurs = utilisateurManager.getAllUsers();
+        request.setAttribute("lesUtilisateurs", lesUtilisateurs);
+    }
+
+    private void loadCategoryList(HttpServletRequest request, CategorieManager categorieManager) {
+        List<Categorie> lesCategories = categorieManager.getAllCategories();
+        request.setAttribute("lesCategories", lesCategories);
     }
 
 }

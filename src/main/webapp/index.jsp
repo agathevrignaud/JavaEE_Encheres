@@ -9,6 +9,6 @@
 <h1><%= "Hello World!" %>
 </h1>
 <br/>
-<a href="AdminTools">Administration</a>
+<a href="adminTools">Administration</a>
 </body>
 </html>
