@@ -38,6 +38,7 @@ public class ServletCreateAccount extends HttpServlet {
             e.printStackTrace();
         }
 
+
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
         rd.forward(request, response);
     }

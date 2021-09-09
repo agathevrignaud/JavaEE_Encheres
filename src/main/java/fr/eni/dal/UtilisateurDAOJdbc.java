@@ -1,7 +1,6 @@
 package fr.eni.dal;
+
 import fr.eni.bo.Utilisateur;
-import fr.eni.dal.ConnectionProvider;
-import fr.eni.dal.UtilisateurDAO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -26,10 +25,10 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         List<Utilisateur> lesUtilisateurs = new ArrayList<>();
         Utilisateur lUtilisateur = new Utilisateur();
 
-        try(Connection cnx = ConnectionProvider.getConnection()) {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_USERS);
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 lUtilisateur.setPseudo(rs.getString("pseudo"));
                 lUtilisateur.setNom(rs.getString("nom"));
                 lUtilisateur.setPrenom(rs.getString("prenom"));
@@ -44,7 +43,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
                 lUtilisateur.setCompteActif(rs.getBoolean("compteActif"));
             }
             lesUtilisateurs.add(lUtilisateur);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -54,11 +53,11 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
     @Override
     public Utilisateur selectById(int idUser) {
         Utilisateur lUtilisateur = new Utilisateur();
-        try(Connection cnx = ConnectionProvider.getConnection()) {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_USER_BY_ID);
             pstmt.setInt(1, idUser);
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 lUtilisateur.setPseudo(rs.getString("pseudo"));
                 lUtilisateur.setNom(rs.getString("nom"));
                 lUtilisateur.setPrenom(rs.getString("prenom"));
@@ -72,8 +71,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
                 lUtilisateur.setAdministrateur(rs.getBoolean("administrateur"));
                 lUtilisateur.setCompteActif(rs.getBoolean("compteActif"));
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -82,56 +80,54 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 
     @Override
     public void createUser(Utilisateur lUtilisateur) {
-        if(lUtilisateur==null) {
+        if (lUtilisateur == null) {
             //throw exception
         }
 
-        try(Connection cnx = ConnectionProvider.getConnection()) {
-            PreparedStatement pstmt = cnx.prepareStatement(INSERT_USER, Statement.RETURN_GENERATED_KEYS);
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pStmt = cnx.prepareStatement(INSERT_USER);
+            pStmt.setString(1, lUtilisateur.getPseudo());
+            pStmt.setString(2, lUtilisateur.getNom());
+            pStmt.setString(3, lUtilisateur.getPrenom());
+            pStmt.setString(4, lUtilisateur.getEmail());
+            pStmt.setString(5, lUtilisateur.getTelephone());
+            pStmt.setString(6, lUtilisateur.getRue());
+            pStmt.setString(7, lUtilisateur.getCodePostal());
+            pStmt.setString(8, lUtilisateur.getVille());
+            pStmt.setString(9, lUtilisateur.getMotDePasse());
+            pStmt.setInt(10, 0);
+            pStmt.setBoolean(11, false);
+            pStmt.setBoolean(12, true);
+            pStmt.executeUpdate();
 
-            pstmt.setString(1,lUtilisateur.getPseudo());
-            pstmt.setString(2,lUtilisateur.getNom());
-            pstmt.setString(3,lUtilisateur.getPrenom());
-            pstmt.setString(4,lUtilisateur.getEmail());
-            pstmt.setString(5,lUtilisateur.getTelephone());
-            pstmt.setString(6,lUtilisateur.getRue());
-            pstmt.setString(7,lUtilisateur.getCodePostal());
-            pstmt.setString(8,lUtilisateur.getVille());
-            pstmt.setString(9,lUtilisateur.getMotDePasse());
-            pstmt.setInt(10, 0);
-            pstmt.setBoolean(11, false );
-            pstmt.setBoolean(12, true);
-            pstmt.executeUpdate();
+            /*
+            ResultSet rs = pStmt.getGeneratedKeys();
 
-            ResultSet rs = pstmt.getGeneratedKeys();
-
-            if(rs != null){
+            if (rs != null) {
                 lUtilisateur.setNo_utilisateur(rs.getInt(1));
-            }
+            }*/
 
-            pstmt.close();
-        }
-        catch(Exception e) {
+            pStmt.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void updateUserData(Utilisateur lUtilisateur) {
-        try(Connection cnx = ConnectionProvider.getConnection())
-        {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(UPDATE_USER_DATA);
 
-            pstmt.setString(1,lUtilisateur.getPseudo());
-            pstmt.setString(2,lUtilisateur.getNom());
-            pstmt.setString(3,lUtilisateur.getPrenom());
-            pstmt.setString(4,lUtilisateur.getEmail());
-            pstmt.setString(5,lUtilisateur.getTelephone());
-            pstmt.setString(6,lUtilisateur.getRue());
-            pstmt.setString(7,lUtilisateur.getCodePostal());
-            pstmt.setString(8,lUtilisateur.getVille());
-            pstmt.setString(9,lUtilisateur.getMotDePasse());
-            pstmt.setInt(10,lUtilisateur.getNo_utilisateur());
+            pstmt.setString(1, lUtilisateur.getPseudo());
+            pstmt.setString(2, lUtilisateur.getNom());
+            pstmt.setString(3, lUtilisateur.getPrenom());
+            pstmt.setString(4, lUtilisateur.getEmail());
+            pstmt.setString(5, lUtilisateur.getTelephone());
+            pstmt.setString(6, lUtilisateur.getRue());
+            pstmt.setString(7, lUtilisateur.getCodePostal());
+            pstmt.setString(8, lUtilisateur.getVille());
+            pstmt.setString(9, lUtilisateur.getMotDePasse());
+            pstmt.setInt(10, lUtilisateur.getNo_utilisateur());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -143,7 +139,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
     public void updateUserAccountStatus(int idUser) {
         Utilisateur lUtilisateur = this.selectById(idUser);
 
-        try(Connection cnx = ConnectionProvider.getConnection()) {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(UPDATE_USER_ACCOUNT_STATUS);
 
             pstmt.setBoolean(1, !lUtilisateur.isCompteActif());
@@ -156,7 +152,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 
     @Override
     public void updateUserCredit(int newCredit, int idUser) {
-        try(Connection cnx = ConnectionProvider.getConnection()) {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(UPDATE_USER_CREDIT);
             pstmt.setInt(1, newCredit);
             pstmt.setInt(2, idUser);
@@ -168,7 +164,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 
     @Override
     public void deleteUser(int idUser) {
-        try(Connection cnx = ConnectionProvider.getConnection()) {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(DELETE_USER);
             pstmt.setInt(1, idUser);
             pstmt.executeUpdate();
