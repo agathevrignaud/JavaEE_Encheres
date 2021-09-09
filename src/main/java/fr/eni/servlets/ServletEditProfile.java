@@ -51,6 +51,7 @@ public class ServletEditProfile extends HttpServlet {
                     System.out.println("Erreur lors de la màj des données utilisateur");
                     e.printStackTrace();
                 }
+                doGet(request, response);
                 break;
             case "delete":
                 try {
@@ -58,9 +59,10 @@ public class ServletEditProfile extends HttpServlet {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                // TODO : Redirection homepage en mode déconnecté
+                RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
+                rd.forward(request, response);
                 break;
         }
-
-        doGet(request, response);
     }
 }

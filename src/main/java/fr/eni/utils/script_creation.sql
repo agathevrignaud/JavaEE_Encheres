@@ -82,12 +82,12 @@ ALTER TABLE RETRAITS
 ALTER TABLE ARTICLES_VENDUS
     ADD CONSTRAINT articles_vendus_categories_fk FOREIGN KEY ( no_categorie )
         REFERENCES categories ( no_categorie )
-        ON DELETE NO ACTION
+        ON DELETE no action
         ON UPDATE no action
 
 ALTER TABLE ARTICLES_VENDUS
     ADD CONSTRAINT ventes_utilisateur_fk FOREIGN KEY ( no_utilisateur )
         REFERENCES utilisateurs ( no_utilisateur )
-        ON DELETE NO ACTION
+        ON DELETE no action
         ON UPDATE no action
 
