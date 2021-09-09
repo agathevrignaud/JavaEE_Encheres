@@ -27,12 +27,13 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
     @Override
     public List<Utilisateur> selectAll() {
         List<Utilisateur> lesUtilisateurs = new ArrayList<>();
-        Utilisateur lUtilisateur = new Utilisateur();
 
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_USERS);
             ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
+                Utilisateur lUtilisateur = new Utilisateur();
+
                 lUtilisateur.setPseudo(rs.getString("pseudo"));
                 lUtilisateur.setNom(rs.getString("nom"));
                 lUtilisateur.setPrenom(rs.getString("prenom"));
@@ -45,8 +46,9 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
                 lUtilisateur.setCredit(rs.getInt("credit"));
                 lUtilisateur.setAdministrateur(rs.getBoolean("administrateur"));
                 lUtilisateur.setCompteActif(rs.getBoolean("compteActif"));
+
+                lesUtilisateurs.add(lUtilisateur);
             }
-            lesUtilisateurs.add(lUtilisateur);
         } catch(Exception e) {
             e.printStackTrace();
         }

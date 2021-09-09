@@ -16,19 +16,21 @@ public class EnchereDAOJdbc implements EnchereDAO {
     @Override
     public List<Enchere> selectByIdArticle(int idArticle) {
         List<Enchere> lesEncheres = new ArrayList<>();
-        Enchere lEnchere = new Enchere();
 
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_ENCHERES);
             pstmt.setInt(1, idArticle);
             ResultSet rs = pstmt.executeQuery();
             if(rs.next()) {
+                Enchere lEnchere = new Enchere();
+
                 lEnchere.setNo_utilisateur(rs.getInt("no_utilisateur"));
                 lEnchere.setNo_article(rs.getInt("no_article"));
                 lEnchere.setDateEnchere(rs.getTimestamp("date_enchere").toLocalDateTime());
                 lEnchere.setMontantEnchere(rs.getInt("montant_enchere"));
+
+                lesEncheres.add(lEnchere);
             }
-            lesEncheres.add(lEnchere);
         }
         catch(Exception e) {
             e.printStackTrace();

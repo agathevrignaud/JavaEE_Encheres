@@ -19,17 +19,19 @@ public class CategorieDAOJdbc implements CategorieDAO {
     @Override
     public List<Categorie> selectAll() {
         List<Categorie> lesCategories = new ArrayList<Categorie>();
-        Categorie laCategorie = new Categorie();
 
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_CATEGORIES);
             ResultSet rs = pstmt.executeQuery();
-            while(rs.next())
-            {
+            while(rs.next()) {
+                Categorie laCategorie = new Categorie();
+
                 laCategorie.setNo_categorie(rs.getInt("no_categorie"));
                 laCategorie.setLibelle(rs.getString("libelle"));
+
+                lesCategories.add(laCategorie);
             }
-            lesCategories.add(laCategorie);
+
         } catch(Exception e) {
             e.printStackTrace();
         }

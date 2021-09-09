@@ -31,14 +31,15 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
     @Override
     public List<ArticleVendu> selectAll() {
         List<ArticleVendu> lesArticles = new ArrayList<>();
-        ArticleVendu lArticle = new ArticleVendu();
-        Retrait lieuRetrait = new Retrait();
-        Categorie laCategorie = new Categorie();
 
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_ARTICLES);
             ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
+                ArticleVendu lArticle = new ArticleVendu();
+                Retrait lieuRetrait = new Retrait();
+                Categorie laCategorie = new Categorie();
+
                 lArticle.setNo_article(rs.getInt("A.no_article"));
                 lArticle.setNomArticle(rs.getString("A.nom_article"));
                 lArticle.setDescription(rs.getString("A.description"));
@@ -60,8 +61,9 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
                 lArticle.setLaCategorie(laCategorie);
 
                 lArticle.setNo_utilisateur(rs.getInt("A.no_utilisateur"));
+
+                lesArticles.add(lArticle);
             }
-            lesArticles.add(lArticle);
         } catch(Exception e) {
             e.printStackTrace();
         }
