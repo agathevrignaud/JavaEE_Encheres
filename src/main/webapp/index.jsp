@@ -3,11 +3,12 @@
 <html>
 <head>
     <title>JSP - Hello World</title>
+    <link rel="stylesheet" href="utils/css/all.css">
 </head>
 <body>
 <h1><%= "Hello World!" %>
 </h1>
 <br/>
-<a href="TestConnexion">Test BDD</a>
+<a href="AdminTools">Administration</a>
 </body>
 </html>
