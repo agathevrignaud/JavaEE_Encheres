@@ -40,6 +40,56 @@
     </div>
 </form>
 <br>
+<c:if test="${pageContext.request.userPrincipal != null}">
+    <card>
+        <form action="">
+            <div class="form-check">
+                <input class="form-check-input position-static" type="radio" name="buy" id="buy" value="optionbuy"
+                       aria-label="...">Achats
+            </div>
+            <div class="form-check">
+                <input class="form-check-input position-static" type="checkbox" id="open" value="optionopen"
+                       aria-label="...">Enchères ouvertes
+            </div>
+            <div class="form-check">
+                <input class="form-check-input position-static" type="checkbox" id="inprogressbuy"
+                       value="optioninprogressbuy"
+                       aria-label="...">Enchères en cours
+            </div>
+            <div class="form-check">
+                <input class="form-check-input position-static" type="checkbox" id="gain" value="optiongain"
+                       aria-label="...">Enchères remportées
+            </div>
+            <button type="submit">Valider</button>
+        </form>
+    </card>
+</c:if>
+<c:if test="${pageContext.request.userPrincipal != null}">
+    <card>
+        <form action="">
+            <div class="form-check">
+                <input class="form-check-input position-static" type="radio" name="sell" id="sell"
+                       aria-label="...">Mes ventes
+            </div>
+            <div class="form-check">
+                <input class="form-check-input position-static" type="checkbox" id="inprogresssell"
+                       value="optioninprogresssell"
+                       aria-label="...">mes ventes en cours
+            </div>
+            <div class="form-check">
+                <input class="form-check-input position-static" type="checkbox" id="notstart"
+                       value="optionnotstart"
+                       aria-label="...">ventes non débuté
+            </div>
+            <div class="form-check">
+                <input class="form-check-input position-static" type="checkbox" id="close" value="optionclose"
+                       aria-label="...">ventes terminées
+            </div>
+            <button type="submit">Valider</button>
+        </form>
+    </card>
+</c:if>
+<br>
 <div class=" d-flex justify-content-around">
     <div class="card">
         <div class="card-header">
