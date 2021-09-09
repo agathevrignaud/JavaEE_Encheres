@@ -38,7 +38,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_ARTICLES);
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
+            while(rs.next()) {
                 lArticle.setNo_article(rs.getInt("A.no_article"));
                 lArticle.setNomArticle(rs.getString("A.nom_article"));
                 lArticle.setDescription(rs.getString("A.description"));

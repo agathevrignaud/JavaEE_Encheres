@@ -24,7 +24,7 @@ public class CategorieDAOJdbc implements CategorieDAO {
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_CATEGORIES);
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next())
+            while(rs.next())
             {
                 laCategorie.setNo_categorie(rs.getInt("no_categorie"));
                 laCategorie.setLibelle(rs.getString("libelle"));
