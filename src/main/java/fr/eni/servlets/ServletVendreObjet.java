@@ -4,21 +4,28 @@ import fr.eni.bll.ArticleVenduManager;
 import fr.eni.bo.ArticleVendu;
 import fr.eni.bo.Categorie;
 import fr.eni.bo.Retrait;
+import fr.eni.dal.CategorieDAO;
+import fr.eni.dal.DAOFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.time.LocalDate;
-import java.util.Date;
+
+import java.util.List;
 
 @WebServlet(name = "ServletVendreObjet", value = "/VendreObjet")
 public class ServletVendreObjet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vendreObjet.jsp");
+
+        CategorieDAO dao = DAOFactory.getCategorieDAO();
+        List<Categorie> listeCategorie = dao.selectAll();
+        request.setAttribute("listeCategorie", listeCategorie);
+
         rd.forward(request, response);
     }
 
@@ -37,17 +44,18 @@ public class ServletVendreObjet extends HttpServlet {
 
         nomArticle = request.getParameter("nomArticle");
         description = request.getParameter("descArticle");
-        //TODO
-        categorie = new Categorie(1, request.getParameter("catArticle"));
+        //TODO set category number
+        categorie = new Categorie(1, request.getParameter("libelle"));
         prix = Integer.parseInt(request.getParameter("prixArticle"));
-        //TODO get parameter local date
-        dateDebut = new SimpleDateFormat("dd-MMM-yyyy HH:mm.").parse("debutEnchere");
-        //TODO get parameter local date
-        dateFin = new SimpleDateFormat("dd-MMM-yyyy HH:mm.").parse("finEnchere");
+        dateDebut = LocalDate.parse(request.getParameter("debutEnchere"));
+        dateFin = LocalDate.parse(request.getParameter("finEnchere"));
+
+        HttpSession session = request.getSession();
+        session.setAttribute("idUser", 1);
         //TODO set state
-        etatVente = "en cours";
-        //TODO set idUser
+        etatVente = "C";
         idUser = 1;
+
         //TODO Change no_article
         retrait = new Retrait(1, request.getParameter("rue"), request.getParameter("cp"), request.getParameter("ville"));
         ArticleVenduManager articleVenduManager = new ArticleVenduManager();

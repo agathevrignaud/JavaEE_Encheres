@@ -18,7 +18,7 @@ public class ArticleVenduManager {
         return articleVenduDAO.selectAll();
     }
 
-    public void addNewArticle(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+    public ArticleVendu addNewArticle(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
                               int miseAPrix, String etatVente, int idUser, Categorie laCategorie, Retrait lieuRetrait)  {
         ArticleVendu lArticle = new ArticleVendu();
 
@@ -33,5 +33,6 @@ public class ArticleVenduManager {
         lArticle.setLieuRetrait(lieuRetrait);
 
         articleVenduDAO.createArticle(lArticle);
+        return lArticle;
     }
 }

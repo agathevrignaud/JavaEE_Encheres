@@ -19,25 +19,26 @@
     <h2>Nouvelle vente</h2>
 </header>
 <body>
-<form action="/ServletVendreObjet" method="post">
-    <label for="nomArticle">Article : </label> <input type="text" id="nomArticle"/><br/>
-    <label for="descArticle">Description : </label> <input type="text" id="descArticle"/><br/>
+<form action="VendreObjet" method="post">
+    <label for="nomArticle">Article : </label> <input type="text" id="nomArticle" name="nomArticle"/><br/>
+    <label for="descArticle">Description : </label> <input type="text" id="descArticle" name="descArticle"/><br/>
     <label for="catArticle">Catégorie : </label>
-    <select id="catArticle" name="categories">
-
+    <select id="catArticle" name="categories" >
+        <c:forEach items="${listeCategorie}" var="categorie" >
+            <option  value="${categorie.no_categorie}" id="libelle" name="libelle">${categorie.libelle}</option>
+        </c:forEach>
     </select>
     <br/>
     <label for="photoArticle">Photo de l'article : </label> <input type="button" id="photoArticle"
                                                                    value="UPLOADER"><br/>
-    <label for="prixArticle">Mise à prix : </label><input type="number" id="prixArticle" min="1" step="any"/><br/>
-    <label for="debutEnchere">Debut de l'enchère : </label><input type="date" id="debutEnchere"><br/>
-    <label for="finEnchere">Fin de l'enchère : </label><input type="date" id="finEnchere"><br/>
-
+    <label for="prixArticle">Mise à prix : </label><input type="number" id="prixArticle" min="1" step="any" name="prixArticle"/><br/>
+    <label for="debutEnchere">Debut de l'enchère : </label><input type="date" id="debutEnchere" name="debutEnchere"><br/>
+    <label for="finEnchere">Fin de l'enchère : </label><input type="date" id="finEnchere" name="finEnchere"><br/>
     <fieldset>
         <legend>Retrait</legend>
-        <label for="rue">Rue : </label> <input type="text" id="rue"/><br/>
-        <label for="cp">Code postal : </label> <input type="text" id="cp" minlength="5" maxlength="5"/><br/>
-        <label for="ville">Ville : </label> <input type="text" id="ville"/><br/>
+        <label for="rue">Rue : </label> <input type="text" id="rue" name="rue"/><br/>
+        <label for="cp">Code postal : </label> <input type="text" id="cp" minlength="5" maxlength="5" name="cp"/><br/>
+        <label for="ville">Ville : </label> <input type="text" id="ville" name="ville"/><br/>
     </fieldset>
 
     <input type="submit" value="Enregistrer">
