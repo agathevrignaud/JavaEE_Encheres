@@ -3,25 +3,32 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8" />
         <title>Edit profile</title>
     </head>
         <body>
             <p>Mon Profil</p>
-            <form action="" method="">
-                pseudo : <input type="text">
-                nom : <input type="text">
-                prénom : <input type="text">
-                email : <input type="text">
-                telephone: <input type="text">
-                rue: <input type="text">
-                code postal: <input type="text">
-                ville : <input type="text">
-                mot de passe actuel : <input type="text">
-                nouveau mot de passe : <input type="text">
-                confirmation : <input type="text">
-                crédit :
-                <button type="submit" name="Save">Enregistrer</button>
-                <button type="submit" name="Delete">Supprimer compte</button>
+
+            <form method="post" action="${pageContext.request.contextPath}/editMyProfile" >
+                <fieldset>
+                    <legend>Mon Profil</legend>
+                        <input type="hidden" name="idUser" id="idUser" value="${userInfo.no_utilisateur}">
+                        <label for="username"> Pseudo :</label><input type="text" name="username" id="username" value="${userInfo.pseudo}" ><br/>
+                        <label for="surname">Nom :</label><input type="text" name="surname" id="surname" value="${userInfo.nom}"><br/>
+                        <label for="firstName">Prénom :</label><input type="text" name="firstName" id="firstName" value="${userInfo.prenom}"><br/>
+                        <label for="email"></label>Mail :<input type="email" name="email" id="email" value="${userInfo.email}"><br/>
+                        <label for="phoneNumber">Téléphone :</label><input type="tel" name="phoneNumber" id="phoneNumber" value="${userInfo.telephone}"><br/>
+                        <label for="streetName">Adresse :</label><input type="text"  name="streetName" id="streetName" value="${userInfo.rue}"><br/>
+                        <label for="zipCode"></label>Code postal :<input type="text" minlength="5" maxlength="5" name="zipCode" id="zipCode" value="${userInfo.codePostal}"><br/>
+                        <label for="city"></label>Ville :<input type="text" name="city" id="city" value="${userInfo.ville}"><br/>
+                        <label for="currentPwd"></label>Mot de passe actuel :<input type="password" name="currentPwd" id="currentPwd" value="${userInfo.motDePasse}"><br/>
+                        <label for="newPwd"></label>Nouveau mot de passe :<input type="password" name="newPwd" id="newPwd" value=""><br/>
+                        <label for="newPwdConfirmed"></label>Confirmation :<input type="password" name="newPwdConfirmed" id="newPwdConfirmed" value=""><br/>
+                        <label for="credit"></label>Credit :<input type="text" name="credit" id="credit" value="${userInfo.credit}" readonly><br/>
+                </fieldset>
+
+                <button type="submit" name="btnPressed" value="save">Enregistrer</button>
+                <button type="submit" name="btnPressed" value="delete">Supprimer mon Compte</button>
             </form>
     </body>
 </html>

@@ -1,7 +1,7 @@
 INSERT INTO UTILISATEURS(pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe) VALUES
-('pseudo','Vrignaud', 'Agathe', 'email', '0123456789', 'rue truc', '35000', 'Rennes', 'mdp'),
-('pseudo','StAlme', 'Raphaël', 'email', '0123456789', 'rue truc', '35000', 'Rennes', 'mdp'),
-('pseudo','Launay', 'Ewen','email', '0123456789', 'rue truc', '35000', 'Rennes', 'mdp');
+('avrignaud','Vrignaud', 'Agathe', 'testA@gmail.com', '0123456789', 'rue truc', '35000', 'Rennes', 'Testing123!'),
+('rstalme','StAlme', 'Raphaël', 'testR@gmail.com', '0123456789', 'rue truc', '35000', 'Rennes', 'Testing123!'),
+('elaunay','Launay', 'Ewen','testE@gmail.com', '0123456789', 'rue truc', '35000', 'Rennes', 'Testing123!');
 
 INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, administrateur) VALUES
 ('admin','admin', 'admin', 'email', '0123456789', 'rue truc', '35000', 'Rennes', 'mdp', 1);

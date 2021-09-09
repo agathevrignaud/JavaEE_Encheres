@@ -9,7 +9,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "ServletEditProfile", value = "/editprofile")
+@WebServlet(name = "ServletEditProfile", value = "/editMyProfile")
 public class ServletEditProfile extends HttpServlet {
     private static final UtilisateurManager utilisateurManager = new UtilisateurManager();
 
@@ -17,7 +17,7 @@ public class ServletEditProfile extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int idUser = 2;// TODO : Gestion dynamique à mettre en place avec la navigation
         Utilisateur lUtilisateur = utilisateurManager.getUserById(idUser);
-
+        System.out.println(lUtilisateur.getNo_utilisateur());
         request.setAttribute("userInfo", lUtilisateur);
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/editprofile.jsp");
@@ -26,6 +26,40 @@ public class ServletEditProfile extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        switch (request.getParameter("btnPressed")) {
+            case "save":
+                String pwd = "" ;
+                if (request.getParameter("newPwd").length() == 0 || request.getParameter("newPwdConfirmed").length() == 0) {
+                    pwd = request.getParameter("currentPwd");
+                }
+                try {
+                    utilisateurManager.updateUserData(
+                            Integer.parseInt(request.getParameter("idUser")),
+                            request.getParameter("username"),
+                            request.getParameter("surname"),
+                            request.getParameter("firstName"),
+                            request.getParameter("email"),
+                            request.getParameter("phoneNumber"),
+                            request.getParameter("streetName"),
+                            request.getParameter("zipCode"),
+                            request.getParameter("city"),
+                            pwd,
+                            request.getParameter("newPwdConfirmed")
+                    );
+                } catch (Exception e) {
+                    System.out.println("Erreur lors de la màj des données utilisateur");
+                    e.printStackTrace();
+                }
+                break;
+            case "delete":
+                try {
+                    utilisateurManager.deleteUser(Integer.parseInt(request.getParameter("idUser")));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
 
         doGet(request, response);
     }

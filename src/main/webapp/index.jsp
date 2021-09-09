@@ -8,6 +8,6 @@
 <h1><%= "Hello World!" %>
 </h1>
 <br/>
-<a href="TestConnexion">Test BDD</a>
+<a href="editMyProfile">editer mon profil</a>
 </body>
 </html>
