@@ -1,10 +1,4 @@
-<%@ page import="fr.eni.bo.Utilisateur" %><%--
-  Created by IntelliJ IDEA.
-  User: rsaintalme2021
-  Date: 08/09/2021
-  Time: 10:43
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="fr.eni.bo.Utilisateur" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 

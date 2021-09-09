@@ -20,7 +20,7 @@ public class ServletEditProfile extends HttpServlet {
         System.out.println(lUtilisateur.getNo_utilisateur());
         request.setAttribute("userInfo", lUtilisateur);
 
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/editprofile.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/editProfile.jsp");
         rd.forward(request, response);
     }
 

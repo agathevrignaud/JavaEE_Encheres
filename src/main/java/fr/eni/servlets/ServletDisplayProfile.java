@@ -19,13 +19,13 @@ public class ServletDisplayProfile extends HttpServlet {
         Utilisateur lUtilisateur = utilisateurManager.getUserById(2);
         request.setAttribute("userInfo", lUtilisateur);
 
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/profileInformation.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/displayProfile.jsp");
         rd.forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/editprofile.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/editProfile.jsp");
         rd.forward(request, response);
     }
 }
