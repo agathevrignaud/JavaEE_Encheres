@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategorieDAOJdbc implements CategorieDAO {
-    private static final String SELECT_ALL_CATEGORIES = "SELECT * FROM CATEGOERIES";
+    private static final String SELECT_ALL_CATEGORIES = "SELECT * FROM CATEGORIES";
     private static final String INSERT_NEW_CATEGORY = "INSERT INTO CATEGORIES VALUES (?)";
     private static final String UPDATE_CATEGORY = "UPDATE CATEGORIES SET libelle=? WHERE no_categorie=?";
     // TODO : vérifier le fonctionnement attendu d'une suppression de catégorie
@@ -19,17 +19,18 @@ public class CategorieDAOJdbc implements CategorieDAO {
     @Override
     public List<Categorie> selectAll() {
         List<Categorie> lesCategories = new ArrayList<Categorie>();
-        Categorie laCategorie = new Categorie();
 
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_CATEGORIES);
             ResultSet rs = pstmt.executeQuery();
-            while(rs.next())
-            {
+            while(rs.next()) {
+                Categorie laCategorie = new Categorie();
+
                 laCategorie.setNo_categorie(rs.getInt("no_categorie"));
                 laCategorie.setLibelle(rs.getString("libelle"));
+
+                lesCategories.add(laCategorie);
             }
-            lesCategories.add(laCategorie);
         } catch(Exception e) {
             e.printStackTrace();
         }

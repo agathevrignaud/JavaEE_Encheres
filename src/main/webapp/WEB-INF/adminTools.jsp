@@ -14,34 +14,66 @@
                     <th>Liste des Utilisateurs</th>
                 </tr>
             </thead>
-
             <c:forEach var="u" items="${lesUtilisateurs}">
             <tbody>
                 <tr>
                     <!-- infos utilisateur -->
                     <td>
-                        ${u.nom} ${u.prenom}
+                        <a href="${pageContext.request.contextPath}/displayProfile?idUser=${u.no_utilisateur}"><i class="fas fa-user" title="Voir profil"></i></a>
                     </td>
+                    <td>${u.nom}</td>
+                    <td>${prenom}</td>
+                    <td>${email}</td>
+                    <!-- TODO : Ajouter d'autres infos ? -->
                     <td>
-                        <!-- Selon compteActif vrai ou faux-->
-                        <c:choose>
-                            <c:when test="${u.compteActif}">
+                    <c:choose>
+                        <c:when test="${u.compteActif}">
+                            <a href="${pageContext.request.contextPath}/adminTools?deactivate=${u.no_utilisateur}">
                                 <i class="fas fa-user-minus" title="Désactiver le compte"></i>
-                            </c:when>
-                            <c:when test="${!u.compteActif}">
+                            </a>
+                        </c:when>
+                        <c:when test="${!u.compteActif}">
+                            <a href="${pageContext.request.contextPath}/adminTools?reactivate=${u.no_utilisateur}">
                                 <i class="fas fa-user-plus" title="Réactiver le compte"></i>
-                            </c:when>
-                        </c:choose>
+                            </a>
+                        </c:when>
+                    </c:choose>
+                            <a href="${pageContext.request.contextPath}/adminTools?delete=${u.no_utilisateur}">
+                                <i class="fas fa-user-times" title="Supprimer le compte"></i>
+                            </a>
                     </td>
                 </tr>
             </tbody>
             </c:forEach>
-
         </table>
 
-
-        <p>Liste des catégories</p>
-
-
+        <table>
+            <thead>
+            <tr>
+                <th>Liste des Catégories</th>
+            </tr>
+            </thead>
+            <c:forEach var="c" items="${lesCategories}">
+                <tbody>
+                <tr>
+                    <!-- infos Catégorie -->
+                    <td>
+                            ${c.libelle}
+                    </td>
+                    <!-- Actions sur une Catégorie -->
+                    <td>
+                        <i class="fas fa-pen"></i>
+                        <c:if test="${true}">
+                            <br/><label>Nouveau nom : </label><input type="text"><br/>
+                        </c:if>
+                        <i class="fas fa-minus"></i>
+                    </td>
+                </tr>
+                </tbody>
+            </c:forEach>
+        </table>
+        <form>
+                <label>Ajouter une nouvelle catégorie :</label><input type="text" />
+        </form>
     </body>
 </html>
