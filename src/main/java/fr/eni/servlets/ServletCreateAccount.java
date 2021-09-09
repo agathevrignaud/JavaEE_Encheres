@@ -42,8 +42,8 @@ public class ServletCreateAccount extends HttpServlet {
             doGet(request, response);
         }
 
-
         rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
+        request.setAttribute("info", String.format("L'inscription de l'utilisateur %s s'est bien effectué", pseudo));
         rd.forward(request, response);
     }
 }
