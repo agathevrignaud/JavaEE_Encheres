@@ -22,7 +22,7 @@ public class EnchereDAOJdbc implements EnchereDAO {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_ENCHERES);
             pstmt.setInt(1, idArticle);
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
+            while(rs.next()) {
                 lEnchere.setNo_utilisateur(rs.getInt("no_utilisateur"));
                 lEnchere.setNo_article(rs.getInt("no_article"));
                 lEnchere.setDateEnchere(rs.getTimestamp("date_enchere").toLocalDateTime());

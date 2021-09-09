@@ -13,7 +13,7 @@ import java.util.List;
 // TODO : Ajouter des logs + meilleure gestion des erreurs avec un système de codes/messages
 
 public class UtilisateurDAOJdbc implements UtilisateurDAO {
-    private static final String SELECT_ALL_USERS = "SELECT * FROM UTILISATEURS U";
+    private static final String SELECT_ALL_USERS = "SELECT * FROM UTILISATEURS";
     private static final String SELECT_USER_BY_ID = "SELECT * FROM UTILISATEURS WHERE NO_UTILISATEUR=?";
     private static final String INSERT_USER = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?)";
     private static final String UPDATE_USER_DATA = "UPDATE UTILISATEURS SET " +
@@ -32,7 +32,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_USERS);
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
+            while(rs.next()) {
                 lUtilisateur.setPseudo(rs.getString("pseudo"));
                 lUtilisateur.setNom(rs.getString("nom"));
                 lUtilisateur.setPrenom(rs.getString("prenom"));
@@ -50,7 +50,6 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         } catch(Exception e) {
             e.printStackTrace();
         }
-
         return lesUtilisateurs;
     }
 
