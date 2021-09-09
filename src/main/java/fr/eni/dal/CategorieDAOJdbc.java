@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategorieDAOJdbc implements CategorieDAO {
-    private static final String SELECT_ALL_CATEGORIES = "SELECT * FROM CATEGOERIES";
+    private static final String SELECT_ALL_CATEGORIES = "SELECT * FROM CATEGORIES";
     private static final String INSERT_NEW_CATEGORY = "INSERT INTO CATEGORIES VALUES (?)";
     private static final String UPDATE_CATEGORY = "UPDATE CATEGORIES SET libelle=? WHERE no_categorie=?";
     // TODO : vérifier le fonctionnement attendu d'une suppression de catégorie
@@ -31,7 +31,6 @@ public class CategorieDAOJdbc implements CategorieDAO {
 
                 lesCategories.add(laCategorie);
             }
-
         } catch(Exception e) {
             e.printStackTrace();
         }

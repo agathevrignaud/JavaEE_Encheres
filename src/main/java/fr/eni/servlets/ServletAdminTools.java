@@ -1,6 +1,8 @@
 package fr.eni.servlets;
 
+import fr.eni.bll.CategorieManager;
 import fr.eni.bll.UtilisateurManager;
+import fr.eni.bo.Categorie;
 import fr.eni.bo.Utilisateur;
 import org.apache.coyote.Request;
 
@@ -28,16 +30,15 @@ import javax.sql.DataSource;
 @WebServlet("/AdminTools")
 public class ServletAdminTools extends HttpServlet {
     private static final UtilisateurManager utilisateurManager = new UtilisateurManager();
+    private static final CategorieManager categorieManager = new CategorieManager();
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Utilisateur> lesUtilisateurs = utilisateurManager.getAllUsers();
-
-        for (Utilisateur u : lesUtilisateurs) {
-            System.out.println(u.getPseudo());
-        }
-
         request.setAttribute("lesUtilisateurs", lesUtilisateurs);
+
+        List<Categorie> lesCategories = categorieManager.getAllCategories();
+        request.setAttribute("lesCategories", lesCategories);
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/adminTools.jsp") ;
         requestDispatcher.forward(request, response) ;
