@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -17,10 +18,17 @@
         <label for="zip">Code postal: </label><input type="text" name="zip" id="zip" pattern="[0-9]{5}" minlength="5"
                                                      maxlength="5" required=required><br/>
         <label for="city">Ville:</label><input type="text" name="city" id="city" required=required><br/>
-        <label for="password">Mot de passe:</label><input type="password" name="password" id="password" required=required><br/>
-        <label for="confirmPwd">Confirmation:</label><input type="password" name="confirmPwd" id="confirmPwd" required=required><br/>
+        <label for="password">Mot de passe:</label><input type="password" name="password" id="password"
+                                                          required=required><br/>
+        <label for="confirmPwd">Confirmation:</label><input type="password" name="confirmPwd" id="confirmPwd"
+                                                            required=required><br/>
         <input type="submit" value="Créer">
         <button><a href="home">Annuler</a></button>
+        <br/>
+
+        <c:if test="${not empty error}">
+            <p>Erreur: <c:out value="${error}"></c:out></p>
+        </c:if>
     </fieldset>
 </form>
 </body>

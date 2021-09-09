@@ -14,12 +14,14 @@ import java.io.IOException;
 public class ServletCreateAccount extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/createaccount.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/createAccount.jsp");
         rd.forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher rd;
+
         String pseudo = request.getParameter("pseudo");
         String nom = request.getParameter("name");
         String prenom = request.getParameter("surname");
@@ -36,10 +38,12 @@ public class ServletCreateAccount extends HttpServlet {
             utilisateurManager.addNewUser(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, motDePasseConfirmation);
         } catch (Exception e) {
             e.printStackTrace();
+            request.setAttribute("error", "Une erreur s'est produite. Merci de revoir vos informations saisies");
+            doGet(request, response);
         }
 
 
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
+        rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
         rd.forward(request, response);
     }
 }
