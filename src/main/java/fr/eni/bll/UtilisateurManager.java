@@ -36,12 +36,9 @@ public class UtilisateurManager {
         return isPseudoAndEmailValid(idUser, pseudo, email) && isPasswordValid(mdp, mdpConf) ;
     }
 
-
     public boolean isPseudoAndEmailValid(int idUser, String pseudo, String email) {
         boolean isValid = true ;
         List<Utilisateur> lesUtilisateurs = utilisateurDAO.selectAll();
-
-    // TODO : ajouter un regex pour vérifier la validité de l'email
 
         // Uniquement des caractères alphanumériques
         String regexPatternPseudo = "^[a-zA-Z0-9]*$";
@@ -51,7 +48,7 @@ public class UtilisateurManager {
         // pseudo + email uniques
         for (Utilisateur unUtilisateur : lesUtilisateurs) {
             if (unUtilisateur.getNo_utilisateur() != idUser) {
-                if (unUtilisateur.getPseudo() == pseudo || unUtilisateur.getEmail() == email) {
+                if (unUtilisateur.getPseudo().equals(pseudo) || unUtilisateur.getEmail().equals(email)) {
                     isValid = false ;
                     break;
                 }

@@ -9,6 +9,10 @@
 <h1><%= "Hello World!" %>
 </h1>
 <br/>
+<<<<<<< HEAD
 <a href="adminTools">Administration</a>
+=======
+<a href="editMyProfile">editer mon profil</a>
+>>>>>>> 6fbaaec (Reworked form in editProfile.jsp + fxed mistakes in script_data + fixed encoding shit + reworked some errors in UtilisateurManager)
 </body>
 </html>
