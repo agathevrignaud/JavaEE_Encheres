@@ -23,7 +23,8 @@ public class UtilisateurManager {
     }
 
     public void addNewUser(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws Exception {
-        if (isUserInfoValid(pseudo, email, motDePasse, motDePasseConfirmation)) {
+        int idUser = 0 ; // Nouvel utilisateur
+        if (isUserInfoValid(idUser, pseudo, email, motDePasse, motDePasseConfirmation)) {
             Utilisateur lUtilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
             utilisateurDAO.createUser(lUtilisateur);
         } else {
@@ -32,11 +33,11 @@ public class UtilisateurManager {
         }
     }
 
-    public boolean isUserInfoValid(String pseudo, String email, String mdp, String mdpConf) {
-        return isPseudoAndEmailValid(pseudo, email) && isPasswordValid(mdp, mdpConf) ;
+    public boolean isUserInfoValid(int idUser, String pseudo, String email, String mdp, String mdpConf) {
+        return isPseudoAndEmailValid(idUser, pseudo, email) && isPasswordValid(mdp, mdpConf) ;
     }
 
-    public boolean isPseudoAndEmailValid(String pseudo, String email) {
+    public boolean isPseudoAndEmailValid(int idUser, String pseudo, String email) {
         boolean isValid = true ;
         List<Utilisateur> lesUtilisateurs = utilisateurDAO.selectAll();
 
@@ -49,12 +50,13 @@ public class UtilisateurManager {
         }
         // pseudo + email uniques
         for (Utilisateur unUtilisateur : lesUtilisateurs) {
-            if (unUtilisateur.getPseudo() == pseudo || unUtilisateur.getEmail() == email) {
-                isValid = false ;
-                break;
+            if (unUtilisateur.getNo_utilisateur() != idUser) {
+                if (unUtilisateur.getPseudo() == pseudo || unUtilisateur.getEmail() == email) {
+                    isValid = false ;
+                    break;
+                }
             }
         }
-
         return isValid;
     }
 
@@ -62,19 +64,20 @@ public class UtilisateurManager {
         boolean isValid = true ;
         String regexPattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,12}$";
 
-        if (!mdp.matches(regexPattern)) {
-            isValid = false ;
+        if (mdp.length() > 0 && mdpConf.length() > 0) {
+            if (!mdp.matches(regexPattern)) {
+                isValid = false ;
+            }
+            if (!mdp.equals(mdpConf)) {
+                isValid = false ;
+            }
         }
-        if (!mdp.equals(mdpConf)) {
-            isValid = false ;
-        }
-
         return isValid;
     }
 
-    public void updateUserData(int userId, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws Exception {
-        if (isUserInfoValid(pseudo, email, motDePasse, motDePasseConfirmation)) {
-            Utilisateur lUtilisateur = new Utilisateur(userId, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
+    public void updateUserData(int idUser, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws Exception {
+        if (isUserInfoValid(idUser, pseudo, email, motDePasse, motDePasseConfirmation)) {
+            Utilisateur lUtilisateur = new Utilisateur(idUser, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
             utilisateurDAO.updateUserData(lUtilisateur);
         } else {
             System.out.println("Erreur lors de la màj de l'utilisateur");
