@@ -63,10 +63,6 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
-<<<<<<< HEAD
-
-=======
->>>>>>> bb869e8 (ÃRemoved useless readonly (bad idea))
     </dependencies>
 
     <build>
