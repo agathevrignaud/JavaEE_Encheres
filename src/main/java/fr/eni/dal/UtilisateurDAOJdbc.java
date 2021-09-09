@@ -2,7 +2,10 @@ package fr.eni.dal;
 
 import fr.eni.bo.Utilisateur;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,9 +82,9 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
     }
 
     @Override
-    public void createUser(Utilisateur lUtilisateur) {
+    public void createUser(Utilisateur lUtilisateur) throws DALException {
         if (lUtilisateur == null) {
-            //throw exception
+            throw new NullPointerException("lUtilisateur shoudln't be null");
         }
 
         try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -100,16 +103,10 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pStmt.setBoolean(12, true);
             pStmt.executeUpdate();
 
-            /*
-            ResultSet rs = pStmt.getGeneratedKeys();
-
-            if (rs != null) {
-                lUtilisateur.setNo_utilisateur(rs.getInt(1));
-            }*/
-
             pStmt.close();
         } catch (Exception e) {
             e.printStackTrace();
+            throw new DALException(e.getMessage(), e.getCause());
         }
     }
 
