@@ -54,6 +54,7 @@ public class ServletEditProfile extends HttpServlet {
                 doGet(request, response);
                 break;
             case "delete":
+                // TODO : Ajouter une validation "êtes-vous sûr" etc etc
                 try {
                     utilisateurManager.deleteUser(Integer.parseInt(request.getParameter("idUser")));
                 } catch (Exception e) {
