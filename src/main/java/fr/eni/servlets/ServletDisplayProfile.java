@@ -25,7 +25,7 @@ public class ServletDisplayProfile extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO : Rediriger vers la page de modification du profil
-        doGet(request, response);
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/editprofile.jsp");
+        rd.forward(request, response);
     }
 }
