@@ -64,19 +64,19 @@ ALTER TABLE ARTICLES_VENDUS ADD constraint articles_vendus_pk PRIMARY KEY (no_ar
 
 ALTER TABLE ARTICLES_VENDUS
     ADD CONSTRAINT encheres_utilisateur_fk FOREIGN KEY ( no_utilisateur ) REFERENCES UTILISATEURS ( no_utilisateur )
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
         ON UPDATE no action
 
 ALTER TABLE ENCHERES
     ADD CONSTRAINT encheres_articles_vendus_fk FOREIGN KEY ( no_article )
         REFERENCES ARTICLES_VENDUS ( no_article )
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
         ON UPDATE no action
 
 ALTER TABLE RETRAITS
     ADD CONSTRAINT retraits_articles_vendus_fk FOREIGN KEY ( no_article )
         REFERENCES ARTICLES_VENDUS ( no_article )
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
         ON UPDATE no action
 
 ALTER TABLE ARTICLES_VENDUS
