@@ -7,7 +7,6 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/utils/css/all.css">
     </head>
     <body>
-
         <table>
             <thead>
                 <tr>
@@ -28,17 +27,17 @@
                     <td>
                     <c:choose>
                         <c:when test="${u.compteActif}">
-                            <a href="${pageContext.request.contextPath}/adminTools?deactivate=${u.no_utilisateur}">
+                            <a href="${pageContext.request.contextPath}/deactivateAccount?idUser=${u.no_utilisateur}">
                                 <i class="fas fa-user-minus" title="Désactiver le compte"></i>
                             </a>
                         </c:when>
                         <c:when test="${!u.compteActif}">
-                            <a href="${pageContext.request.contextPath}/adminTools?reactivate=${u.no_utilisateur}">
+                            <a href="${pageContext.request.contextPath}/reactivateAccount?idUser=${u.no_utilisateur}">
                                 <i class="fas fa-user-plus" title="Réactiver le compte"></i>
                             </a>
                         </c:when>
                     </c:choose>
-                            <a href="${pageContext.request.contextPath}/adminTools?delete=${u.no_utilisateur}">
+                            <a href="${pageContext.request.contextPath}/deleteAccount?idUser=${u.no_utilisateur}">
                                 <i class="fas fa-user-times" title="Supprimer le compte"></i>
                             </a>
                     </td>
@@ -62,18 +61,33 @@
                     </td>
                     <!-- Actions sur une Catégorie -->
                     <td>
-                        <i class="fas fa-pen"></i>
+                        <a>
+
+                        </a>
+                        <i class="fas fa-pen" title="Editer le Nom"></i>
+                        <!-- TODO : à faire apparaître/disparaître au clic sur le crayon -->
                         <c:if test="${true}">
-                            <br/><label>Nouveau nom : </label><input type="text"><br/>
+                            <label for="newName">Nouveau nom : </label><input type="text" name="newName" id="newName"/>
+                            <a href="${pageContext.request.contextPath}/editCategory?idCategory=${c.no_categorie}">
+                                <i class="fas fa-check"></i>
+                            </a>
                         </c:if>
-                        <i class="fas fa-minus"></i>
+                            <a href="${pageContext.request.contextPath}/deleteCategory?idCategory=${c.no_categorie}">
+                                <i class="fas fa-minus" title="Supprimer la catégorie"></i>
+                            </a>
                     </td>
                 </tr>
                 </tbody>
             </c:forEach>
         </table>
-        <form>
-                <label>Ajouter une nouvelle catégorie :</label><input type="text" />
+        <c:if test="${deleteCategoryError}">
+            Impossible de supprimer une catégorie en cours d'utilisation !
+        </c:if>
+
+        <form method="post" action="${pageContext.request.contextPath}/createNewCategory">
+                <label for="newCategory">Ajouter une nouvelle catégorie :</label>
+                <input type="text" name="newCategory" id="newCategory"/>
+                <button type="submit">Ajouter</button>
         </form>
     </body>
 </html>
