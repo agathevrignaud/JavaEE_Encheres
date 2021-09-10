@@ -10,5 +10,6 @@
 </h1>
 <br/>
 <a href="adminTools">Administration</a>
+<!-- TODO : faire la navigation entre les écrans ! -->
 </body>
 </html>
