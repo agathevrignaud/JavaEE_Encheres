@@ -1,10 +1,11 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 <head>
-    <title>JSP - Hello World</title>
+    <title>Accueil</title>
 </head>
 <body>
 
@@ -12,12 +13,36 @@
     <li class="nav-item">
         <a class="nav-link disabled">ENI Enchères</a>
     </li>
-    <li class="nav-item justify-content-end">
-        <a class="nav-link" href="signup">S'inscrire</a>
-    </li>
-    <li class="nav-item justify-content-end">
-        <a class="nav-link" href="login" tabindex="-1" aria-disabled="true">Se connecter</a>
-    </li>
+
+    <c:choose>
+        <c:when test="${sessionScope.userIsAuthenticated}">
+            <li class="nav-item justify-content-end">
+                <a class="nav-link" href="#">Enchères</a>
+            </li>
+            <li class="nav-item justify-content-end">
+                <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Vendre un article</a>
+            </li>
+            <li class="nav-item justify-content-end">
+                <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Mon profil</a>
+            </li>
+            <li class="nav-item justify-content-end">
+                <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Deconnexion</a>
+            </li>
+        </c:when>
+        <c:otherwise >
+            <li class="nav-item justify-content-end">
+                <a class="nav-link" href="signup">S'inscrire</a>
+            </li>
+            <li class="nav-item justify-content-end">
+                <a class="nav-link" href="login" tabindex="-1" aria-disabled="true">Se connecter</a>
+            </li>
+        </c:otherwise>
+    </c:choose>
+
+
+
+
+
 </ul>
 <div class="d-flex justify-content-center">
     <h2>Liste des enchères</h2>
@@ -40,7 +65,7 @@
     </div>
 </form>
 <br>
-<c:if test="${pageContext.request.userPrincipal != null}">
+<c:if test="${sessionScope.userIsAuthenticated}">
     <card>
         <form action="">
             <div class="form-check">
@@ -63,8 +88,6 @@
             <button type="submit">Valider</button>
         </form>
     </card>
-</c:if>
-<c:if test="${pageContext.request.userPrincipal != null}">
     <card>
         <form action="">
             <div class="form-check">
