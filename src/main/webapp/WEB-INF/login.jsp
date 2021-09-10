@@ -10,6 +10,9 @@
     </header>
     <body>
         <%@ include file="/WEB-INF/navigation/header.jsp" %>
+        <c:if test="${not empty listeErreurs}">
+            <!-- TODO : Afficher les erreurs liées au formulaire ici -->
+        </c:if>
         <form action="${pageContext.request.contextPath}/login" method="post">
             <fieldset>
                 <legend> Se connecter</legend>

@@ -6,6 +6,9 @@
     </head>
     <body>
         <%@ include file="/WEB-INF/navigation/header.jsp" %>
+        <c:if test="${not empty listeErreurs}">
+            <!-- TODO : Afficher les erreurs liées au formulaire ici -->
+        </c:if>
         <h3>Veuillez entrez vos identifiants de connexion :</h3>
         <form method="post" action="${pageContext.request.contextPath}/forgottenPwd">
             <fieldset>
