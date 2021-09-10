@@ -35,7 +35,7 @@ public class ServletLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         boolean isAuthenticated = utilisateurManager.authenticateUser(
-                request.getParameter("pseudo"),
+                request.getParameter("username"),
                 request.getParameter("password")
         );
 
@@ -44,7 +44,7 @@ public class ServletLogin extends HttpServlet {
 
             System.out.println("remember : " + rememberMe);
 
-            Cookie cUserName = new Cookie("cookie_user", request.getParameter("pseudo").trim());
+            Cookie cUserName = new Cookie("cookie_user", request.getParameter("username").trim());
             Cookie cPassword = new Cookie("cookie_pwd", request.getParameter("password").trim());
             cUserName.setMaxAge(60 * 60 * 24 * 15); // 15 days
             cPassword.setMaxAge(60 * 60 * 24 * 15);
