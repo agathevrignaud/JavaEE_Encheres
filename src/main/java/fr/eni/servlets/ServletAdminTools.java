@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
                 "/deactivateAccount",
                 "/reactivateAccount",
                 "/deleteAccount",
+                "/displayEditCategory",
                 "/editCategory",
                 "/deleteCategory",
                 "/createNewCategory"
@@ -45,6 +46,12 @@ public class ServletAdminTools extends HttpServlet {
                 loadUserList(request, utilisateurManager);
                 break;
             //  Category Management
+            case "/displayEditCategory" :
+                if (request.getParameter("btnPressed") != null) {
+                    request.setAttribute("editBtnPressed", Boolean.valueOf(request.getParameter("btnPressed")));
+                }
+                loadCategoryList(request, categorieManager);
+                break;
             case "/editCategory":
                 //  TODO : Régler le souci du nom qui n'est pas pris en compte lors d'une modif
                 try {

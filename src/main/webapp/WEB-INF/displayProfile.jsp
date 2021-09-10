@@ -23,10 +23,13 @@
             <label for="zip"></label>Code postal :<input type="text" minlength="5" maxlength="5" name="zip" id="zip" value="${userInfo.codePostal}"><br/>
             <label for="city"></label>Ville :<input type="text" name="city" id="city" value="${userInfo.ville}"><br/>
         </form>
-        <div>
-            <a href="${pageContext.request.contextPath}/editMyProfile?idUser=${userInfo.no_utilisateur}">
-                <i class="fas fa-pen" title="Modifier le profil"></i>
-            </a>
-        </div>
+        <!-- TODO : ici ajouter comparaison entre l'iduser en session & le profil consulté pour savoir si modif apparaît -->
+        <c:if test="${true}">
+            <div>
+                <a href="${pageContext.request.contextPath}/editMyProfile?idUser=${userInfo.no_utilisateur}">
+                    <i class="fas fa-pen" title="Modifier le profil"></i>
+                </a>
+            </div>
+        </c:if>
     </body>
 </html>

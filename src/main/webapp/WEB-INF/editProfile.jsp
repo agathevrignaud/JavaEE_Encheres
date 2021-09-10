@@ -25,7 +25,6 @@
                         <label for="newPwdConfirmed"></label>Confirmation :<input type="password" name="newPwdConfirmed" id="newPwdConfirmed" value=""><br/>
                         <label for="credit"></label>Credit :<input type="text" name="credit" id="credit" value="${userInfo.credit}" readonly><br/>
                 </fieldset>
-
                 <button type="submit" name="btnPressed" value="save">Enregistrer</button>
                 <button type="submit" name="btnPressed" value="delete">Supprimer mon Compte</button>
             </form>

@@ -25,7 +25,6 @@
                     <td>${u.nom}</td>
                     <td>${u.prenom}</td>
                     <td>${u.email}</td>
-                    <!-- TODO : Ajouter d'autres infos ? -->
                     <td>
                     <c:choose>
                         <c:when test="${u.compteActif}">
@@ -63,12 +62,11 @@
                     </td>
                     <!-- Actions sur une Catégorie -->
                     <td>
-                        <a>
-
+                        <a href="${pageContext.request.contextPath}/displayEditCategory?btnPressed=${!editBtnPressed}">
+                            <i class="fas fa-pen" title="Editer le Nom"></i>
                         </a>
-                        <i class="fas fa-pen" title="Editer le Nom"></i>
                         <!-- TODO : à faire apparaître/disparaître au clic sur le crayon -->
-                        <c:if test="${true}">
+                        <c:if test="${editBtnPressed}">
                             <label for="newName">Nouveau nom : </label><input type="text" name="newName" id="newName"/>
                             <a href="${pageContext.request.contextPath}/editCategory?idCategory=${c.no_categorie}">
                                 <i class="fas fa-check"></i>
