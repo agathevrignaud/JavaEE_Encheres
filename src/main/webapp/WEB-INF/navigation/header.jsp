@@ -11,7 +11,7 @@
                         <a href="${pageContext.request.contextPath}/myProfile?idUser=${userInfo.no_utilisateur}">Mon Profil</a>
                     </li>
                     <li>
-                        <a href="">Déconnexion</a>
+                        <a href="${pageContext.request.contextPath}/">Déconnexion</a>
                     </li
                         <c:if test="${userInfo.administrateur}">
                             <li>

@@ -27,13 +27,11 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
     @Override
     public List<Utilisateur> selectAll() {
         List<Utilisateur> lesUtilisateurs = new ArrayList<>();
-
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_USERS);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 Utilisateur lUtilisateur = new Utilisateur();
-
                 lUtilisateur.setNo_utilisateur(rs.getInt("no_utilisateur"));
                 lUtilisateur.setPseudo(rs.getString("pseudo"));
                 lUtilisateur.setNom(rs.getString("nom"));
@@ -47,7 +45,6 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
                 lUtilisateur.setCredit(rs.getInt("credit"));
                 lUtilisateur.setAdministrateur(rs.getBoolean("administrateur"));
                 lUtilisateur.setCompteActif(rs.getBoolean("compteActif"));
-
                 lesUtilisateurs.add(lUtilisateur);
             }
         } catch (Exception e) {
@@ -65,6 +62,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.setInt(1, idUser);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
+                lUtilisateur.setNo_utilisateur(rs.getInt("no_utilisateur"));
                 lUtilisateur.setPseudo(rs.getString("pseudo"));
                 lUtilisateur.setNom(rs.getString("nom"));
                 lUtilisateur.setPrenom(rs.getString("prenom"));
@@ -81,7 +79,6 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return lUtilisateur;
     }
 
@@ -143,7 +140,6 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(UPDATE_USER_ACCOUNT_STATUS);
-
             pstmt.setBoolean(1, !lUtilisateur.isCompteActif());
             pstmt.setInt(2, idUser);
             pstmt.executeUpdate();
@@ -178,7 +174,6 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
     @Override
     public Utilisateur checkIfUserExists(String username, String email) {
         Utilisateur lUtilisateur = new Utilisateur();
-
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(CHECK_USER_EXISTENCE);
             pstmt.setString(1, username);
@@ -195,7 +190,6 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return lUtilisateur;
     }
 
@@ -210,5 +204,4 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             e.printStackTrace();
         }
     }
-
 }

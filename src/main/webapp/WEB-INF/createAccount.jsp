@@ -7,34 +7,33 @@
     </head>
     <body>
         <%@ include file="/WEB-INF/navigation/header.jsp" %>
-        <form action="signup" method="post">
+        <form action="${pageContext.request.contextPath}/signup" method="post">
             <fieldset>
                 <legend>Mon profil</legend>
                 <label for="username">Pseudo :</label>
-                <input type="text" name="username" id="username" required="required"><br/>
+                <input type="text" name="username" id="username"><br/>
                 <label for="surname">Nom :</label>
-                <input type="text" name="surname" id="surname" required="required"><br/>
+                <input type="text" name="surname" id="surname"><br/>
                 <label for="firstName">Prénom :</label>
-                <input type="text" name="firstName" id="firstName" required="required"><br/>
+                <input type="text" name="firstName" id="firstName"><br/>
                 <label for="email">Email :</label>
-                <input type="email" name="email" id="email" required="required"><br/>
+                <input type="email" name="email" id="email"><br/>
                 <label for="phoneNumber">Telephone :</label>
-                <input type="text" name="phoneNumber" id="phoneNumber" required="required"><br/>
+                <input type="text" name="phoneNumber" id="phoneNumber"><br/>
                 <label for="streetName">Rue :</label>
-                <input type="text" name="streetName" id="streetName" required="required"><br/>
+                <input type="text" name="streetName" id="streetName"><br/>
                 <label for="zipCode">Code postal :</label>
                 <input type="text" name="zipCode" id="zipCode" pattern="[0-9]{5}" minlength="5"
-                                                             maxlength="5" required="required"><br/>
+                                                             maxlength="5"><br/>
                 <label for="city">Ville :</label>
-                <input type="text" name="city" id="city" required="required"><br/>
+                <input type="text" name="city" id="city" ><br/>
                 <label for="password">Mot de passe :</label>
-                <input type="password" name="password" id="password" required="required"><br/>
+                <input type="password" name="password" id="password"><br/>
                 <label for="confirmPwd">Confirmation :</label>
-                <input type="password" name="confirmPwd" id="confirmPwd" required="required"><br/>
+                <input type="password" name="confirmPwd" id="confirmPwd"><br/>
 
-                <!-- Changer le bouton -->
-                <input type="submit" value="Créer">
-                <button><a href="home">Annuler</a></button>
+                <button type="submit" name="btnPressed" value="createAccount">Créer</button>
+                <button type="submit" name="btnPressed" value="cancelCreateAccount">Annuler</button>
 
                 <br/>
                 <c:if test="${not empty error}">
