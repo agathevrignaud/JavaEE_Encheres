@@ -46,7 +46,7 @@ public class ServletVendreObjet extends HttpServlet {
         nomArticle = request.getParameter("nomArticle");
         description = request.getParameter("descArticle");
         //TODO set category number
-        categorie = new Categorie(1, request.getParameter("libelle"));
+        categorie = new Categorie(Integer.parseInt(request.getParameter("idCategory")), request.getParameter("libelle"));
         prix = Integer.parseInt(request.getParameter("prixArticle"));
         dateDebut = LocalDate.parse(request.getParameter("debutEnchere"));
         dateFin = LocalDate.parse(request.getParameter("finEnchere"));
