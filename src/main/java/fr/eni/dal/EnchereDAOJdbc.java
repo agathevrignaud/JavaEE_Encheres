@@ -17,7 +17,6 @@ public class EnchereDAOJdbc implements EnchereDAO {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_ENCHERES);
             pstmt.setInt(1, idArticle);
             ResultSet rs = pstmt.executeQuery();
-
             while (rs.next()) {
                 Enchere lEnchere = new Enchere();
 

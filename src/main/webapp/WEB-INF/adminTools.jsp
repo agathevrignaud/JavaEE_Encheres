@@ -18,7 +18,11 @@
                 <tr>
                     <!-- infos utilisateur -->
                     <td>
+<<<<<<< HEAD
                         <a href="${pageContext.request.contextPath}/myProfile?idUser=${u.no_utilisateur}"><i class="fas fa-user" title="Voir profil"></i></a>
+=======
+                        <a href="${pageContext.request.contextPath}/displayProfile?idUser=${u.no_utilisateur}"><i class="fas fa-user" title="Voir profil"></i></a>
+>>>>>>> 25203593837224b2dbe97f632ad8ec1a51ff5e27
                     </td>
                     <td>${u.nom}</td>
                     <td>${prenom}</td>

@@ -72,9 +72,9 @@ public class UtilisateurManager {
         return isValid;
     }
 
-    public void updateUserData(int idUser, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws Exception {
-        if (isUserInfoValid(idUser, pseudo, email, motDePasse, motDePasseConfirmation)) {
-            Utilisateur lUtilisateur = new Utilisateur(idUser, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
+    public void updateUserData(int userId, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws Exception {
+        if (isUserInfoValid(userId, pseudo, email, motDePasse, motDePasseConfirmation)) {
+            Utilisateur lUtilisateur = new Utilisateur(userId, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
             utilisateurDAO.updateUserData(lUtilisateur);
         } else {
             System.out.println("Erreur lors de la màj de l'utilisateur");
