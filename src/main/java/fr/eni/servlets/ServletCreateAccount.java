@@ -22,13 +22,13 @@ public class ServletCreateAccount extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UtilisateurManager utilisateurManager = new UtilisateurManager();
 
-        String pseudo = request.getParameter("pseudo");
-        String nom = request.getParameter("name");
-        String prenom = request.getParameter("surname");
-        String email = request.getParameter("mail");
-        String telephone = request.getParameter("phone");
-        String rue = request.getParameter("street");
-        String codePostal = request.getParameter("zip");
+        String pseudo = request.getParameter("username");
+        String nom = request.getParameter("surname");
+        String prenom = request.getParameter("firstname");
+        String email = request.getParameter("email");
+        String telephone = request.getParameter("phoneNumber");
+        String rue = request.getParameter("streetName");
+        String codePostal = request.getParameter("zipCode");
         String ville = request.getParameter("city");
         String motDePasse = request.getParameter("password");
         String motDePasseConfirmation = request.getParameter("confirmPwd");
