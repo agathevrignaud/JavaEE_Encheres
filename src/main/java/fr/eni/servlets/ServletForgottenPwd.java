@@ -33,16 +33,13 @@ public class ServletForgottenPwd extends HttpServlet {
         if (lUtilisateur != null) {
             request.setAttribute("isUserInDb", true);
             utilisateurManager.resetPassword(lUtilisateur.getNo_utilisateur());
-            //Send email with the new password TODO : find a way to send a link instead ahaha
+            //  TODO : Ajouter un envoi de mail
             EmailMessage lEmail = new EmailMessage();
             lEmail.setDestinataire(lUtilisateur.getEmail());
             lEmail.setExpediteur(EMAIL_SENDER);
             lEmail.setSujet(EMAIL_SUBJECT);
             String leMessage = String.format(email_msg, lUtilisateur.getPrenom(), "Testing456!");
             lEmail.setMsg(leMessage);
-
-            // To finish
-
         } else {
             request.setAttribute("isUserInDb", false);
         }
