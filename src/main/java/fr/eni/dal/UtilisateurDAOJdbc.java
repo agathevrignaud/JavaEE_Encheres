@@ -64,6 +64,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.setInt(1, idUser);
             ResultSet rs = pstmt.executeQuery();
             if(rs.next()) {
+                lUtilisateur.setNo_utilisateur(rs.getInt("no_utilisateur"));
                 lUtilisateur.setPseudo(rs.getString("pseudo"));
                 lUtilisateur.setNom(rs.getString("nom"));
                 lUtilisateur.setPrenom(rs.getString("prenom"));
@@ -106,7 +107,6 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.setString(9,lUtilisateur.getMotDePasse());
 
             pstmt.executeUpdate();
-            pstmt.close();
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -131,7 +131,8 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.setInt(10,lUtilisateur.getNo_utilisateur());
 
             pstmt.executeUpdate();
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            System.out.print("Erreur lors de la màj de l'utilisateur");
             e.printStackTrace();
         }
     }

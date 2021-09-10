@@ -4,7 +4,6 @@ import fr.eni.bo.Utilisateur;
 import fr.eni.dal.DAOFactory;
 import fr.eni.dal.UtilisateurDAO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UtilisateurManager {
@@ -41,8 +40,6 @@ public class UtilisateurManager {
         boolean isValid = true ;
         List<Utilisateur> lesUtilisateurs = utilisateurDAO.selectAll();
 
-    // TODO : ajouter un regex pour vérifier la validité de l'email
-
         // Uniquement des caractères alphanumériques
         String regexPatternPseudo = "^[a-zA-Z0-9]*$";
         if (!pseudo.matches(regexPatternPseudo)) {
@@ -51,7 +48,7 @@ public class UtilisateurManager {
         // pseudo + email uniques
         for (Utilisateur unUtilisateur : lesUtilisateurs) {
             if (unUtilisateur.getNo_utilisateur() != idUser) {
-                if (unUtilisateur.getPseudo() == pseudo || unUtilisateur.getEmail() == email) {
+                if (unUtilisateur.getPseudo().equals(pseudo) || unUtilisateur.getEmail().equals(email)) {
                     isValid = false ;
                     break;
                 }
@@ -75,9 +72,9 @@ public class UtilisateurManager {
         return isValid;
     }
 
-    public void updateUserData(int idUser, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws Exception {
-        if (isUserInfoValid(idUser, pseudo, email, motDePasse, motDePasseConfirmation)) {
-            Utilisateur lUtilisateur = new Utilisateur(idUser, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
+    public void updateUserData(int userId, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws Exception {
+        if (isUserInfoValid(userId, pseudo, email, motDePasse, motDePasseConfirmation)) {
+            Utilisateur lUtilisateur = new Utilisateur(userId, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
             utilisateurDAO.updateUserData(lUtilisateur);
         } else {
             System.out.println("Erreur lors de la màj de l'utilisateur");
