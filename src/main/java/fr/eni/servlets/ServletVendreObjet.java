@@ -4,6 +4,7 @@ import fr.eni.bll.ArticleVenduManager;
 import fr.eni.bo.ArticleVendu;
 import fr.eni.bo.Categorie;
 import fr.eni.bo.Retrait;
+import fr.eni.bo.Utilisateur;
 import fr.eni.dal.CategorieDAO;
 import fr.eni.dal.DAOFactory;
 
@@ -49,13 +50,9 @@ public class ServletVendreObjet extends HttpServlet {
         prix = Integer.parseInt(request.getParameter("prixArticle"));
         dateDebut = LocalDate.parse(request.getParameter("debutEnchere"));
         dateFin = LocalDate.parse(request.getParameter("finEnchere"));
-
-        HttpSession session = request.getSession();
-        session.setAttribute("idUser", 1);
         //TODO set state
         etatVente = "C";
         idUser = 1;
-
         //TODO Change no_article
         retrait = new Retrait(1, request.getParameter("rue"), request.getParameter("cp"), request.getParameter("ville"));
         ArticleVenduManager articleVenduManager = new ArticleVenduManager();
