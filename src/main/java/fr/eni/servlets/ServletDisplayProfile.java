@@ -2,13 +2,10 @@ package fr.eni.servlets;
 
 import fr.eni.bll.UtilisateurManager;
 import fr.eni.bo.Utilisateur;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-
-//  TODO : Ajouter dynamiquement l'Id de l'utilisateur (pour l'instant sur 2 pour prouver que ça marche)
 
 @WebServlet(name = "ServletDisplayProfile", value = "/myProfile")
 public class ServletDisplayProfile extends HttpServlet {
@@ -25,6 +22,8 @@ public class ServletDisplayProfile extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("idUser", request.getParameter("idUser"));
+        System.out.println("displayProfile : " + request.getParameter("idUser"));
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/editProfile.jsp");
         rd.forward(request, response);
     }

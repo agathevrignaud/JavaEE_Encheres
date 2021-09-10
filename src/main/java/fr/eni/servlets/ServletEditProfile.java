@@ -15,11 +15,11 @@ public class ServletEditProfile extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int idUser = 2;// TODO : Gestion dynamique à mettre en place avec la navigation
+        int idUser = Integer.parseInt(request.getParameter("idUser"));
+        System.out.print("id utilisateur : " + idUser);
         Utilisateur lUtilisateur = utilisateurManager.getUserById(idUser);
-        System.out.println(lUtilisateur.getNo_utilisateur());
+        System.out.print(lUtilisateur.getPrenom());
         request.setAttribute("userInfo", lUtilisateur);
-
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/editProfile.jsp");
         rd.forward(request, response);
     }

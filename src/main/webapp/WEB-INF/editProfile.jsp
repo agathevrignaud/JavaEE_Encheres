@@ -8,7 +8,6 @@
     </head>
         <body>
             <p>Mon Profil</p>
-
             <form method="post" action="${pageContext.request.contextPath}/editMyProfile" >
                 <fieldset>
                     <legend>Mon Profil</legend>
