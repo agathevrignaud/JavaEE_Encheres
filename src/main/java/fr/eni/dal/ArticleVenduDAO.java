@@ -8,4 +8,6 @@ public interface ArticleVenduDAO {
     public List<ArticleVendu> selectAll();
 
     public void createArticle(ArticleVendu lArticle);
+    ArticleVendu selectById (int id);
+    void deleteArticle(int id);
 }

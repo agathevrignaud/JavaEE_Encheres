@@ -4,10 +4,7 @@ import fr.eni.bo.ArticleVendu;
 import fr.eni.bo.Categorie;
 import fr.eni.bo.Retrait;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +23,9 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
     private static final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article,description,date_debut_encheres, " +
             "date_fin_encheres, prix_initial, etat_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?,?)";
 
+            "date_fin_encheres, prix_initial,no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?)";
+    private static final String SELECT_BY_ID = SELECT_ALL_ARTICLES + "WHERE id=?";
+    private static final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS WHERE id = ?";
 
     // TODO : fournir List<ArticleVendu> avec toutes les infos, le tri se fera côté front ?
 
@@ -99,5 +99,46 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
         }
     }
 
+
+    public ArticleVendu selectById(int id) {
+        ArticleVendu result = null;
+        try(Connection cnx = ConnectionProvider.getConnection()){
+            PreparedStatement psmt = cnx.prepareStatement(SELECT_BY_ID);
+            psmt.setInt(1, id);
+            ResultSet rs = psmt.executeQuery();
+            if (rs.next()){
+                result = map(rs);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return result;
+    }
+
+
+    public void deleteArticle(int id){
+        try(Connection cnx = ConnectionProvider.getConnection()){
+            PreparedStatement pstmt = cnx.prepareStatement(DELETE_ARTICLE);
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private ArticleVendu map(ResultSet rs) throws SQLException {
+        int no_article = rs.getInt("no_article");
+        String nom_article = rs.getString("nom_article");
+        String description = rs.getString("description");
+        Date debut_encheres = rs.getDate("date_debut_encheres");
+        Date fin_encheres = rs.getDate("date_fin_encheres");
+        int prix_initial = rs.getInt("prix_initial");
+        int prix_vente = rs.getInt("prix_vente");
+        String etat_vente = rs.getString("etat_vente");
+        int no_utilisateur = rs.getInt("no_utilisateur");
+        int no_categorie = rs.getInt("no_categorie");
+        return new ArticleVendu(no_article, nom_article, description, debut_encheres, fin_encheres, prix_initial, prix_vente,etat_vente, no_utilisateur, no_categorie);
+    }
 
 }

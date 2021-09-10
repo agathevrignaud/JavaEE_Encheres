@@ -23,6 +23,12 @@ public class ArticleVenduManager {
     public void addNewArticle(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
                               int miseAPrix, String etatVente, int idUser, Categorie laCategorie, Retrait lieuRetrait) {
         ArticleVendu lArticle = new ArticleVendu();
+    public void deleteArticle(int id) {}
+
+    public List<ArticleVendu> selectById(int id){
+
+        return null;
+    }
 
         lArticle.setNomArticle(nomArticle);
         lArticle.setDescription(description);
