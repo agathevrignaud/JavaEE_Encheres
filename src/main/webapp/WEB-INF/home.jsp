@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -7,18 +8,7 @@
     <title>JSP - Hello World</title>
 </head>
 <body>
-
-<ul class="nav ">
-    <li class="nav-item">
-        <a class="nav-link disabled">ENI Enchères</a>
-    </li>
-    <li class="nav-item justify-content-end">
-        <a class="nav-link" href="signup">S'inscrire</a>
-    </li>
-    <li class="nav-item justify-content-end">
-        <a class="nav-link" href="login" tabindex="-1" aria-disabled="true">Se connecter</a>
-    </li>
-</ul>
+<%@ include file="/WEB-INF/navigation/header.jsp" %>
 <div class="d-flex justify-content-center">
     <h2>Liste des enchères</h2>
 </div>

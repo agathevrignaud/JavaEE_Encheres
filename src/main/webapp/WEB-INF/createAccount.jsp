@@ -6,6 +6,7 @@
         <title>Create account</title>
     </head>
     <body>
+        <%@ include file="/WEB-INF/navigation/header.jsp" %>
         <form action="signup" method="post">
             <fieldset>
                 <legend>Mon profil</legend>

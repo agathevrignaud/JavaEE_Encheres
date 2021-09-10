@@ -59,12 +59,10 @@ public class ServletLogin extends HttpServlet {
                 rd.forward(request, response);
                 break;
             case "login":
-
                 Utilisateur lUtilisateur = utilisateurManager.authenticateUser(
                         request.getParameter("username"),
                         request.getParameter("password")
                 );
-
                 if (lUtilisateur != null) {
                     HttpSession laSession = request.getSession();
                     laSession.setAttribute("isUserLoggedIn", true );
@@ -78,10 +76,4 @@ public class ServletLogin extends HttpServlet {
                 break;
         }
     }
-
-
-
-
-
-
 }

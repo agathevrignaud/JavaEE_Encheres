@@ -9,13 +9,6 @@ import java.io.IOException;
 public class ServletHome extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        // TODO : set up l'utilisateur non connecté dès l'ouverture de la session -> objet spécifique / booléen
-//        HttpSession laSession = request.getSession();
-//        if (laSession.getAttribute("isUserLoggedIn")) {
-//            // Afficher les options de recherche supplémentaires
-//        }
-
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
         rd.forward(request, response);
     }

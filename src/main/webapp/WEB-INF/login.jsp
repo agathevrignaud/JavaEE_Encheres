@@ -9,6 +9,7 @@
         <h2>ENI-Enchères</h2>
     </header>
     <body>
+        <%@ include file="/WEB-INF/navigation/header.jsp" %>
         <form action="${pageContext.request.contextPath}/login" method="post">
             <fieldset>
                 <legend> Se connecter</legend>

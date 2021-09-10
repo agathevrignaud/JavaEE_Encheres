@@ -1,10 +1,11 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head>
         <title>Mot de passe oublié</title>
     </head>
     <body>
+        <%@ include file="/WEB-INF/navigation/header.jsp" %>
         <h3>Veuillez entrez vos identifiants de connexion :</h3>
         <form method="post" action="${pageContext.request.contextPath}/forgottenPwd">
             <fieldset>

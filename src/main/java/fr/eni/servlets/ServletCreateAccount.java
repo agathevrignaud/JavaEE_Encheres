@@ -24,7 +24,6 @@ public class ServletCreateAccount extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         switch (request.getParameter("btnPressed")) {
             case "createAccount":
                 String pseudo = request.getParameter("username");
