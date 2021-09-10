@@ -65,11 +65,13 @@
                         <a href="${pageContext.request.contextPath}/displayEditCategory?btnPressed=${!editBtnPressed}">
                             <i class="fas fa-pen" title="Editer le Nom"></i>
                         </a>
-                        <!-- TODO : à faire apparaître/disparaître au clic sur le crayon -->
                         <c:if test="${editBtnPressed}">
-                            <label for="newName">Nouveau nom : </label><input type="text" name="newName" id="newName"/>
-                            <a href="${pageContext.request.contextPath}/editCategory?idCategory=${c.no_categorie}">
-                                <i class="fas fa-check"></i>
+                            <form method="get" action="${pageContext.request.contextPath}/editCategory">
+                                <label for="newName">Nouveau nom : </label>
+                                <input type="hidden" name="idCategory" value="${c.no_categorie}">
+                                <input type="text" name="newName" id="newName"/>
+                                <button type="submit"><i class="fas fa-check"></i></button>
+                            </form>
                             </a>
                         </c:if>
                             <a href="${pageContext.request.contextPath}/deleteCategory?idCategory=${c.no_categorie}">

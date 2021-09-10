@@ -53,7 +53,6 @@ public class ServletAdminTools extends HttpServlet {
                 loadCategoryList(request, categorieManager);
                 break;
             case "/editCategory":
-                //  TODO : Régler le souci du nom qui n'est pas pris en compte lors d'une modif
                 try {
                     categorieManager.updateCategory(Integer.parseInt(request.getParameter("idCategory")),request.getParameter("newName"));
                 } catch (Exception e) {
