@@ -26,6 +26,7 @@ public class ServletCreateAccount extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         switch (request.getParameter("btnPressed")) {
             case "createAccount":
+                //  TODO : compléter des fonctions de vérif avec code d'erreur personnalisé
                 String pseudo = request.getParameter("username");
                 String nom = request.getParameter("surname");
                 String prenom = request.getParameter("firstname");
