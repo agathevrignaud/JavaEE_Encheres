@@ -38,6 +38,7 @@ public class ServletLogin extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher rd;
         boolean isAuthenticated = utilisateurManager.authenticateUser(
                 request.getParameter("username"),
                 request.getParameter("password")
@@ -57,18 +58,16 @@ public class ServletLogin extends HttpServlet {
             response.addCookie(cRemember);
         }
 
-        HttpSession laSession = request.getSession();
-        laSession.setAttribute("session_user", request.getParameter("username").trim());
-
         if (isAuthenticated) {
-            request.getSession().setAttribute("isAuthenticated", true);
-            RequestDispatcher rd;
+            request.getSession().setAttribute("isUserLoggedIn", true);
+
+            //  TODO : set un objet utilisateur avec id/pseudo/nom/prénom
+
             rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
             rd.forward(request, response);
         } else {
             request.getSession().setAttribute("authenticationError", true);
             doGet(request, response);
         }
-
     }
 }

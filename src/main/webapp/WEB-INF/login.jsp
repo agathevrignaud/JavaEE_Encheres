@@ -29,7 +29,7 @@
                 </a><br/>
 
                 <button name="createAccount" type="submit" formaction="signup" formmethod="get">Créer un compte</button><br/>
-                <c:if test="${sessionScope.authenticationError != null && sessionScope.authenticationError}">
+                <c:if test="${authenticationError != null && authenticationError}">
                     <c:out value="ERREUR: Identifiants incorrects. Veuillez réessayer avec les bonnes informations."></c:out>
                 </c:if>
             </fieldset>
