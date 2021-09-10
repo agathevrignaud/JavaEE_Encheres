@@ -20,7 +20,10 @@
 
                 <button type="submit">Connexion</button>
 
-                <input type="checkbox" id="rememberMe" name="rememberMe"><label for="rememberMe">Se souvenir de moi</label><br/>
+                <label for="rememberMe">
+                    <input type="checkbox" id="rememberMe" name="rememberMe" checked="${cRemember ? "checked" : "" }">
+                        Se souvenir de moi
+                </label><br/>
                 <a href="${pageContext.request.contextPath}/forgottenPwd" id="forgotPassword">
                     Mot de passe oublié
                 </a><br/>

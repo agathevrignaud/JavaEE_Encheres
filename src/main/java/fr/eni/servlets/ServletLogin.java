@@ -23,9 +23,13 @@ public class ServletLogin extends HttpServlet {
                 if(unCookie.getName().equals("cookie_pwd")){
                     pwd = unCookie.getValue();
                 }
+                if(unCookie.getName().equals("cookie_rememberMe")){
+                    rememberMe = unCookie.getValue();
+                }
             }
             request.setAttribute("cUsername", username);
             request.setAttribute("cPwd", pwd);
+            request.setAttribute("cRemember", rememberMe);
         }
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/login.jsp");
@@ -39,20 +43,22 @@ public class ServletLogin extends HttpServlet {
                 request.getParameter("password")
         );
 
+        System.out.println(request.getParameter("rememberMe"));
+
         if (request.getParameter("rememberMe") != null) {
-            String rememberMe = request.getParameter("remember");
-
-            System.out.println("remember : " + rememberMe);
-
             Cookie cUserName = new Cookie("cookie_user", request.getParameter("username").trim());
             Cookie cPassword = new Cookie("cookie_pwd", request.getParameter("password").trim());
+            Cookie cRemember = new Cookie("cookie_rememberMe", request.getParameter("rememberMe").trim());
             cUserName.setMaxAge(60 * 60 * 24 * 15); // 15 days
             cPassword.setMaxAge(60 * 60 * 24 * 15);
+            cRemember.setMaxAge(60 * 60 * 24 * 15);
             response.addCookie(cUserName);
             response.addCookie(cPassword);
+            response.addCookie(cRemember);
         }
+
         HttpSession laSession = request.getSession();
-        laSession.setAttribute("session_user", request.getParameter("pseudo").trim());
+        laSession.setAttribute("session_user", request.getParameter("username").trim());
 
         if (isAuthenticated) {
             request.getSession().setAttribute("isAuthenticated", true);
