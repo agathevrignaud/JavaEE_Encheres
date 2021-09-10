@@ -24,6 +24,9 @@
                         <label for="newPwd"></label>Nouveau mot de passe :<input type="password" name="newPwd" id="newPwd" value=""><br/>
                         <label for="newPwdConfirmed"></label>Confirmation :<input type="password" name="newPwdConfirmed" id="newPwdConfirmed" value=""><br/>
                         <label for="credit"></label>Credit :<input type="text" name="credit" id="credit" value="${userInfo.credit}" readonly><br/>
+                    <a href="${pageContext.request.contextPath}/creditShop?idUser=${userInfo.no_utilisateur}&firstName=${userInfo.prenom}">
+                        Acheter des crédits
+                    </a>
                 </fieldset>
                 <button type="submit" name="btnPressed" value="save">Enregistrer</button>
                 <button type="submit" name="btnPressed" value="delete">Supprimer mon Compte</button>

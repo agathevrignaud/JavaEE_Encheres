@@ -86,11 +86,11 @@ public class UtilisateurManager {
         utilisateurDAO.updateUserAccountStatus(idUser);
     }
 
-    public void updateUserCredit(int creditSpent, int idUser) throws Exception {
-        if ((utilisateurDAO.selectById(idUser).getCredit() - creditSpent) < 0) {
+    public void updateUserCredit(int credit, int idUser) throws Exception {
+        if ((utilisateurDAO.selectById(idUser).getCredit() + credit) < 0) {
             throw new Exception();
         } else {
-            utilisateurDAO.updateUserCredit(utilisateurDAO.selectById(idUser).getCredit() - creditSpent, idUser);
+            utilisateurDAO.updateUserCredit(utilisateurDAO.selectById(idUser).getCredit() + credit, idUser);
         }
     }
 
