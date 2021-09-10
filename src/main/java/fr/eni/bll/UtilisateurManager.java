@@ -6,7 +6,6 @@ import fr.eni.dal.DAOFactory;
 import fr.eni.dal.UtilisateurDAO;
 
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UtilisateurManager {
@@ -115,4 +114,15 @@ public class UtilisateurManager {
         }
         return isAuthenticated;
     }
+
+    public Utilisateur checkIfUserExists(String username, String email) {
+        return utilisateurDAO.checkIfUserExists(username, email);
+    }
+
+    public void resetPassword(int userId) {
+        String regexPattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,12}$";
+        //   TODO : trouver un moyen de générer un nouveau mdp selon le pattern regex
+        utilisateurDAO.resetPwd(userId, "Testing456!");
+    }
+
 }

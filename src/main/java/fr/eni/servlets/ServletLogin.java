@@ -24,10 +24,9 @@ public class ServletLogin extends HttpServlet {
         UtilisateurManager utilisateurManager = new UtilisateurManager();
         RequestDispatcher rd;
         boolean isAuthenticated = utilisateurManager.authenticateUser(pseudo, password);
-        if(isAuthenticated){
+        if (isAuthenticated) {
             rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
-            request.getSession().setAttribute("userIsAuthenticated", true);
-            request.getSession().setAttribute("authenticationError", false);
+            request.getSession().setAttribute("isAuthenticated", true);
 
             rd.forward(request, response);
         } else {

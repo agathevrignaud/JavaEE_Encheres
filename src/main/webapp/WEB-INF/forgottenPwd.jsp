@@ -1,0 +1,25 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+    <head>
+        <title>Mot de passe oublié</title>
+    </head>
+    <body>
+        <h3>Veuillez entrez vos identifiants de connexion :</h3>
+        <form method="post" action="${pageContext.request.contextPath}/forgottenPwd">
+            <fieldset>
+                <label for="username">Nom d'utilisateur :</label><input type="text" id="username" name="username">
+                <label for="email">Email lié au compte :</label><input type="text" id="email" name="email">
+            </fieldset>
+            <button type="submit">Valider</button>
+            <c:choose>
+                <c:when test="${isUserInDb}">
+                    <c:out value="Un lien pour réinitialiser le mot de passe vous a été renvoyé."></c:out>
+                </c:when>
+                <c:otherwise>
+                    <c:out value="Erreur lors de la saisie, veuillez recommencer."></c:out>
+                </c:otherwise>
+            </c:choose>
+        </form>
+    </body>
+</html>

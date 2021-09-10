@@ -12,4 +12,6 @@ public interface UtilisateurDAO {
     public void updateUserAccountStatus(int idUser);
     public void updateUserCredit(int newCredit, int idUser);
     public void deleteUser(int idUser);
+    public Utilisateur checkIfUserExists(String username, String email);
+    public void resetPwd(int idUser, String newPwd);
 }

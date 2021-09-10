@@ -20,8 +20,9 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             "WHERE no_utilisateur=?";
     private static final String UPDATE_USER_ACCOUNT_STATUS = "UPDATE UTILISATEURS SET compteActif=? WHERE no_utilisateur=?";
     private static final String UPDATE_USER_CREDIT = "UPDATE UTILISATEURS SET credit=? WHERE no_utilisateur=?";
-
     private static final String DELETE_USER = "DELETE FROM UTILISATEURS WHERE no_utilisateur=?";
+    private static final String CHECK_USER_EXISTENCE = "SELECT * FROM UTILISATEURS WHERE pseudo=? AND email=?";
+    private static final String RESET_PASSWORD = "UPDATE UTILISATEURS SET mot_de_passe=? WHERE no_utilisateur=?";
 
     @Override
     public List<Utilisateur> selectAll() {
@@ -166,6 +167,42 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(DELETE_USER);
             pstmt.setInt(1, idUser);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Utilisateur checkIfUserExists(String username, String email) {
+        Utilisateur lUtilisateur = new Utilisateur();
+
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pstmt = cnx.prepareStatement(CHECK_USER_EXISTENCE);
+            pstmt.setString(1, username);
+            pstmt.setString(2, email);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                lUtilisateur.setNo_utilisateur(rs.getInt("no_utilisateur"));
+                lUtilisateur.setPseudo(rs.getString("pseudo"));
+                lUtilisateur.setNom(rs.getString("nom"));
+                lUtilisateur.setPrenom(rs.getString("prenom"));
+                lUtilisateur.setEmail(rs.getString("email"));
+                lUtilisateur.setEmail(rs.getString("mot_de_passe"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lUtilisateur;
+    }
+
+    @Override
+    public void resetPwd(int idUser, String newPwd) {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pstmt = cnx.prepareStatement(RESET_PASSWORD);
+            pstmt.setString(1, newPwd);
+            pstmt.setInt(2, idUser);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

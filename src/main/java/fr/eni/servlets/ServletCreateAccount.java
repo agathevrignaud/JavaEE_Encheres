@@ -20,7 +20,7 @@ public class ServletCreateAccount extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd;
+        UtilisateurManager utilisateurManager = new UtilisateurManager();
 
         String pseudo = request.getParameter("pseudo");
         String nom = request.getParameter("name");
@@ -33,17 +33,16 @@ public class ServletCreateAccount extends HttpServlet {
         String motDePasse = request.getParameter("password");
         String motDePasseConfirmation = request.getParameter("confirmPwd");
 
-        UtilisateurManager utilisateurManager = new UtilisateurManager();
         try {
             utilisateurManager.addNewUser(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, motDePasseConfirmation);
+            request.setAttribute("info", String.format("L'inscription de l'utilisateur %s s'est bien effectué", pseudo));
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "Une erreur s'est produite. Merci de revoir vos informations saisies");
             doGet(request, response);
         }
 
-        rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
-        request.setAttribute("info", String.format("L'inscription de l'utilisateur %s s'est bien effectué", pseudo));
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
         rd.forward(request, response);
     }
 }
