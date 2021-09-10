@@ -18,7 +18,7 @@
                 <label for="password">Mot de passe :</label>
                 <input type="password" name="password" id="password" value="${fn:length(cPwd) > 0 ? cPwd : ""}" required><br/>
 
-                <button type="submit">Connexion</button>
+                <button type="submit" name="btnPressed" value="login">Connexion</button>
 
                 <label for="rememberMe">
                     <input type="checkbox" id="rememberMe" name="rememberMe" checked="${cRemember ? "checked" : "" }">
@@ -28,7 +28,7 @@
                     Mot de passe oublié
                 </a><br/>
 
-                <button name="createAccount" type="submit" formaction="signup" formmethod="get">Créer un compte</button><br/>
+                <button type="submit" name="btnPressed" value="createAccount"> Créer un compte</button><br/>
                 <c:if test="${authenticationError != null && authenticationError}">
                     <c:out value="ERREUR: Identifiants incorrects. Veuillez réessayer avec les bonnes informations."></c:out>
                 </c:if>

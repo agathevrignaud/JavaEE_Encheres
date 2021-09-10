@@ -14,7 +14,7 @@ import java.util.List;
 public class UtilisateurDAOJdbc implements UtilisateurDAO {
     private static final String SELECT_ALL_USERS = "SELECT * FROM UTILISATEURS U";
     private static final String SELECT_USER_BY_ID = "SELECT * FROM UTILISATEURS WHERE NO_UTILISATEUR=?";
-    private static final String INSERT_USER = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String INSERT_USER = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?)";
     private static final String UPDATE_USER_DATA = "UPDATE UTILISATEURS SET " +
             "pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? " +
             "WHERE no_utilisateur=?";
@@ -85,32 +85,33 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
     }
 
     @Override
-    public void createUser(Utilisateur lUtilisateur) throws DALException {
+    public Utilisateur createUser(Utilisateur lUtilisateur) throws DALException {
         if (lUtilisateur == null) {
             throw new NullPointerException("lUtilisateur shoudln't be null");
         }
-
         try (Connection cnx = ConnectionProvider.getConnection()) {
-            PreparedStatement pStmt = cnx.prepareStatement(INSERT_USER);
-            pStmt.setString(1, lUtilisateur.getPseudo());
-            pStmt.setString(2, lUtilisateur.getNom());
-            pStmt.setString(3, lUtilisateur.getPrenom());
-            pStmt.setString(4, lUtilisateur.getEmail());
-            pStmt.setString(5, lUtilisateur.getTelephone());
-            pStmt.setString(6, lUtilisateur.getRue());
-            pStmt.setString(7, lUtilisateur.getCodePostal());
-            pStmt.setString(8, lUtilisateur.getVille());
-            pStmt.setString(9, lUtilisateur.getMotDePasse());
-            pStmt.setInt(10, 0);
-            pStmt.setBoolean(11, false);
-            pStmt.setBoolean(12, true);
-            pStmt.executeUpdate();
-
-            pStmt.close();
+            PreparedStatement pstmt = cnx.prepareStatement(INSERT_USER, PreparedStatement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, lUtilisateur.getPseudo());
+            pstmt.setString(2, lUtilisateur.getNom());
+            pstmt.setString(3, lUtilisateur.getPrenom());
+            pstmt.setString(4, lUtilisateur.getEmail());
+            pstmt.setString(5, lUtilisateur.getTelephone());
+            pstmt.setString(6, lUtilisateur.getRue());
+            pstmt.setString(7, lUtilisateur.getCodePostal());
+            pstmt.setString(8, lUtilisateur.getVille());
+            pstmt.setString(9, lUtilisateur.getMotDePasse());
+            pstmt.executeUpdate();
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+             lUtilisateur.setNo_utilisateur(rs.getInt("no_utilisateur"));
+            }
+            rs.close();
+            pstmt.close();
         } catch (Exception e) {
             e.printStackTrace();
             throw new DALException(e.getMessage(), e.getCause());
         }
+        return lUtilisateur;
     }
 
     @Override

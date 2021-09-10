@@ -23,13 +23,13 @@ public class UtilisateurManager {
         return utilisateurDAO.selectById(userId);
     }
 
-    public void addNewUser(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws BLLException {
-
+    public Utilisateur addNewUser(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws BLLException {
+        Utilisateur lUtilisateur = new Utilisateur();
         try {
             isUserInfoValid(pseudo, email, motDePasse, motDePasseConfirmation);
-            Utilisateur lUtilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
+            lUtilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
             try {
-                utilisateurDAO.createUser(lUtilisateur);
+                lUtilisateur = utilisateurDAO.createUser(lUtilisateur);
             } catch (DALException dalEx) {
                 dalEx.printStackTrace();
             }
@@ -37,6 +37,7 @@ public class UtilisateurManager {
         } catch (BLLException bllEx) {
             throw new BLLException("Erreur lors de la création de l'utilisateur", bllEx);
         }
+        return lUtilisateur;
     }
 
     public void isUserInfoValid(String pseudo, String email, String mdp, String mdpConf) throws BLLException {
@@ -104,15 +105,17 @@ public class UtilisateurManager {
         utilisateurDAO.deleteUser(idUser);
     }
 
-    public boolean authenticateUser(String login, String mdp) {
-        boolean isAuthenticated = false;
+    public Utilisateur authenticateUser(String login, String mdp) {
+        Utilisateur lUtilisateur = new Utilisateur();
         List<Utilisateur> lesUtilisateurs = utilisateurDAO.selectAll();
         for (Utilisateur unUtilisateur : lesUtilisateurs) {
             if (unUtilisateur.getPseudo().equals(login) || unUtilisateur.getEmail().equals(login)) {
-                isAuthenticated = (unUtilisateur.getMotDePasse().equals(mdp));
+                if (unUtilisateur.getMotDePasse().equals(mdp)) {
+                    lUtilisateur = unUtilisateur;
+                };
             }
         }
-        return isAuthenticated;
+        return lUtilisateur;
     }
 
     public Utilisateur checkIfUserExists(String username, String email) {

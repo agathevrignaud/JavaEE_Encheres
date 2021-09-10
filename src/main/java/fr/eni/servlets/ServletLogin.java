@@ -1,6 +1,7 @@
 package fr.eni.servlets;
 
 import fr.eni.bll.UtilisateurManager;
+import fr.eni.bo.Utilisateur;
 
 import javax.security.sasl.AuthenticationException;
 import javax.servlet.*;
@@ -39,18 +40,12 @@ public class ServletLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd;
-        boolean isAuthenticated = utilisateurManager.authenticateUser(
-                request.getParameter("username"),
-                request.getParameter("password")
-        );
-
-        System.out.println(request.getParameter("rememberMe"));
 
         if (request.getParameter("rememberMe") != null) {
             Cookie cUserName = new Cookie("cookie_user", request.getParameter("username").trim());
             Cookie cPassword = new Cookie("cookie_pwd", request.getParameter("password").trim());
             Cookie cRemember = new Cookie("cookie_rememberMe", request.getParameter("rememberMe").trim());
-            cUserName.setMaxAge(60 * 60 * 24 * 15); // 15 days
+            cUserName.setMaxAge(60 * 60 * 24 * 15); // 15 jours
             cPassword.setMaxAge(60 * 60 * 24 * 15);
             cRemember.setMaxAge(60 * 60 * 24 * 15);
             response.addCookie(cUserName);
@@ -58,16 +53,35 @@ public class ServletLogin extends HttpServlet {
             response.addCookie(cRemember);
         }
 
-        if (isAuthenticated) {
-            request.getSession().setAttribute("isUserLoggedIn", true);
+        switch (request.getParameter("btnPressed")) {
+            case "createAccount":
+                rd = request.getRequestDispatcher("/WEB-INF/createAccount.jsp");
+                rd.forward(request, response);
+                break;
+            case "login":
 
-            //  TODO : set un objet utilisateur avec id/pseudo/nom/prénom
+                Utilisateur lUtilisateur = utilisateurManager.authenticateUser(
+                        request.getParameter("username"),
+                        request.getParameter("password")
+                );
 
-            rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
-            rd.forward(request, response);
-        } else {
-            request.getSession().setAttribute("authenticationError", true);
-            doGet(request, response);
+                if (lUtilisateur != null) {
+                    HttpSession laSession = request.getSession();
+                    laSession.setAttribute("isUserLoggedIn", true );
+                    laSession.setAttribute("userInfo", lUtilisateur);
+                    rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
+                    rd.forward(request, response);
+                } else {
+                    request.getSession().setAttribute("authenticationError", true);
+                    doGet(request, response);
+                }
+                break;
         }
     }
+
+
+
+
+
+
 }
