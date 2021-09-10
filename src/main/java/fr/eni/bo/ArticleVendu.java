@@ -15,9 +15,16 @@ public class ArticleVendu {
     private Categorie laCategorie;
     private int no_utilisateur;
 
-    public ArticleVendu() {}
+    public ArticleVendu() {
+    }
 
-    public int getNo_article() { return no_article; }
+    public ArticleVendu(int no_article, String nom_article, String description, java.sql.Date debut_encheres, java.sql.Date fin_encheres, int prix_initial, int prix_vente, String etat_vente, int no_utilisateur, int no_categorie) {
+    }
+
+    public int getNo_article() {
+        return no_article;
+    }
+
     public void setNo_article(int no_article) {
         this.no_article = no_article;
     }
@@ -25,6 +32,7 @@ public class ArticleVendu {
     public String getNomArticle() {
         return nomArticle;
     }
+
     public void setNomArticle(String nomArticle) {
         this.nomArticle = nomArticle;
     }
@@ -32,6 +40,7 @@ public class ArticleVendu {
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -39,6 +48,7 @@ public class ArticleVendu {
     public Date getDateDebutEnchere() {
         return dateDebutEnchere;
     }
+
     public void setDateDebutEnchere(Date dateDebutEnchere) {
         this.dateDebutEnchere = dateDebutEnchere;
     }
@@ -46,31 +56,56 @@ public class ArticleVendu {
     public Date getDateFinEnchere() {
         return dateFinEnchere;
     }
+
     public void setDateFinEnchere(Date dateFinEnchere) {
         this.dateFinEnchere = dateFinEnchere;
     }
 
-    public int getMiseAPrix() { return miseAPrix; }
-    public void setMiseAPrix(int miseAPrix) { this.miseAPrix = miseAPrix;}
+    public int getMiseAPrix() {
+        return miseAPrix;
+    }
+
+    public void setMiseAPrix(int miseAPrix) {
+        this.miseAPrix = miseAPrix;
+    }
 
     public int getPrixVente() {
         return prixVente;
     }
+
     public void setPrixVente(int prixVente) {
         this.prixVente = prixVente;
     }
 
-    public String getEtatVente() { return etatVente; }
-    public void setEtatVente(String etatVente) { this.etatVente = etatVente;}
+    public String getEtatVente() {
+        return etatVente;
+    }
 
-    public Retrait getLieuRetrait() { return lieuRetrait; }
+    public void setEtatVente(String etatVente) {
+        this.etatVente = etatVente;
+    }
+
+    public Retrait getLieuRetrait() {
+        return lieuRetrait;
+    }
+
     public void setLieuRetrait(Retrait lieuRetrait) {
         this.lieuRetrait = lieuRetrait;
     }
 
-    public Categorie getLaCategorie() { return laCategorie; }
-    public void setLaCategorie(Categorie laCategorie) { this.laCategorie = laCategorie; }
+    public Categorie getLaCategorie() {
+        return laCategorie;
+    }
 
-    public int getNo_utilisateur() { return no_utilisateur;}
-    public void setNo_utilisateur(int no_utilisateur) { this.no_utilisateur = no_utilisateur;}
+    public void setLaCategorie(Categorie laCategorie) {
+        this.laCategorie = laCategorie;
+    }
+
+    public int getNo_utilisateur() {
+        return no_utilisateur;
+    }
+
+    public void setNo_utilisateur(int no_utilisateur) {
+        this.no_utilisateur = no_utilisateur;
+    }
 }

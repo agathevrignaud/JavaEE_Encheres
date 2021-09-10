@@ -15,7 +15,12 @@ public class ArticleVenduManager {
         return articleVenduDAO.selectAll();
     }
 
-    public void deleteArticle() {}
+    public void deleteArticle(int id) {}
+
+    public List<ArticleVendu> selectById(int id){
+
+        return null;
+    }
 
     public void addNewArticle() {
 
