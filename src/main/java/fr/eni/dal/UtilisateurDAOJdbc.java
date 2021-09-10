@@ -34,6 +34,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             while (rs.next()) {
                 Utilisateur lUtilisateur = new Utilisateur();
 
+                lUtilisateur.setNo_utilisateur(rs.getInt("no_utilisateur"));
                 lUtilisateur.setPseudo(rs.getString("pseudo"));
                 lUtilisateur.setNom(rs.getString("nom"));
                 lUtilisateur.setPrenom(rs.getString("prenom"));

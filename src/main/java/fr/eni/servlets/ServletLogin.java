@@ -40,6 +40,7 @@ public class ServletLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd;
+        Utilisateur lUtilisateur;
 
         if (request.getParameter("rememberMe") != null) {
             Cookie cUserName = new Cookie("cookie_user", request.getParameter("username").trim());
@@ -59,7 +60,7 @@ public class ServletLogin extends HttpServlet {
                 rd.forward(request, response);
                 break;
             case "login":
-                Utilisateur lUtilisateur = utilisateurManager.authenticateUser(
+                lUtilisateur = utilisateurManager.authenticateUser(
                         request.getParameter("username"),
                         request.getParameter("password")
                 );

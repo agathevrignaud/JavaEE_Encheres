@@ -106,7 +106,7 @@ public class UtilisateurManager {
     }
 
     public Utilisateur authenticateUser(String login, String mdp) {
-        Utilisateur lUtilisateur = new Utilisateur();
+        Utilisateur lUtilisateur = null ;
         List<Utilisateur> lesUtilisateurs = utilisateurDAO.selectAll();
         for (Utilisateur unUtilisateur : lesUtilisateurs) {
             if (unUtilisateur.getPseudo().equals(login) || unUtilisateur.getEmail().equals(login)) {

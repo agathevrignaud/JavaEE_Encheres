@@ -20,11 +20,11 @@
                         </c:if>
                 </c:when>
                 <c:otherwise>
-                    <li class="nav-item justify-content-end">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/signup">S'inscrire</a>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/signup">S'inscrire</a>
                     </li>
-                    <li class="nav-item justify-content-end">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/login">Se connecter</a>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/login">Se connecter</a>
                     </li>
                 </c:otherwise>
             </c:choose>
