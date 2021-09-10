@@ -9,6 +9,7 @@
 </head>
 <body>
 
+
 <ul class="nav ">
     <li class="nav-item">
         <a class="nav-link disabled">ENI Enchères</a>
@@ -29,7 +30,7 @@
                 <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Deconnexion</a>
             </li>
         </c:when>
-        <c:otherwise >
+        <c:otherwise>
             <li class="nav-item justify-content-end">
                 <a class="nav-link" href="signup">S'inscrire</a>
             </li>
@@ -38,10 +39,6 @@
             </li>
         </c:otherwise>
     </c:choose>
-
-
-
-
 
 </ul>
 <div class="d-flex justify-content-center">
@@ -66,6 +63,7 @@
 </form>
 <br>
 <c:if test="${sessionScope.userIsAuthenticated}">
+
     <card>
         <form action="">
             <div class="form-check">

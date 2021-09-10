@@ -13,6 +13,8 @@ import java.io.IOException;
 
 @WebServlet(value = "/login")
 public class ServletLogin extends HttpServlet {
+
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/login.jsp");
@@ -28,13 +30,12 @@ public class ServletLogin extends HttpServlet {
         boolean isAuthenticated = utilisateurManager.authenticateUser(pseudo, password);
 
         if (isAuthenticated) {
-            rd = request.getRequestDispatcher("");
 
             HttpSession session = request.getSession(true);
 
             session.setAttribute("userIsAuthenticated", true);
             session.setAttribute("authenticationError", false);
-            rd.forward(request, response);
+            response.sendRedirect( request.getContextPath());
 
         } else {
             request.getSession().setAttribute("authenticationError", true);
