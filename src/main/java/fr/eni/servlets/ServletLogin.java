@@ -22,15 +22,17 @@ public class ServletLogin extends HttpServlet {
         String password = request.getParameter("password");
 
         UtilisateurManager utilisateurManager = new UtilisateurManager();
+        RequestDispatcher rd;
         boolean isAuthenticated = utilisateurManager.authenticateUser(pseudo, password);
         if(isAuthenticated){
-            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vendreObjet.jsp");
-            System.out.println("User is connected");
+            rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
             request.getSession().setAttribute("userIsAuthenticated", true);
+            request.getSession().setAttribute("authenticationError", false);
+
             rd.forward(request, response);
         } else {
-            request.getSession().setAttribute("userIsAuthenticated", false);
-            System.out.println("User is not connected");
+            request.getSession().setAttribute("authenticationError", true);
+            doGet(request, response);
         }
     }
 }
