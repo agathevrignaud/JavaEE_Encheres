@@ -7,6 +7,9 @@
     </head>
     <body>
         <%@ include file="/WEB-INF/navigation/header.jsp" %>
+        <c:if test="${not empty listeErreurs}">
+            <!-- TODO : Afficher les erreurs liées au formulaire ici -->
+        </c:if>
         <form action="${pageContext.request.contextPath}/signup" method="post">
             <fieldset>
                 <legend>Mon profil</legend>
