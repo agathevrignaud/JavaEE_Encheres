@@ -16,7 +16,7 @@ public class ServletDisplayProfile extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Utilisateur lUtilisateur = utilisateurManager.getUserById(2);
+        Utilisateur lUtilisateur = utilisateurManager.getUserById(Integer.parseInt(request.getParameter("idUser")));
         request.setAttribute("userInfo", lUtilisateur);
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/displayProfile.jsp");
