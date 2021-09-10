@@ -13,12 +13,12 @@
             </fieldset>
             <button type="submit">Valider</button>
             <c:choose>
-                <c:when test="${isUserInDb}">
-                    <c:out value="Un lien pour réinitialiser le mot de passe vous a été renvoyé."></c:out>
+                <c:when test="${isUserInDb != null && isUserInDb}">
+                    <c:out value="Un lien pour réinitialiser le mot de passe vous a été envoyé."></c:out>
                 </c:when>
-                <c:otherwise>
+                <c:when test="${isUserInDb != null && !isUserInDb}">
                     <c:out value="Erreur lors de la saisie, veuillez recommencer."></c:out>
-                </c:otherwise>
+                </c:when>
             </c:choose>
         </form>
     </body>
