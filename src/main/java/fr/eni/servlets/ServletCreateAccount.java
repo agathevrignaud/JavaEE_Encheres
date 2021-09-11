@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @WebServlet(value = "/signup")
 public class ServletCreateAccount extends HttpServlet {
@@ -24,10 +27,13 @@ public class ServletCreateAccount extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Integer> listeCodesErreur = new ArrayList<>();
+
         switch (request.getParameter("btnPressed")) {
             case "createAccount":
                 //  TODO : compléter des fonctions de vérif avec code d'erreur personnalisé
-                String pseudo = request.getParameter("username");
+                String pseudo = checkUsername(request, listeCodesErreur);
+                System.out.print(listeCodesErreur.size());
                 String nom = request.getParameter("surname");
                 String prenom = request.getParameter("firstname");
                 String email = request.getParameter("email");
@@ -37,22 +43,39 @@ public class ServletCreateAccount extends HttpServlet {
                 String ville = request.getParameter("city");
                 String motDePasse = request.getParameter("password");
                 String motDePasseConfirmation = request.getParameter("confirmPwd");
-                try {
-                    Utilisateur lUtilisateur = utilisateurManager.addNewUser(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, motDePasseConfirmation);
-                    request.setAttribute("info", String.format("L'inscription de l'utilisateur %s s'est bien effectuée", pseudo));
-                    HttpSession laSession = request.getSession();
-                    laSession.setAttribute("isUserLoggedIn", true );
-                    laSession.setAttribute("userInfo", lUtilisateur);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    request.setAttribute("error", "Une erreur s'est produite. Merci de revoir vos informations saisies");
+
+                if (listeCodesErreur.size()>0) {
+                    Collections.sort(listeCodesErreur);
+                    request.setAttribute("listeCodesErreur",listeCodesErreur);
                     doGet(request, response);
+                } else {
+                    try {
+                        Utilisateur lUtilisateur = utilisateurManager.addNewUser(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, motDePasseConfirmation);
+                        HttpSession laSession = request.getSession();
+                        laSession.setAttribute("isUserLoggedIn", true );
+                        laSession.setAttribute("userInfo", lUtilisateur);
+                        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
+                        rd.forward(request, response);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        doGet(request, response);
+                    }
                 }
                 break;
             case "cancelCreateAccount":
                 break;
         }
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
-        rd.forward(request, response);
+
+
+    }
+
+
+    private String checkUsername(HttpServletRequest request, List<Integer> listeCodesErreur) {
+        String username;
+        username = request.getParameter("username");
+        if(username == null || username.trim().equals("")) {
+            listeCodesErreur.add(CodesResultatServlets.USERNAME_REQUIRED);
+        }
+        return username;
     }
 }

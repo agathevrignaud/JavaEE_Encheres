@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="fr.eni.messages.LecteurMessage" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -7,8 +8,13 @@
     </head>
     <body>
         <%@ include file="/WEB-INF/navigation/header.jsp" %>
-        <c:if test="${not empty listeErreurs}">
-            <!-- TODO : Afficher les erreurs liées au formulaire ici -->
+        <c:if test="${!empty listeCodesErreur}">
+            <p>Erreur lors de la création du compte !gg</p>
+            <ul>
+                <c:forEach var="code" items="${listeCodesErreur}">
+                    <li>${LecteurMessage.getMessageErreur(code)}</li>
+                </c:forEach>
+            </ul>
         </c:if>
         <form action="${pageContext.request.contextPath}/signup" method="post">
             <fieldset>
@@ -39,9 +45,6 @@
                 <button type="submit" name="btnPressed" value="cancelCreateAccount">Annuler</button>
 
                 <br/>
-                <c:if test="${not empty error}">
-                    <p>Erreur: <c:out value="${error}"></c:out></p>
-                </c:if>
             </fieldset>
         </form>
     </body>

@@ -5,6 +5,7 @@ package fr.eni.servlets;
     // Error Codes for Accounts/Users
         //  Error Codes for Account Creation
         public static final int CREATE_ACCOUNT_ERROR=30000;
+        public static final int CREATE_ACCOUNT_SUCCESS=30001;
         public static final int USERNAME_REQUIRED=30003;
         public static final int SURNAME_REQUIRED=30004;
         public static final int FIRSTNAME_REQUIRED=30005;
@@ -20,7 +21,16 @@ package fr.eni.servlets;
         public static final int PWD_PWD_CONFIRMED_NOT_IDENTICAL=30014;
 
         // Error Codes for Login
-        // Error Codes for Profile Edition
+        public static final int LOGIN_ERROR = 30100;
+        public static final int LOGIN_SUCCESS = 30101;
+
+        // Error Codes for Forgotten Password
+        public static final int F_PWD_ERROR = 30200;
+        public static final int F_PWD_SUCCESS = 30301;
+
+        // Error Codes for Profile Edition (re-using some account creation codes)
+        public static final int PROFILE_EDIT_ERROR = 30300;
+        public static final int PROFILE_EDIT_SUCCESS = 30301;
 
     // Error Codes for Auctions
         // Error Codes for Auction Creation
