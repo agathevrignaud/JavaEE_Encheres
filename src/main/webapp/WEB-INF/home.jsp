@@ -9,7 +9,6 @@
 </head>
 <body>
 
-
 <ul class="nav ">
     <li class="nav-item">
         <a class="nav-link disabled">ENI Enchères</a>

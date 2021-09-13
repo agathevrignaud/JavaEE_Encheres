@@ -14,7 +14,6 @@ import java.io.IOException;
 @WebServlet(value = "/login")
 public class ServletLogin extends HttpServlet {
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/login.jsp");
@@ -35,7 +34,8 @@ public class ServletLogin extends HttpServlet {
 
             session.setAttribute("userIsAuthenticated", true);
             session.setAttribute("authenticationError", false);
-            response.sendRedirect( request.getContextPath());
+            session.setMaxInactiveInterval(5 * 60);
+            response.sendRedirect(request.getContextPath());
 
         } else {
             request.getSession().setAttribute("authenticationError", true);

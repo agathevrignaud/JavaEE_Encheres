@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: rsaintalme2021
@@ -7,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%
-    if(request.getSession(false).isNew()){
-        response.sendRedirect(request.getContextPath());
+    if (request.getSession(false) != null && request.getSession(false).getAttribute("userIsAuthenticated") == null) {
+        response.sendRedirect(request.getContextPath() + "/");
     }
 %>
