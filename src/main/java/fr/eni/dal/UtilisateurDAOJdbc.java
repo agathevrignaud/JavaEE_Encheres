@@ -1,5 +1,6 @@
 package fr.eni.dal;
 
+import fr.eni.bll.BLLException;
 import fr.eni.bo.Utilisateur;
 
 import java.sql.Connection;
@@ -25,7 +26,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
     private static final String RESET_PASSWORD = "UPDATE UTILISATEURS SET mot_de_passe=? WHERE no_utilisateur=?";
 
     @Override
-    public List<Utilisateur> selectAll() throws DALException {
+    public List<Utilisateur> selectAll() throws BLLException {
         List<Utilisateur> lesUtilisateurs = new ArrayList<>();
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_USERS);
@@ -47,18 +48,17 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
                 lUtilisateur.setCompteActif(rs.getBoolean("compteActif"));
                 lesUtilisateurs.add(lUtilisateur);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            DALException dalException = new DALException();
-            dalException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_ALL);
-            throw dalException;
+            BLLException bllException = new BLLException();
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_ALL);
+            throw bllException;
         }
-
         return lesUtilisateurs;
     }
 
     @Override
-    public Utilisateur selectById(int idUser) throws DALException {
+    public Utilisateur selectById(int idUser) throws BLLException {
         Utilisateur lUtilisateur = new Utilisateur();
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_USER_BY_ID);
@@ -79,17 +79,17 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
                 lUtilisateur.setAdministrateur(rs.getBoolean("administrateur"));
                 lUtilisateur.setCompteActif(rs.getBoolean("compteActif"));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            DALException dalException = new DALException();
-            dalException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_BY_ID);
-            throw dalException;
+            BLLException BLLException = new BLLException();
+            BLLException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_BY_ID);
+            throw BLLException;
         }
         return lUtilisateur;
     }
 
     @Override
-    public Utilisateur createUser(Utilisateur lUtilisateur) throws DALException {
+    public Utilisateur createUser(Utilisateur lUtilisateur) throws BLLException {
         if (lUtilisateur == null) {
             //
         }
@@ -111,17 +111,17 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             }
             rs.close();
             pstmt.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            DALException dalException = new DALException();
-            dalException.ajouterErreur(CodesResultatDAL.ERROR_CREATE_USER);
-            throw dalException;
+            BLLException bllException = new BLLException();
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_CREATE_USER);
+            throw bllException;
         }
         return lUtilisateur;
     }
 
     @Override
-    public void updateUserData(Utilisateur lUtilisateur) throws DALException {
+    public void updateUserData(Utilisateur lUtilisateur) throws BLLException {
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(UPDATE_USER_DATA);
 
@@ -139,14 +139,14 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            DALException dalException = new DALException();
-            dalException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_USER_DATA);
-            throw dalException;
+            BLLException bllException = new BLLException();
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_USER_DATA);
+            throw bllException;
         }
     }
 
     @Override
-    public void updateUserAccountStatus(int idUser) throws DALException {
+    public void updateUserAccountStatus(int idUser) throws BLLException {
         Utilisateur lUtilisateur = this.selectById(idUser);
 
         try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -156,14 +156,14 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            DALException dalException = new DALException();
-            dalException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_USER_ACCOUNT_STATUS);
-            throw dalException;
+            BLLException BLLException = new BLLException();
+            BLLException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_USER_ACCOUNT_STATUS);
+            throw BLLException;
         }
     }
 
     @Override
-    public void updateUserCredit(int newCredit, int idUser) throws DALException {
+    public void updateUserCredit(int newCredit, int idUser) throws BLLException {
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(UPDATE_USER_CREDIT);
             pstmt.setInt(1, newCredit);
@@ -171,28 +171,28 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            DALException dalException = new DALException();
-            dalException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_USER_CREDIT);
-            throw dalException;
+            BLLException bllException = new BLLException();
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_USER_CREDIT);
+            throw bllException;
         }
     }
 
     @Override
-    public void deleteUser(int idUser) throws DALException {
+    public void deleteUser(int idUser) throws BLLException {
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(DELETE_USER);
             pstmt.setInt(1, idUser);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            DALException dalException = new DALException();
-            dalException.ajouterErreur(CodesResultatDAL.ERROR_DELETE_USER);
-            throw dalException;
+            BLLException bllException = new BLLException();
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_DELETE_USER);
+            throw bllException;
         }
     }
 
     @Override
-    public Utilisateur checkIfUserExists(String username, String email) throws DALException {
+    public Utilisateur checkIfUserExists(String username, String email) throws BLLException {
         Utilisateur lUtilisateur = new Utilisateur();
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(CHECK_USER_EXISTENCE);
@@ -209,15 +209,15 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            DALException dalException = new DALException();
-            dalException.ajouterErreur(CodesResultatDAL.ERROR_CHECK_USER_EXISTENCE);
-            throw dalException;
+            BLLException bllException = new BLLException();
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_CHECK_USER_EXISTENCE);
+            throw bllException;
         }
         return lUtilisateur;
     }
 
     @Override
-    public void resetPwd(int idUser, String newPwd) throws DALException {
+    public void resetPwd(int idUser, String newPwd) throws BLLException {
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(RESET_PASSWORD);
             pstmt.setString(1, newPwd);
@@ -225,9 +225,9 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            DALException dalException = new DALException();
-            dalException.ajouterErreur(CodesResultatDAL.ERROR_RESET_PWD);
-            throw dalException;
+            BLLException bllException = new BLLException();
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_RESET_PWD);
+            throw bllException;
         }
     }
 }

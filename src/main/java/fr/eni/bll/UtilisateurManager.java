@@ -14,7 +14,7 @@ public class UtilisateurManager {
         utilisateurDAO = DAOFactory.getUtilisateurDAO();
     }
 
-    public List<Utilisateur> getAllUsers() {
+    public List<Utilisateur> getAllUsers() throws BLLException {
         return utilisateurDAO.selectAll();
     }
 
@@ -41,7 +41,7 @@ public class UtilisateurManager {
         isPasswordValid(mdp, mdpConf, bllException);
     }
 
-    public void isUsernameValid(String pseudo, BLLException bllException) {
+    public void isUsernameValid(String pseudo, BLLException bllException) throws BLLException {
         List<Utilisateur> lesUtilisateurs = utilisateurDAO.selectAll();
         String regexPatternPseudo = "^[a-zA-Z0-9]*$";
         if (pseudo.length() > 0 || pseudo.trim().equals("")) {
@@ -58,7 +58,7 @@ public class UtilisateurManager {
         }
     }
 
-    public void isEmailValid(String email, BLLException bllException) {
+    public void isEmailValid(String email, BLLException bllException) throws BLLException {
         List<Utilisateur> lesUtilisateurs = utilisateurDAO.selectAll();
         if (email.length() > 0 || email.trim().equals("")) {
             for (Utilisateur unUtilisateur : lesUtilisateurs) {
@@ -103,7 +103,7 @@ public class UtilisateurManager {
         }
     }
 
-    public void updateUserAccountStatus(int idUser) {
+    public void updateUserAccountStatus(int idUser) throws BLLException {
         utilisateurDAO.updateUserAccountStatus(idUser);
     }
 
@@ -115,11 +115,11 @@ public class UtilisateurManager {
         }
     }
 
-    public void deleteUser(int idUser) {
+    public void deleteUser(int idUser) throws BLLException {
         utilisateurDAO.deleteUser(idUser);
     }
 
-    public Utilisateur authenticateUser(String login, String mdp) {
+    public Utilisateur authenticateUser(String login, String mdp) throws BLLException {
         Utilisateur lUtilisateur = null ;
         List<Utilisateur> lesUtilisateurs = utilisateurDAO.selectAll();
         for (Utilisateur unUtilisateur : lesUtilisateurs) {
@@ -132,11 +132,11 @@ public class UtilisateurManager {
         return lUtilisateur;
     }
 
-    public Utilisateur checkIfUserExists(String username, String email) {
+    public Utilisateur checkIfUserExists(String username, String email) throws BLLException {
         return utilisateurDAO.checkIfUserExists(username, email);
     }
 
-    public void resetPassword(int userId) {
+    public void resetPassword(int userId) throws BLLException {
         String regexPattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,12}$";
         //   TODO : trouver un moyen de générer un nouveau mdp selon le pattern regex
         utilisateurDAO.resetPwd(userId, "Testing456!");
