@@ -9,11 +9,13 @@ public class Enchere {
     private LocalDateTime dateEnchere;
     private int montantEnchere;
 
-    public Enchere() {}
+    public Enchere() {
+    }
 
     public int getNo_utilisateur() {
         return no_utilisateur;
     }
+
     public void setNo_utilisateur(int no_utilisateur) {
         this.no_utilisateur = no_utilisateur;
     }
@@ -21,6 +23,7 @@ public class Enchere {
     public int getNo_article() {
         return no_article;
     }
+
     public void setNo_article(int no_article) {
         this.no_article = no_article;
     }
@@ -28,6 +31,7 @@ public class Enchere {
     public LocalDateTime getDateEnchere() {
         return dateEnchere;
     }
+
     public void setDateEnchere(LocalDateTime dateEnchere) {
         this.dateEnchere = dateEnchere;
     }
@@ -35,7 +39,18 @@ public class Enchere {
     public int getMontantEnchere() {
         return montantEnchere;
     }
+
     public void setMontantEnchere(int montantEnchere) {
         this.montantEnchere = montantEnchere;
+    }
+
+    @Override
+    public String toString() {
+        return "Enchere{" +
+                "no_utilisateur=" + no_utilisateur +
+                ", no_article=" + no_article +
+                ", dateEnchere=" + dateEnchere +
+                ", montantEnchere=" + montantEnchere +
+                '}';
     }
 }
