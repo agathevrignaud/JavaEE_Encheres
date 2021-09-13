@@ -36,75 +36,61 @@ public class UtilisateurManager {
         return lUtilisateur;
     }
 
-    public boolean isUserInfoValid(String pseudo, String email, String mdp, String mdpConf, BLLException bllException) throws BLLException {
-        return isUsernameValid(pseudo, bllException) && isEmailValid(email, bllException) && isPasswordValid(mdp, mdpConf, bllException);
+    public void isUserInfoValid(String pseudo, String email, String mdp, String mdpConf, BLLException bllException) throws BLLException {
+        isUsernameValid(pseudo, bllException);
+        isEmailValid(email, bllException);
+        isPasswordValid(mdp, mdpConf, bllException);
     }
 
-    public boolean isUsernameValid(String pseudo, BLLException bllException) throws BLLException {
+    public void isUsernameValid(String pseudo, BLLException bllException) {
         List<Utilisateur> lesUtilisateurs = utilisateurDAO.selectAll();
         String regexPatternPseudo = "^[a-zA-Z0-9]*$";
-        boolean isValid = true;
         if (pseudo.length() > 0 || pseudo.trim().equals("")) {
             if (!pseudo.matches(regexPatternPseudo)) {
-                isValid = false;
                 bllException.ajouterErreur(CodesResultatBLL.USERNAME_INVALID);
             }
             for (Utilisateur unUtilisateur : lesUtilisateurs) {
                 if (unUtilisateur.getPseudo().equals(pseudo)) {
-                    isValid = false;
                     bllException.ajouterErreur(CodesResultatBLL.USERNAME_ALREADY_USED);
                 }
             }
         } else {
-            isValid = false;
             bllException.ajouterErreur(CodesResultatBLL.USERNAME_REQUIRED);
         }
-        return isValid;
     }
 
-    public boolean isEmailValid(String email, BLLException bllException) throws BLLException {
+    public void isEmailValid(String email, BLLException bllException) {
         List<Utilisateur> lesUtilisateurs = utilisateurDAO.selectAll();
-        boolean isValid = true;
         if (email.length() > 0 || email.trim().equals("")) {
             for (Utilisateur unUtilisateur : lesUtilisateurs) {
                 if (unUtilisateur.getEmail().equals(email)) {
-                    isValid = false;
                     bllException.ajouterErreur(CodesResultatBLL.EMAIL_ALREADY_USED);
                 }
             }
         } else {
-            isValid = false;
             bllException.ajouterErreur(CodesResultatBLL.EMAIL_REQUIRED);
         }
-        return isValid;
     }
 
-    public boolean isPasswordValid(String mdp, String mdpConf, BLLException bllException) throws BLLException {
-        boolean isValid = true;
+    public void isPasswordValid(String mdp, String mdpConf, BLLException bllException) {
         String regexPattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,12}$";
         if (mdp.length() > 0 || mdp.trim().equals("") || mdpConf.length() > 0 || mdpConf.trim().equals("")) {
             if (mdp.length() > 0 && mdpConf.length() > 0) {
                 if (!mdp.matches(regexPattern)) {
-                    isValid = false;
                     bllException.ajouterErreur(CodesResultatBLL.PWD_NOT_VALID);
                 }
                 if (!mdp.equals(mdpConf)) {
                     bllException.ajouterErreur(CodesResultatBLL.PWD_PWD_CONFIRMED_NOT_IDENTICAL);
-                    isValid = false;
                 }
             }
         } else {
             if (mdp.length() > 0 || mdp.trim().equals("")) {
-                isValid = false;
                 bllException.ajouterErreur(CodesResultatBLL.PWD_REQUIRED);
             }
             if (mdpConf.length() > 0 || mdpConf.trim().equals("")) {
-                isValid = false;
                 bllException.ajouterErreur(CodesResultatBLL.PWD_CONFIRMED_REQUIRED);
             }
         }
-
-        return isValid ;
     }
 
     public void updateUserData(int userId, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws BLLException {
