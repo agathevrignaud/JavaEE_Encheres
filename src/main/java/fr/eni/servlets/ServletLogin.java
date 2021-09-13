@@ -12,7 +12,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(value = "/login")
+@WebServlet(
+    urlPatterns= {
+        "/login"
+    })
 public class ServletLogin extends HttpServlet {
     private static final UtilisateurManager utilisateurManager = new UtilisateurManager();
 
@@ -35,7 +38,6 @@ public class ServletLogin extends HttpServlet {
             request.setAttribute("cPwd", pwd);
             request.setAttribute("cRemember", rememberMe);
         }
-
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/login.jsp");
         rd.forward(request, response);
     }

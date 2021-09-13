@@ -14,21 +14,6 @@ import java.io.IOException;
 public class ServletEditProfile extends HttpServlet {
     private static final UtilisateurManager utilisateurManager = new UtilisateurManager();
 
-    /* TODO : Ajouter un doFilter pour que seul un utilisateur connecté dont c'est le profil accède ici
-
-    public  void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
-            throws IOException, ServletException {
-
-        vérifier si l'utilisateur qui navigue est connecté (isAuthenticated)
-        &&
-        vérifier si l'utilisateur possède le compte qu'on veut modifier ici
-        -> msg d'erreur "accès refusé : veuillez vous connecter"
-
-        filterChain.doFilter(request, response) ;
-    }
-
-    */
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int idUser = Integer.parseInt(request.getParameter("idUser"));

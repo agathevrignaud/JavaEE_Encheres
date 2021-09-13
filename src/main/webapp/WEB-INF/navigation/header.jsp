@@ -19,7 +19,7 @@
                         </li
                     </c:if>
                     <li>
-                        <a href="${pageContext.request.contextPath}/">Déconnexion</a>
+                        <a href="${pageContext.request.contextPath}/logout">Déconnexion</a>
                     </li
                 </c:when>
                 <c:otherwise>
