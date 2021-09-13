@@ -17,7 +17,7 @@ public class ServletDisplayProfile extends HttpServlet {
         HttpSession laSession = request.getSession();
         Utilisateur lUtilisateurCo = (Utilisateur) laSession.getAttribute("userInfo");
         Utilisateur lUtilisateurVu = null;
-
+        
         try {
             lUtilisateurVu = utilisateurManager.getUserById(Integer.parseInt(request.getParameter("idUser")));
             request.setAttribute("userInfo", lUtilisateurVu);

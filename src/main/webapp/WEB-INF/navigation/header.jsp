@@ -8,6 +8,7 @@
         <ul>
             <c:choose>
                 <c:when test="${isUserLoggedIn}">
+                    <%@include file="/WEB-INF/navigation/sessionTimeOut.jsp"%>
                     <li>
                         <a href="${pageContext.request.contextPath}/home">
                             <i class="fas fa-shopping-cart" title="Accueil"></i>
