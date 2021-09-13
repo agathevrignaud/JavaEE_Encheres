@@ -26,7 +26,8 @@ public abstract class CodesResultatServlets {
 
     // Codes for Forgotten Password
     public static final int F_PWD_ERROR = 30200;
-    public static final int F_PWD_SUCCESS = 30301;
+    public static final int F_PWD_SUCCESS = 30201;
+    public static final int USER_NOT_FOUND = 30202;
 
     // Codes for Profile Edition (re-using some account creation codes)
     public static final int PROFILE_EDIT_ERROR = 30300;
