@@ -20,10 +20,10 @@ public class CategorieDAOJdbc implements CategorieDAO {
     public List<Categorie> selectAll() {
         List<Categorie> lesCategories = new ArrayList<Categorie>();
 
-        try(Connection cnx = ConnectionProvider.getConnection()) {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_CATEGORIES);
             ResultSet rs = pstmt.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 Categorie laCategorie = new Categorie();
 
                 laCategorie.setNo_categorie(rs.getInt("no_categorie"));
@@ -32,7 +32,7 @@ public class CategorieDAOJdbc implements CategorieDAO {
                 lesCategories.add(laCategorie);
             }
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return lesCategories;
@@ -40,43 +40,41 @@ public class CategorieDAOJdbc implements CategorieDAO {
 
     @Override
     public void createCategory(Categorie laCategorie) {
-        if(laCategorie==null) {
+        if (laCategorie == null) {
             //throw exception
         }
 
         // TODO : Revoir l'histoire des Generated_Keys (récupérer le no_categorie après création ?)
-        try(Connection cnx = ConnectionProvider.getConnection()) {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(INSERT_NEW_CATEGORY);
-            pstmt.setString(1,laCategorie.getLibelle());
+            pstmt.setString(1, laCategorie.getLibelle());
             pstmt.executeUpdate();
             pstmt.close();
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void updateCategory(Categorie laCategorie) {
-        if(laCategorie==null) {
+        if (laCategorie == null) {
             //throw exception
         }
 
-        try(Connection cnx = ConnectionProvider.getConnection()) {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(UPDATE_CATEGORY);
-            pstmt.setString(1,laCategorie.getLibelle());
+            pstmt.setString(1, laCategorie.getLibelle());
             pstmt.setInt(2, laCategorie.getNo_categorie());
             pstmt.executeUpdate();
             pstmt.close();
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void deleteCategory(int idCategory) {
-        try(Connection cnx = ConnectionProvider.getConnection()) {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(DELETE_CATEGORY);
             pstmt.setInt(1, idCategory);
             pstmt.executeUpdate();

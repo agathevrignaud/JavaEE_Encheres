@@ -8,7 +8,9 @@ import fr.eni.dal.RetraitDAO;
 public class RetraitManager {
     private RetraitDAO retraitDAO;
 
-    public RetraitManager() { retraitDAO = DAOFactory.getRetraitDAO(); }
+    public RetraitManager() {
+        retraitDAO = DAOFactory.getRetraitDAO();
+    }
 
     public Retrait getRetraitById(int idRetrait) {
         return retraitDAO.selectById(idRetrait);

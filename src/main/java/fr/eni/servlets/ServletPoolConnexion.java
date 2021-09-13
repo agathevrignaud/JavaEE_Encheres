@@ -1,14 +1,5 @@
 package fr.eni.servlets;
 
-import fr.eni.bll.EnchereManager;
-import fr.eni.bll.UtilisateurManager;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -18,6 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Servlet implementation class ServletTestPoolConnexion
@@ -39,7 +34,7 @@ public class ServletPoolConnexion extends HttpServlet {
             //Demande une connexion. La méthode getConnection met la demande en attente tant qu'il n'y a
             //pas de connexions disponibles dans le pool.
             Connection cnx = dataSource.getConnection();
-            out.print("La connexion est " + (cnx.isClosed()?"fermée":"ouverte")+".");
+            out.print("La connexion est " + (cnx.isClosed() ? "fermée" : "ouverte") + ".");
             //Libérer la connexion lorsque l'on en a plus besoin:
             cnx.close();//La connexion n'est pas fermée mais remise dans le pool.
 

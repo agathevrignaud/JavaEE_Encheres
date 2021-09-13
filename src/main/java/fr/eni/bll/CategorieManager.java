@@ -9,7 +9,9 @@ import java.util.List;
 public class CategorieManager {
     private CategorieDAO categorieDAO;
 
-    public CategorieManager() { categorieDAO = DAOFactory.getCategorieDAO(); }
+    public CategorieManager() {
+        categorieDAO = DAOFactory.getCategorieDAO();
+    }
 
     public List<Categorie> getAllCategories() {
         return categorieDAO.selectAll();

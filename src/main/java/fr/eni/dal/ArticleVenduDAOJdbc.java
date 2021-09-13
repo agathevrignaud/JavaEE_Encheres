@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
+public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
 
     private static final String SELECT_ALL_ARTICLES = "SELECT A.no_article, A.nom_article, A.description, " +
             "A.date_debut_encheres, A.date_fin_encheres, A.prix_initial, A.prix_vente, A.etat_vente, A.no_utilisateur, C.*, " +
@@ -32,10 +32,10 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
     public List<ArticleVendu> selectAll() {
         List<ArticleVendu> lesArticles = new ArrayList<>();
 
-        try(Connection cnx = ConnectionProvider.getConnection()) {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_ARTICLES);
             ResultSet rs = pstmt.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 ArticleVendu lArticle = new ArticleVendu();
                 Retrait lieuRetrait = new Retrait();
                 Categorie laCategorie = new Categorie();
@@ -64,7 +64,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
 
                 lesArticles.add(lArticle);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -73,27 +73,26 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
 
     @Override
     public void createArticle(ArticleVendu lArticle) {
-        if(lArticle==null) {
+        if (lArticle == null) {
             //throw exception
         }
 
         // TODO : Revoir l'histoire des Generated_Keys (récupérer le no_article après création ?)
-        try(Connection cnx = ConnectionProvider.getConnection()) {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(INSERT_ARTICLE);
 
-            pstmt.setString(1,lArticle.getNomArticle());
-            pstmt.setString(2,lArticle.getDescription());
+            pstmt.setString(1, lArticle.getNomArticle());
+            pstmt.setString(2, lArticle.getDescription());
             pstmt.setDate(3, Date.valueOf(lArticle.getDateDebutEnchere()));
             pstmt.setDate(4, Date.valueOf(lArticle.getDateFinEnchere()));
-            pstmt.setInt(5,lArticle.getMiseAPrix());
+            pstmt.setInt(5, lArticle.getMiseAPrix());
             pstmt.setString(6, lArticle.getEtatVente());
-            pstmt.setInt(7,lArticle.getNo_utilisateur());
-            pstmt.setInt(8,lArticle.getLaCategorie().getNo_categorie());
+            pstmt.setInt(7, lArticle.getNo_utilisateur());
+            pstmt.setInt(8, lArticle.getLaCategorie().getNo_categorie());
 
             pstmt.executeUpdate();
             pstmt.close();
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

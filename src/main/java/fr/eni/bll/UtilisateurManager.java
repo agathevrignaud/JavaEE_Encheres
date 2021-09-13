@@ -6,7 +6,6 @@ import fr.eni.dal.DAOFactory;
 import fr.eni.dal.UtilisateurDAO;
 
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UtilisateurManager {
@@ -106,13 +105,14 @@ public class UtilisateurManager {
     }
 
     public Utilisateur authenticateUser(String login, String mdp) {
-        Utilisateur lUtilisateur = null ;
+        Utilisateur lUtilisateur = null;
         List<Utilisateur> lesUtilisateurs = utilisateurDAO.selectAll();
         for (Utilisateur unUtilisateur : lesUtilisateurs) {
             if (unUtilisateur.getPseudo().equals(login) || unUtilisateur.getEmail().equals(login)) {
                 if (unUtilisateur.getMotDePasse().equals(mdp)) {
                     lUtilisateur = unUtilisateur;
-                };
+                }
+                ;
             }
         }
         return lUtilisateur;

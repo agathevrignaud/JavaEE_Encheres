@@ -9,6 +9,6 @@ public class DALException extends Exception {
     }
 
     public DALException(String message, Throwable cause) {
-        super(String.format("%s",message), cause);
+        super(String.format("%s", message), cause);
     }
 }

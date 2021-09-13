@@ -23,7 +23,8 @@
         <input type="submit" value="Connexion">
         <input type="checkbox" id="rememberMe"><label for="rememberMe">Se souvenir de moi</label><br/>
         <a href="" id="forgotPassword">Mot de passe oublié</a><br/>
-        <button name="createAccount" type="submit" formaction="signup" formmethod="get">Créer un compte</button><br/>
+        <button name="createAccount" type="submit" formaction="signup" formmethod="get">Créer un compte</button>
+        <br/>
         <c:if test="${sessionScope.authenticationError == true}">
             <c:out value="ERREUR: Identifiants incorrects. Veuillez réessayer avec les bonnes informations."></c:out>
         </c:if>
