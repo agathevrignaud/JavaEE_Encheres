@@ -1,7 +1,7 @@
 package fr.eni.bll;
 
 
-//20000 et 29999
+//20000-29999
 public abstract class CodesResultatBLL {
     //Codes for Account Creation
     public static final int CREATE_ACCOUNT_ERROR=20000;

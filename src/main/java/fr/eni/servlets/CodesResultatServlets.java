@@ -1,6 +1,6 @@
 package fr.eni.servlets;
 
-// 30000 et 39999
+// 30000-39999
 public abstract class CodesResultatServlets {
 // Codes for Accounts/Users
     //  Codes for Account Creation

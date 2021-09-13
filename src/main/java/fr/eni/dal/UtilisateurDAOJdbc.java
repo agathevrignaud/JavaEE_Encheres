@@ -50,7 +50,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         } catch (Exception e) {
             e.printStackTrace();
             DALException dalException = new DALException();
-            dalException.ajouterErreur(CodesResultatDAL.);
+            dalException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_ALL);
             throw dalException;
         }
 
@@ -82,7 +82,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         } catch (Exception e) {
             e.printStackTrace();
             DALException dalException = new DALException();
-            dalException.ajouterErreur(CodesResultatDAL.);
+            dalException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_BY_ID);
             throw dalException;
         }
         return lUtilisateur;
@@ -114,7 +114,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         } catch (Exception e) {
             e.printStackTrace();
             DALException dalException = new DALException();
-            dalException.ajouterErreur(CodesResultatDAL.);
+            dalException.ajouterErreur(CodesResultatDAL.ERROR_CREATE_USER);
             throw dalException;
         }
         return lUtilisateur;
@@ -140,7 +140,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             DALException dalException = new DALException();
-            dalException.ajouterErreur(CodesResultatDAL.);
+            dalException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_USER_DATA);
             throw dalException;
         }
     }
@@ -157,7 +157,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             DALException dalException = new DALException();
-            dalException.ajouterErreur(CodesResultatDAL.);
+            dalException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_USER_ACCOUNT_STATUS);
             throw dalException;
         }
     }
@@ -172,7 +172,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             DALException dalException = new DALException();
-            dalException.ajouterErreur(CodesResultatDAL.);
+            dalException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_USER_CREDIT);
             throw dalException;
         }
     }
@@ -186,7 +186,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             DALException dalException = new DALException();
-            dalException.ajouterErreur(CodesResultatDAL.);
+            dalException.ajouterErreur(CodesResultatDAL.ERROR_DELETE_USER);
             throw dalException;
         }
     }
@@ -210,7 +210,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             DALException dalException = new DALException();
-            dalException.ajouterErreur(CodesResultatDAL.);
+            dalException.ajouterErreur(CodesResultatDAL.ERROR_CHECK_USER_EXISTENCE);
             throw dalException;
         }
         return lUtilisateur;
@@ -226,7 +226,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             DALException dalException = new DALException();
-            dalException.ajouterErreur(CodesResultatDAL.);
+            dalException.ajouterErreur(CodesResultatDAL.ERROR_RESET_PWD);
             throw dalException;
         }
     }
