@@ -66,7 +66,6 @@ public class ServletLogin extends HttpServlet {
             case "login":
                 lUtilisateur = checkUser(request, listeCodesErreur);
                 if (listeCodesErreur.size() > 0) {
-                    request.setAttribute("authenticationError", true);
                     request.setAttribute("listeCodesErreur",listeCodesErreur);
                     doGet(request, response);
                 } else {
@@ -96,10 +95,10 @@ public class ServletLogin extends HttpServlet {
             }
         } else {
             try {
-                lUtilisateur = utilisateurManager.authenticateUser(
-                        request.getParameter("username"),
-                        request.getParameter("password")
-                );
+                lUtilisateur = utilisateurManager.authenticateUser(username, pwd);
+                if (lUtilisateur == null) {
+                    listeCodesErreur.add(CodesResultatServlets.USER_NOT_AUTHENTICATED);
+                }
             } catch (BLLException e) {
                 listeCodesErreur.add(CodesResultatServlets.USER_NOT_AUTHENTICATED);
             }

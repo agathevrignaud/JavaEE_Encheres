@@ -30,7 +30,7 @@
                 </a><br/>
 
                 <button type="submit" name="btnPressed" value="createAccount"> Créer un compte</button><br/>
-                <c:if test="${authenticationError != null && authenticationError}">
+                <c:if test="${not empty listeCodesErreur}">
                     <c:forEach var="code" items="${listeCodesErreur}">
                         <li>${LecteurMessage.getMessageErreur(code)}</li>
                     </c:forEach>
