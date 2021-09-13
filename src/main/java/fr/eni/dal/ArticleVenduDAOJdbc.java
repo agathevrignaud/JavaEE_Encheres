@@ -161,4 +161,59 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
         return new ArticleVendu(no_article, nom_article, description, debut_encheres, fin_encheres, prix_initial, prix_vente,etat_vente, no_utilisateur, no_categorie);
     }
 
+    /**
+     * Séléctionner un article par son id
+     */
+    public ArticleVendu selectById(int idArticle) {
+        ArticleVendu result = null;
+        try(Connection cnx = ConnectionProvider.getConnection()){
+            PreparedStatement psmt = cnx.prepareStatement(SELECT_BY_ID);
+            psmt.setInt(1, idArticle);
+            ResultSet rs = psmt.executeQuery();
+            if (rs.next()){
+                result = map(rs);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return result;
+    }
+
+
+    /**
+     * Supprimer un article à partir de son id
+     */
+    public void deleteArticle(int id){
+        try(Connection cnx = ConnectionProvider.getConnection()){
+            PreparedStatement pstmt = cnx.prepareStatement(DELETE_ARTICLE);
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Map un article vendu
+     */
+    private ArticleVendu map(ResultSet rs) throws SQLException {
+        CategorieDAOJdbc categorieDAOJdbc = new CategorieDAOJdbc();
+
+        int no_article = rs.getInt("no_article");
+        String nom_article = rs.getString("nom_article");
+        String description = rs.getString("description");
+        Date debut_encheres = rs.getDate("date_debut_encheres");
+        Date fin_encheres = rs.getDate("date_fin_encheres");
+        int prix_initial = rs.getInt("prix_initial");
+        int prix_vente = rs.getInt("prix_vente");
+        String etat_vente = rs.getString("etat_vente");
+        int no_utilisateur = rs.getInt("no_utilisateur");
+        Categorie no_categorie = categorieDAOJdbc.selectById(rs.getInt("no_categorie"));
+
+
+        return new ArticleVendu(no_article, nom_article, description, debut_encheres, fin_encheres, prix_initial, prix_vente,etat_vente, no_utilisateur, no_categorie);
+    }
+
 }

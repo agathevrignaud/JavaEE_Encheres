@@ -85,6 +85,7 @@ public class ArticleVendu {
     public int getPrixVente() {
         return prixVente;
     }
+
     public void setPrixVente(int prixVente) {
         this.prixVente = prixVente;
     }
