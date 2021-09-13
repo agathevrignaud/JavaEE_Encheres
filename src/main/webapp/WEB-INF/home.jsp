@@ -10,8 +10,7 @@
     </head>
     <body>
         <jsp:include page="/WEB-INF/navigation/header.jsp">
-            <jsp:param name="test" value="TESTTTTT"/>
-            <jsp:param name="userInfo" value='${request.getSession().getAttribute("userInfo")}' />
+            <jsp:param name="userId" value="${userInfo.no_utilisateur}" />
         </jsp:include>
         <div class="d-flex justify-content-center">
             <h2>Liste des enchères</h2>
