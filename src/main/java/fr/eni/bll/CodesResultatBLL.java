@@ -16,6 +16,9 @@ public abstract class CodesResultatBLL {
     public static final int PWD_NOT_VALID=20010;
     public static final int PWD_PWD_CONFIRMED_NOT_IDENTICAL=20011;
 
+    //Codes for login
+    public static final int USER_NOT_AUTHENTICATED=20100;
+
 
 
 }

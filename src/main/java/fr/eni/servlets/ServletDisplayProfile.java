@@ -14,16 +14,16 @@ public class ServletDisplayProfile extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession laSession = request.getSession();
+        Utilisateur lUtilisateurCo = (Utilisateur) laSession.getAttribute("userInfo");
         Utilisateur lUtilisateurVu = null;
+
         try {
             lUtilisateurVu = utilisateurManager.getUserById(Integer.parseInt(request.getParameter("idUser")));
             request.setAttribute("userInfo", lUtilisateurVu);
         } catch (BLLException e) {
             e.printStackTrace();
         }
-
-        HttpSession laSession = request.getSession();
-        Utilisateur lUtilisateurCo = (Utilisateur) laSession.getAttribute("userInfo");
 
         if (lUtilisateurCo != null) {
             if (lUtilisateurVu.getNo_utilisateur() == lUtilisateurCo.getNo_utilisateur()) {

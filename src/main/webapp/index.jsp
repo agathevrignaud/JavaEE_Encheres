@@ -9,7 +9,7 @@
 <h1><%= "Hello World!" %>
 </h1>
 <br/>
-<a href="/">homepage</a>
+<a href="${pageContext.request.contextPath}/adminTools">admin</a>
 <!-- TODO : faire la navigation entre les écrans ! -->
 </body>
 </html>

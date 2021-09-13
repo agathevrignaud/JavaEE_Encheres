@@ -48,7 +48,7 @@ public class ServletLogin extends HttpServlet {
 
         if (request.getParameter("rememberMe") != null) {
             Cookie cUserName = new Cookie("cookie_user", request.getParameter("username").trim());
-            Cookie cPassword = new Cookie("cookie_pwd", request.getParameter("password").trim());
+            Cookie cPassword = new Cookie("cookie_pwd", request.getParameter("pwd").trim());
             Cookie cRemember = new Cookie("cookie_rememberMe", request.getParameter("rememberMe").trim());
             cUserName.setMaxAge(60 * 60 * 24 * 15); // 15 jours
             cPassword.setMaxAge(60 * 60 * 24 * 15);
@@ -86,6 +86,7 @@ public class ServletLogin extends HttpServlet {
         Utilisateur lUtilisateur = new Utilisateur() ;
         lUtilisateur.setPseudo(username);
         lUtilisateur.setEmail(pwd);
+
         if (username == null || username.trim().equals("") || pwd == null || pwd.trim().equals("")) {
             if(username == null || username.trim().equals("")) {
                 listeCodesErreur.add(CodesResultatServlets.USERNAME_REQUIRED);

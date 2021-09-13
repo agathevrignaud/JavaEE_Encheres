@@ -16,8 +16,8 @@
 
                 <label for="username">Identifiant :</label>
                 <input type="text" name="username" id="username" value="${fn:length(cUsername) > 0 ? cUsername : ""}" required><br/>
-                <label for="password">Mot de passe :</label>
-                <input type="password" name="password" id="password" value="${fn:length(cPwd) > 0 ? cPwd : ""}" required><br/>
+                <label for="pwd">Mot de passe :</label>
+                <input type="password" name="pwd" id="pwd" value="${fn:length(cPwd) > 0 ? cPwd : ""}" required><br/>
 
                 <button type="submit" name="btnPressed" value="login">Connexion</button>
 
