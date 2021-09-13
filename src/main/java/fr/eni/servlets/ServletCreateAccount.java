@@ -57,7 +57,8 @@ public class ServletCreateAccount extends HttpServlet {
                         rd.forward(request, response);
                     } catch (BLLException e) {
                         e.printStackTrace();
-                        request.setAttribute("listeCodesErreur",e.getListeCodesErreur());
+                        request.setAttribute("listeCodesErreur", e.getListeCodesErreur());
+                        doGet(request, response);
                     }
                 }
                 break;
@@ -138,6 +139,10 @@ public class ServletCreateAccount extends HttpServlet {
         }
         if(confirmPwd == null || confirmPwd.trim().equals("")) {
             listeCodesErreur.add(CodesResultatServlets.PWD_CONFIRMED_REQUIRED);
+        } else {
+            if (!confirmPwd.equals(pwd)) {
+                listeCodesErreur.add(CodesResultatServlets.PWD_PWD_CONFIRMED_NOT_IDENTICAL);
+            }
         }
         return pwd;
     }
