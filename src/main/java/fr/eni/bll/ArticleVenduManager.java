@@ -7,6 +7,7 @@ import fr.eni.dal.DAOFactory;
 import java.util.List;
 
 public class ArticleVenduManager {
+
     private ArticleVenduDAO articleVenduDAO;
 
     public ArticleVenduManager() { articleVenduDAO = DAOFactory.getArticleVenduDAO();}
