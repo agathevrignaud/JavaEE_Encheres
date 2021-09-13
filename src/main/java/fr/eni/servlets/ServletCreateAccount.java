@@ -3,6 +3,7 @@ package fr.eni.servlets;
 import fr.eni.bll.BLLException;
 import fr.eni.bll.UtilisateurManager;
 import fr.eni.bo.Utilisateur;
+import fr.eni.dal.DALException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,7 +33,6 @@ public class ServletCreateAccount extends HttpServlet {
 
         switch (request.getParameter("btnPressed")) {
             case "createAccount":
-                //  TODO : compléter des fonctions de vérif avec code d'erreur personnalisé
                 String pseudo = checkUsername(request, listeCodesErreur);
                 String nom = checkSurname(request, listeCodesErreur);
                 String prenom = checkFirstName(request, listeCodesErreur);
@@ -56,17 +56,16 @@ public class ServletCreateAccount extends HttpServlet {
                         laSession.setAttribute("userInfo", lUtilisateur);
                         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
                         rd.forward(request, response);
-                    } catch (Exception e) {
+                    } catch (BLLException e) {
                         e.printStackTrace();
-                        doGet(request, response);
+                        request.setAttribute("listeCodesErreur",e.getListeCodesErreur());
                     }
                 }
                 break;
             case "cancelCreateAccount":
+                //  TODO Rediriger vers la page d'accueil
                 break;
         }
-
-
     }
 
     private String checkUsername(HttpServletRequest request, List<Integer> listeCodesErreur) {
@@ -75,7 +74,6 @@ public class ServletCreateAccount extends HttpServlet {
         if(username == null || username.trim().equals("")) {
             listeCodesErreur.add(CodesResultatServlets.USERNAME_REQUIRED);
         }
-        // TODO : modifier le manager pour avoir un booléen
         return username;
     }
 
@@ -103,7 +101,6 @@ public class ServletCreateAccount extends HttpServlet {
         if(email == null || email.trim().equals("")) {
             listeCodesErreur.add(CodesResultatServlets.EMAIL_REQUIRED);
         }
-        // TODO : modifier le manager pour avoir un booléen
         return email;
     }
 
@@ -143,7 +140,6 @@ public class ServletCreateAccount extends HttpServlet {
         if(confirmPwd == null || confirmPwd.trim().equals("")) {
             listeCodesErreur.add(CodesResultatServlets.PWD_CONFIRMED_REQUIRED);
         }
-        // TODO : Vérifier si les deux pwd sont identiques, puis si pwd est valide
         return pwd;
     }
 

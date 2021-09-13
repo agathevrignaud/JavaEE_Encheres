@@ -7,7 +7,7 @@ import java.util.List;
 public interface UtilisateurDAO {
     public List<Utilisateur> selectAll();
     public Utilisateur selectById(int idUser) ;
-    public Utilisateur createUser(Utilisateur lUtilisateur) throws DALException;
+    public Utilisateur createUser(Utilisateur lUtilisateur) ;
     public void updateUserData(Utilisateur lUtilisateur);
     public void updateUserAccountStatus(int idUser);
     public void updateUserCredit(int newCredit, int idUser);
