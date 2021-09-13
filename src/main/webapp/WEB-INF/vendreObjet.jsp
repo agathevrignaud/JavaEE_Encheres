@@ -20,8 +20,10 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <h2>ENI-Enchères</h2>
     </nav>
+
 </header>
 <body>
+
 <div class="col-md-12 row">
     <div class="col-md-6">
         <card>
@@ -84,7 +86,7 @@
         </card>
     </div>
     <div class="col-md-6 d-flex justify-content-center">
-        <card>
+        <card style="border: solid black 1px;height: 400px">
             <div class="card-body">
                 <p><img id="output" width="400"/></p>
             </div>
