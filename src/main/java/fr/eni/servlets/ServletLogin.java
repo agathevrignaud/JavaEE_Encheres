@@ -33,7 +33,6 @@ public class ServletLogin extends HttpServlet {
 
             session.setAttribute("isUserLoggedIn", true);
             session.setAttribute("userInfo", lUtilisateur);
-            System.out.println(lUtilisateur.toString());
             session.setAttribute("authenticationError", false);
             session.setMaxInactiveInterval(5 * 60);
             response.sendRedirect(request.getContextPath());

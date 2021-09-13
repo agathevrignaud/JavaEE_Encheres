@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <header>
     <ul class="nav ">
         <li class="nav-item">
@@ -28,7 +27,8 @@
                        tabindex="-1" aria-disabled="true">Mon profil</a>
                 </li>
                 <li class="nav-item justify-content-end">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/logout" tabindex="-1" aria-disabled="true">Deconnexion</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/logout" tabindex="-1"
+                       aria-disabled="true">Deconnexion</a>
                 </li>
                 <c:if test="${userInfo.administrateur}">
                     <li>

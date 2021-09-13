@@ -5,6 +5,7 @@ import fr.eni.dal.DAOFactory;
 import fr.eni.dal.UtilisateurDAO;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class UtilisateurManager {
     private UtilisateurDAO utilisateurDAO;
@@ -26,14 +27,11 @@ public class UtilisateurManager {
         try {
             isUserInfoValid(pseudo, email, motDePasse, motDePasseConfirmation);
             Utilisateur lUtilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
-            try {
-                utilisateurDAO.createUser(lUtilisateur);
-            } catch (DALException dalEx) {
-                dalEx.printStackTrace();
-            }
+            utilisateurDAO.createUser(lUtilisateur);
 
-        } catch (BLLException bllEx) {
-            throw new BLLException("Erreur lors de la création de l'utilisateur", bllEx);
+
+        } catch (Exception e) {
+            throw new BLLException("Erreur lors de la création de l'utilisateur", e);
         }
     }
 
@@ -57,15 +55,10 @@ public class UtilisateurManager {
         }
         // pseudo + email uniques
         for (Utilisateur unUtilisateur : lesUtilisateurs) {
-            if (unUtilisateur.getNo_utilisateur() != idUser) {
                 if (unUtilisateur.getPseudo().equals(pseudo) || unUtilisateur.getEmail().equals(email)) {
-                    isValid = false;
-                    break;
+                    throw new BLLException("Pseudo ou adresse mail déjà existante");
                 }
-            if (unUtilisateur.getPseudo().equals(pseudo) || unUtilisateur.getEmail().equals(email)) {
-                throw new BLLException("Pseudo ou adresse mail déjà existante");
             }
-        }
     }
 
     public void isPasswordValid(String mdp, String mdpConf) throws BLLException {
@@ -81,10 +74,9 @@ public class UtilisateurManager {
         }
     }
 
-    public void updateUserData(int userId, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws Exception {
-        if (isUserInfoValid(userId, pseudo, email, motDePasse, motDePasseConfirmation)) {
-            Utilisateur lUtilisateur = new Utilisateur(userId, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
-    public void updateUserData(int userId, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws BLLException {
+    public void updateUserData(int userId, String pseudo, String nom, String prenom, String email, String
+            telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws
+            BLLException {
         try {
             isUserInfoValid(pseudo, email, motDePasse, motDePasseConfirmation);
             Utilisateur lUtilisateur = new Utilisateur(userId, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
@@ -93,6 +85,7 @@ public class UtilisateurManager {
             throw new BLLException("Erreur lors de la màj de l'utilisateur", bllEx);
         }
     }
+
 
     public void updateUserAccountStatus(int idUser) {
         utilisateurDAO.updateUserAccountStatus(idUser);
@@ -118,7 +111,6 @@ public class UtilisateurManager {
                 if (unUtilisateur.getMotDePasse().equals(mdp)) {
                     lUtilisateur = unUtilisateur;
                 }
-                ;
             }
         }
         return lUtilisateur;
