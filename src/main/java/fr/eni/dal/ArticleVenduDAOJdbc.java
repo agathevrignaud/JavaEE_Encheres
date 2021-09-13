@@ -5,6 +5,7 @@ import fr.eni.bo.Categorie;
 import fr.eni.bo.Retrait;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +23,6 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             "ON A.no_article = R.no_article";
     private static final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article,description,date_debut_encheres, " +
             "date_fin_encheres, prix_initial, etat_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?,?)";
-
-            "date_fin_encheres, prix_initial,no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?)";
     private static final String SELECT_BY_ID = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
     private static final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
 
@@ -106,24 +105,6 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
     }
 
 
-    /**
-     * Séléctionner un article par son id
-     */
-    public ArticleVendu selectById(int idArticle) {
-        ArticleVendu result = null;
-        try(Connection cnx = ConnectionProvider.getConnection()){
-            PreparedStatement psmt = cnx.prepareStatement(SELECT_BY_ID);
-            psmt.setInt(1, idArticle);
-            ResultSet rs = psmt.executeQuery();
-            if (rs.next()){
-                result = map(rs);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return result;
-    }
 
 
     /**
@@ -140,26 +121,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
         }
     }
 
-    /**
-     * Map un article vendu
-     */
-    private ArticleVendu map(ResultSet rs) throws SQLException {
-        CategorieDAOJdbc categorieDAOJdbc = new CategorieDAOJdbc();
 
-        int no_article = rs.getInt("no_article");
-        String nom_article = rs.getString("nom_article");
-        String description = rs.getString("description");
-        Date debut_encheres = rs.getDate("date_debut_encheres");
-        Date fin_encheres = rs.getDate("date_fin_encheres");
-        int prix_initial = rs.getInt("prix_initial");
-        int prix_vente = rs.getInt("prix_vente");
-        String etat_vente = rs.getString("etat_vente");
-        int no_utilisateur = rs.getInt("no_utilisateur");
-        Categorie no_categorie = categorieDAOJdbc.selectById(rs.getInt("no_categorie"));
-
-
-        return new ArticleVendu(no_article, nom_article, description, debut_encheres, fin_encheres, prix_initial, prix_vente,etat_vente, no_utilisateur, no_categorie);
-    }
 
     /**
      * Séléctionner un article par son id
@@ -181,19 +143,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
     }
 
 
-    /**
-     * Supprimer un article à partir de son id
-     */
-    public void deleteArticle(int id){
-        try(Connection cnx = ConnectionProvider.getConnection()){
-            PreparedStatement pstmt = cnx.prepareStatement(DELETE_ARTICLE);
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 
     /**
      * Map un article vendu
@@ -204,8 +154,8 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
         int no_article = rs.getInt("no_article");
         String nom_article = rs.getString("nom_article");
         String description = rs.getString("description");
-        Date debut_encheres = rs.getDate("date_debut_encheres");
-        Date fin_encheres = rs.getDate("date_fin_encheres");
+        LocalDate debut_encheres = rs.getDate("date_debut_encheres").toLocalDate();
+        LocalDate fin_encheres = rs.getDate("date_fin_encheres").toLocalDate();
         int prix_initial = rs.getInt("prix_initial");
         int prix_vente = rs.getInt("prix_vente");
         String etat_vente = rs.getString("etat_vente");
