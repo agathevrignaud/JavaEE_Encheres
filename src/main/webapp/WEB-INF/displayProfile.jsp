@@ -11,6 +11,7 @@
         <h2>Eni Enchères</h2>
     </header>
     <body>
+        <%@include file="/WEB-INF/navigation/header.jsp" %>
         <form>
             <legend>Mes informations</legend>
             <input type="hidden" name="idUser" value="${userInfo.no_utilisateur}"/>

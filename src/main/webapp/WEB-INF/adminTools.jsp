@@ -8,6 +8,7 @@
         <!-- https://pro.fontawesome.com/releases/v5.10.0/css/all.css -->
     </head>
     <body>
+        <%@include file="/WEB-INF/navigation/header.jsp" %>
         <table>
             <thead>
                 <tr>

@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page session="true" %>
 <!DOCTYPE html>
 <html>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -9,9 +8,7 @@
         <title>JSP - Hello World</title>
     </head>
     <body>
-        <jsp:include page="/WEB-INF/navigation/header.jsp">
-            <jsp:param name="userId" value="${userInfo.no_utilisateur}" />
-        </jsp:include>
+        <%@include file="/WEB-INF/navigation/header.jsp" %>
         <div class="d-flex justify-content-center">
             <h2>Liste des enchères</h2>
         </div>

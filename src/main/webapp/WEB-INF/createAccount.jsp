@@ -8,6 +8,7 @@
         <title>Create account</title>
     </head>
     <body>
+        <%@include file="/WEB-INF/navigation/header.jsp" %>
         <%@ include file="/WEB-INF/navigation/header.jsp" %>
         <c:if test="${!empty listeCodesErreur}">
             <p>Erreur lors de la création du compte !</p>
