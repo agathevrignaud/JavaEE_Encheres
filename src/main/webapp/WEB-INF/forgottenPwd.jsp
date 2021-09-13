@@ -20,7 +20,7 @@
                 <c:when test="${isUserInDb != null && !isUserInDb}">
                     <c:out value="Erreur lors de la saisie, veuillez recommencer."></c:out>
                     <c:if test="${not empty listeCodesErreurs}">
-                        <c:forEach items="${ listeCodesErreurs }" var="code">
+                        <c:forEach var="code" items="${listeCodesErreur}">
                             <li>${LecteurMessage.getMessageErreur(code)}</li>
                         </c:forEach>
                     </c:if>

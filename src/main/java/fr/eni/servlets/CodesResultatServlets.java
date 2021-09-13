@@ -23,6 +23,7 @@ public abstract class CodesResultatServlets {
     // Codes for Login
     public static final int LOGIN_ERROR = 30100;
     public static final int LOGIN_SUCCESS = 30101;
+    public static final int USER_NOT_AUTHENTICATED=30102;
 
     // Codes for Forgotten Password
     public static final int F_PWD_ERROR = 30200;

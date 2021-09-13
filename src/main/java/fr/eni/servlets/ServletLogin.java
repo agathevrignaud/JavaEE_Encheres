@@ -1,5 +1,6 @@
 package fr.eni.servlets;
 
+import fr.eni.bll.BLLException;
 import fr.eni.bll.UtilisateurManager;
 import fr.eni.bo.Utilisateur;
 
@@ -8,6 +9,8 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(value = "/login")
 public class ServletLogin extends HttpServlet {
@@ -41,6 +44,7 @@ public class ServletLogin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd;
         Utilisateur lUtilisateur;
+        List<Integer> listeCodesErreur = new ArrayList<>();
 
         if (request.getParameter("rememberMe") != null) {
             Cookie cUserName = new Cookie("cookie_user", request.getParameter("username").trim());
@@ -60,21 +64,45 @@ public class ServletLogin extends HttpServlet {
                 rd.forward(request, response);
                 break;
             case "login":
-                lUtilisateur = utilisateurManager.authenticateUser(
-                        request.getParameter("username"),
-                        request.getParameter("password")
-                );
-                if (lUtilisateur != null) {
+                lUtilisateur = checkUser(request, listeCodesErreur);
+                if (listeCodesErreur.size() > 0) {
+                    request.setAttribute("authenticationError", true);
+                    request.setAttribute("listeCodesErreur",listeCodesErreur);
+                    doGet(request, response);
+                } else {
                     HttpSession laSession = request.getSession();
                     laSession.setAttribute("isUserLoggedIn", true );
                     laSession.setAttribute("userInfo", lUtilisateur);
                     rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
                     rd.forward(request, response);
-                } else {
-                    request.getSession().setAttribute("authenticationError", true);
-                    doGet(request, response);
                 }
                 break;
         }
+    }
+
+    public Utilisateur checkUser(HttpServletRequest request, List<Integer> listeCodesErreur) {
+        String username = request.getParameter("username");
+        String pwd = request.getParameter("pwd");
+        Utilisateur lUtilisateur = new Utilisateur() ;
+        lUtilisateur.setPseudo(username);
+        lUtilisateur.setEmail(pwd);
+        if (username == null || username.trim().equals("") || pwd == null || pwd.trim().equals("")) {
+            if(username == null || username.trim().equals("")) {
+                listeCodesErreur.add(CodesResultatServlets.USERNAME_REQUIRED);
+            }
+            if(pwd == null || pwd.trim().equals("")) {
+                listeCodesErreur.add(CodesResultatServlets.PWD_REQUIRED);
+            }
+        } else {
+            try {
+                lUtilisateur = utilisateurManager.authenticateUser(
+                        request.getParameter("username"),
+                        request.getParameter("password")
+                );
+            } catch (BLLException e) {
+                listeCodesErreur.add(CodesResultatServlets.USER_NOT_AUTHENTICATED);
+            }
+        }
+        return lUtilisateur;
     }
 }

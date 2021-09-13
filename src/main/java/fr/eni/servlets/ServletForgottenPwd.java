@@ -29,7 +29,6 @@ public class ServletForgottenPwd extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Integer> listeCodesErreur = new ArrayList<>();
-
         Utilisateur lUtilisateur = checkUser(request, listeCodesErreur);
 
         if (listeCodesErreur.size() > 0) {

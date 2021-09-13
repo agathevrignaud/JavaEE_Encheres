@@ -10,9 +10,6 @@
     </header>
     <body>
         <%@ include file="/WEB-INF/navigation/header.jsp" %>
-        <c:if test="${not empty listeErreurs}">
-            <!-- TODO : Afficher les erreurs liées au formulaire ici -->
-        </c:if>
         <form action="${pageContext.request.contextPath}/login" method="post">
             <fieldset>
                 <legend> Se connecter</legend>
@@ -34,7 +31,9 @@
 
                 <button type="submit" name="btnPressed" value="createAccount"> Créer un compte</button><br/>
                 <c:if test="${authenticationError != null && authenticationError}">
-                    <c:out value="ERREUR: Identifiants incorrects. Veuillez réessayer avec les bonnes informations."></c:out>
+                    <c:forEach var="code" items="${listeCodesErreur}">
+                        <li>${LecteurMessage.getMessageErreur(code)}</li>
+                    </c:forEach>
                 </c:if>
             </fieldset>
         </form>
