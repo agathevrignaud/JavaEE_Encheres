@@ -152,6 +152,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
         int no_utilisateur = rs.getInt("no_utilisateur");
         Categorie no_categorie = categorieDAOJdbc.selectById(rs.getInt("no_categorie"));
 
+
         return new ArticleVendu(no_article, nom_article, description, debut_encheres, fin_encheres, prix_initial, prix_vente,etat_vente, no_utilisateur, no_categorie);
     }
 
