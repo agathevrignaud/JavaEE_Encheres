@@ -105,14 +105,16 @@ public class UtilisateurManager {
         utilisateurDAO.deleteUser(idUser);
     }
 
-    public boolean authenticateUser(String login, String mdp) {
-        boolean isAuthenticated = false;
+    public Utilisateur authenticateUser(String login, String mdp) {
+        Utilisateur lUtilisateur = null ;
         List<Utilisateur> lesUtilisateurs = utilisateurDAO.selectAll();
         for (Utilisateur unUtilisateur : lesUtilisateurs) {
             if (unUtilisateur.getPseudo().equals(login) || unUtilisateur.getEmail().equals(login)) {
-                isAuthenticated = (unUtilisateur.getMotDePasse().equals(mdp));
+                if (unUtilisateur.getMotDePasse().equals(mdp)) {
+                    lUtilisateur = unUtilisateur;
+                };
             }
         }
-        return isAuthenticated;
+        return lUtilisateur;
     }
 }

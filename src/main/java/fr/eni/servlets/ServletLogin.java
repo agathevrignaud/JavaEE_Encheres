@@ -1,6 +1,7 @@
 package fr.eni.servlets;
 
 import fr.eni.bll.UtilisateurManager;
+import fr.eni.bo.Utilisateur;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,13 +27,14 @@ public class ServletLogin extends HttpServlet {
         String password = request.getParameter("password");
         UtilisateurManager utilisateurManager = new UtilisateurManager();
         RequestDispatcher rd;
-        boolean isAuthenticated = utilisateurManager.authenticateUser(pseudo, password);
+        Utilisateur lUtilisateur = utilisateurManager.authenticateUser(pseudo, password);
 
-        if (isAuthenticated) {
-
+        if (lUtilisateur != null) {
             HttpSession session = request.getSession(true);
 
-            session.setAttribute("userIsAuthenticated", true);
+            session.setAttribute("isUserLoggedIn", true);
+            session.setAttribute("userInfo", lUtilisateur);
+            System.out.println(lUtilisateur.toString());
             session.setAttribute("authenticationError", false);
             session.setMaxInactiveInterval(5 * 60);
             response.sendRedirect(request.getContextPath());

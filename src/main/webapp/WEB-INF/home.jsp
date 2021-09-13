@@ -7,6 +7,7 @@
 <head>
     <title>Accueil</title>
 </head>
+<jsp:include page="navigation/header.jsp"/>
 <body>
 
 <ul class="nav ">
