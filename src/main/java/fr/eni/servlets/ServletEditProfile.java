@@ -1,5 +1,6 @@
 package fr.eni.servlets;
 
+import fr.eni.bll.BLLException;
 import fr.eni.bll.UtilisateurManager;
 import fr.eni.bo.Utilisateur;
 import org.apache.tomcat.util.modeler.Util;
@@ -31,7 +32,12 @@ public class ServletEditProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int idUser = Integer.parseInt(request.getParameter("idUser"));
-        Utilisateur lUtilisateur = utilisateurManager.getUserById(idUser);
+        Utilisateur lUtilisateur = null;
+        try {
+            lUtilisateur = utilisateurManager.getUserById(idUser);
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
         request.setAttribute("userInfo", lUtilisateur);
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/editProfile.jsp");
         rd.forward(request, response);
