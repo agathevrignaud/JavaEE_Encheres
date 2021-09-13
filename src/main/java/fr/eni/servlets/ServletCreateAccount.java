@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@WebServlet(value = "/signup")
+@WebServlet(value = "/signUp")
 public class ServletCreateAccount extends HttpServlet {
     private static final UtilisateurManager utilisateurManager = new UtilisateurManager();
 

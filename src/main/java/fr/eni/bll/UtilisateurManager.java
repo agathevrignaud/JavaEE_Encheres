@@ -22,7 +22,6 @@ public class UtilisateurManager {
         return utilisateurDAO.selectById(userId);
     }
 
-    //TODO : supprimer la DALException (qui sort de nulle part)
     public Utilisateur addNewUser(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws BLLException {
         BLLException bllException = new BLLException();
         Utilisateur lUtilisateur = null;

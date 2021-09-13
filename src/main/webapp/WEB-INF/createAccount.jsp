@@ -17,7 +17,7 @@
                 </c:forEach>
             </ul>
         </c:if>
-        <form action="${pageContext.request.contextPath}/signup" method="post">
+        <form action="${pageContext.request.contextPath}/signUp" method="post">
             <fieldset>
                 <legend>Mon profil</legend>
                 <label for="username">Pseudo :</label>

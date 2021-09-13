@@ -24,7 +24,7 @@
                 </c:when>
                 <c:otherwise>
                     <li>
-                        <a href="${pageContext.request.contextPath}/signup">S'inscrire</a>
+                        <a href="${pageContext.request.contextPath}/signUp">S'inscrire</a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/login">Se connecter</a>
