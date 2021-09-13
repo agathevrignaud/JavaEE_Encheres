@@ -28,7 +28,7 @@
                        tabindex="-1" aria-disabled="true">Mon profil</a>
                 </li>
                 <li class="nav-item justify-content-end">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/" tabindex="-1" aria-disabled="true">Deconnexion</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/logout" tabindex="-1" aria-disabled="true">Deconnexion</a>
                 </li>
                 <c:if test="${userInfo.administrateur}">
                     <li>

@@ -10,37 +10,6 @@
 <jsp:include page="navigation/header.jsp"/>
 <body>
 
-<ul class="nav ">
-    <li class="nav-item">
-        <a class="nav-link disabled">ENI Enchères</a>
-    </li>
-
-    <c:choose>
-        <c:when test="${sessionScope.userIsAuthenticated}">
-            <li class="nav-item justify-content-end">
-                <a class="nav-link" href="#">Enchères</a>
-            </li>
-            <li class="nav-item justify-content-end">
-                <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Vendre un article</a>
-            </li>
-            <li class="nav-item justify-content-end">
-                <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Mon profil</a>
-            </li>
-            <li class="nav-item justify-content-end">
-                <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Deconnexion</a>
-            </li>
-        </c:when>
-        <c:otherwise>
-            <li class="nav-item justify-content-end">
-                <a class="nav-link" href="signup">S'inscrire</a>
-            </li>
-            <li class="nav-item justify-content-end">
-                <a class="nav-link" href="login" tabindex="-1" aria-disabled="true">Se connecter</a>
-            </li>
-        </c:otherwise>
-    </c:choose>
-
-</ul>
 <div class="d-flex justify-content-center">
     <h2>Liste des enchères</h2>
 </div>

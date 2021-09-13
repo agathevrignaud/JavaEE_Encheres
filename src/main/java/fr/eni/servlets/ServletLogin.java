@@ -26,7 +26,6 @@ public class ServletLogin extends HttpServlet {
         String pseudo = request.getParameter("pseudo");
         String password = request.getParameter("password");
         UtilisateurManager utilisateurManager = new UtilisateurManager();
-        RequestDispatcher rd;
         Utilisateur lUtilisateur = utilisateurManager.authenticateUser(pseudo, password);
 
         if (lUtilisateur != null) {
