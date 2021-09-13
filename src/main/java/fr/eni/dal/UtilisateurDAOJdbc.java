@@ -25,7 +25,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
     private static final String RESET_PASSWORD = "UPDATE UTILISATEURS SET mot_de_passe=? WHERE no_utilisateur=?";
 
     @Override
-    public List<Utilisateur> selectAll() {
+    public List<Utilisateur> selectAll() throws DALException {
         List<Utilisateur> lesUtilisateurs = new ArrayList<>();
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_USERS);
@@ -49,13 +49,16 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            DALException dalException = new DALException();
+            dalException.ajouterErreur(CodesResultatDAL.);
+            throw dalException;
         }
 
         return lesUtilisateurs;
     }
 
     @Override
-    public Utilisateur selectById(int idUser) {
+    public Utilisateur selectById(int idUser) throws DALException {
         Utilisateur lUtilisateur = new Utilisateur();
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_USER_BY_ID);
@@ -78,12 +81,15 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            DALException dalException = new DALException();
+            dalException.ajouterErreur(CodesResultatDAL.);
+            throw dalException;
         }
         return lUtilisateur;
     }
 
     @Override
-    public Utilisateur createUser(Utilisateur lUtilisateur) {
+    public Utilisateur createUser(Utilisateur lUtilisateur) throws DALException {
         if (lUtilisateur == null) {
             //
         }
@@ -107,12 +113,15 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.close();
         } catch (Exception e) {
             e.printStackTrace();
+            DALException dalException = new DALException();
+            dalException.ajouterErreur(CodesResultatDAL.);
+            throw dalException;
         }
         return lUtilisateur;
     }
 
     @Override
-    public void updateUserData(Utilisateur lUtilisateur) {
+    public void updateUserData(Utilisateur lUtilisateur) throws DALException {
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(UPDATE_USER_DATA);
 
@@ -130,11 +139,14 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            DALException dalException = new DALException();
+            dalException.ajouterErreur(CodesResultatDAL.);
+            throw dalException;
         }
     }
 
     @Override
-    public void updateUserAccountStatus(int idUser) {
+    public void updateUserAccountStatus(int idUser) throws DALException {
         Utilisateur lUtilisateur = this.selectById(idUser);
 
         try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -144,11 +156,14 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            DALException dalException = new DALException();
+            dalException.ajouterErreur(CodesResultatDAL.);
+            throw dalException;
         }
     }
 
     @Override
-    public void updateUserCredit(int newCredit, int idUser) {
+    public void updateUserCredit(int newCredit, int idUser) throws DALException {
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(UPDATE_USER_CREDIT);
             pstmt.setInt(1, newCredit);
@@ -156,22 +171,28 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            DALException dalException = new DALException();
+            dalException.ajouterErreur(CodesResultatDAL.);
+            throw dalException;
         }
     }
 
     @Override
-    public void deleteUser(int idUser) {
+    public void deleteUser(int idUser) throws DALException {
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(DELETE_USER);
             pstmt.setInt(1, idUser);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            DALException dalException = new DALException();
+            dalException.ajouterErreur(CodesResultatDAL.);
+            throw dalException;
         }
     }
 
     @Override
-    public Utilisateur checkIfUserExists(String username, String email) {
+    public Utilisateur checkIfUserExists(String username, String email) throws DALException {
         Utilisateur lUtilisateur = new Utilisateur();
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(CHECK_USER_EXISTENCE);
@@ -188,12 +209,15 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            DALException dalException = new DALException();
+            dalException.ajouterErreur(CodesResultatDAL.);
+            throw dalException;
         }
         return lUtilisateur;
     }
 
     @Override
-    public void resetPwd(int idUser, String newPwd) {
+    public void resetPwd(int idUser, String newPwd) throws DALException {
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(RESET_PASSWORD);
             pstmt.setString(1, newPwd);
@@ -201,6 +225,9 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            DALException dalException = new DALException();
+            dalException.ajouterErreur(CodesResultatDAL.);
+            throw dalException;
         }
     }
 }

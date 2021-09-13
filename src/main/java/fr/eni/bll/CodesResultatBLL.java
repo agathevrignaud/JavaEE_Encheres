@@ -1,10 +1,8 @@
 package fr.eni.bll;
 
 
-// Les codes disponibles sont entre 20000 et 29999
-
+//20000 et 29999
 public abstract class CodesResultatBLL {
-
     //Codes for Account Creation
     public static final int CREATE_ACCOUNT_ERROR=20000;
     public static final int CREATE_ACCOUNT_SUCCESS=20001;
