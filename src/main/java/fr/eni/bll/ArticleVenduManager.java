@@ -10,19 +10,33 @@ public class ArticleVenduManager {
 
     private ArticleVenduDAO articleVenduDAO;
 
+
     public ArticleVenduManager() { articleVenduDAO = DAOFactory.getArticleVenduDAO();}
 
+    /**
+     * Retourne une liste de tous les articles
+     */
     public List<ArticleVendu> getAllArticles() {
         return articleVenduDAO.selectAll();
     }
 
+
+    /**
+     * Supprimer un article (id)
+     */
     public void deleteArticle(int id) {}
 
-    public List<ArticleVendu> selectById(int id){
+    /**
+     * Séléctionner un article vendu
+     */
+    public ArticleVendu selectArticleVendu(int idArticleVendu){
 
-        return null;
+        return articleVenduDAO.selectById(idArticleVendu);
     }
 
+    /**
+     * Ajouter un nouvel article
+     */
     public void addNewArticle() {
 
     }

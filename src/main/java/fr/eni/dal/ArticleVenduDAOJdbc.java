@@ -18,15 +18,18 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
             "ON A.no_utilisateur = U.no_utilisateur " +
             "INNER JOIN CATEGORIES C " +
             "ON A.no_categorie = C.no_categorie" +
-            "INNER JOIN RETRAITS R " +
+            " INNER JOIN RETRAITS R " +
             "ON A.no_article = R.no_article";
     private static final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article,description,date_debut_encheres, " +
             "date_fin_encheres, prix_initial,no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?)";
-    private static final String SELECT_BY_ID = SELECT_ALL_ARTICLES + "WHERE id=?";
-    private static final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS WHERE id = ?";
+    private static final String SELECT_BY_ID = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
+    private static final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
 
     // TODO : fournir List<ArticleVendu> avec toutes les infos, le tri se fera côté front ?
 
+    /**
+     * Séléctionner tous les articles
+     */
     @Override
     public List<ArticleVendu> selectAll() {
         List<ArticleVendu> lesArticles = new ArrayList<>();
@@ -68,6 +71,9 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
         return lesArticles;
     }
 
+    /**
+     * Créer un article
+     */
     @Override
     public void createArticle(ArticleVendu lArticle) {
         if(lArticle==null) {
@@ -95,11 +101,14 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
     }
 
 
-    public ArticleVendu selectById(int id) {
+    /**
+     * Séléctionner un article par son id
+     */
+    public ArticleVendu selectById(int idArticle) {
         ArticleVendu result = null;
         try(Connection cnx = ConnectionProvider.getConnection()){
             PreparedStatement psmt = cnx.prepareStatement(SELECT_BY_ID);
-            psmt.setInt(1, id);
+            psmt.setInt(1, idArticle);
             ResultSet rs = psmt.executeQuery();
             if (rs.next()){
                 result = map(rs);
@@ -107,10 +116,14 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
         return result;
     }
 
 
+    /**
+     * Supprimer un article à partir de son id
+     */
     public void deleteArticle(int id){
         try(Connection cnx = ConnectionProvider.getConnection()){
             PreparedStatement pstmt = cnx.prepareStatement(DELETE_ARTICLE);
@@ -122,7 +135,12 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
         }
     }
 
+    /**
+     * Map un article vendu
+     */
     private ArticleVendu map(ResultSet rs) throws SQLException {
+        CategorieDAOJdbc categorieDAOJdbc = new CategorieDAOJdbc();
+
         int no_article = rs.getInt("no_article");
         String nom_article = rs.getString("nom_article");
         String description = rs.getString("description");
@@ -132,7 +150,8 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
         int prix_vente = rs.getInt("prix_vente");
         String etat_vente = rs.getString("etat_vente");
         int no_utilisateur = rs.getInt("no_utilisateur");
-        int no_categorie = rs.getInt("no_categorie");
+        Categorie no_categorie = categorieDAOJdbc.selectById(rs.getInt("no_categorie"));
+
         return new ArticleVendu(no_article, nom_article, description, debut_encheres, fin_encheres, prix_initial, prix_vente,etat_vente, no_utilisateur, no_categorie);
     }
 

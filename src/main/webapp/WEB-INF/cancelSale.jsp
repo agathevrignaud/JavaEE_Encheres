@@ -25,35 +25,36 @@
     <card>
         <div class="card-header" style="background-color: #ffff">
             <h2>Nouvelle vente</h2>
+
         </div>
         <div class="card-body">
             <form action="CancelSale" method="post">
 
-                <label for="nomArticle">Article : </label>
-                <input type="text" id="nomArticle" class="form-control"/><br/>
+                <label for="nomArticle">Article :</label>
+                <input type="text" id="nomArticle" class="form-control" placeholder="${requestScope.articleVendu.nomArticle}"/><br/>
 
                 <label for="descArticle">Description : </label>
-                <input type="text" id="descArticle" class="form-control"/><br/>
+                <input type="text" id="descArticle" class="form-control" placeholder="${requestScope.articleVendu.description}"/><br/>
 
                 <label for="catArticle">Catégorie : </label>
-                <select id="catArticle" name="categories" class="form-control">
-                </select>
+                <input type="text" placeholder="${requestScope.articleVendu.laCategorie.libelle}" id="catArticle" class="form-control"/>
                 <br/>
                 <label for="photoArticle">Photo de l'article : </label>
                 <input type="button" id="photoArticle" value="UPLOADER" class="form-control"><br/>
 
                 <label for="prixArticle">Mise à prix : </label>
-                <input type="number" id="prixArticle" min="1" step="any" class="form-control"/><br/>
+                <input type="number" id="prixArticle" min="1" step="any" class="form-control" placeholder="${requestScope.articleVendu.miseAPrix}"/><br/>
 
                 <label for="debutEnchere">Debut de l'enchère : </label>
-                <input type="date" id="debutEnchere" class="form-control"><br/>
+                <input type="text" id="debutEnchere" class="form-control" placeholder="${requestScope.articleVendu.dateDebutEnchere}"><br/>
 
                 <label for="finEnchere">Fin de l'enchère : </label>
-                <input type="date" id="finEnchere" class="form-control">
+                <input type="text" id="finEnchere" class="form-control" placeholder="${requestScope.articleVendu.dateFinEnchere}">
                 <br/>
                 <fieldset>
                     <legend>Retrait</legend>
                     <hr>
+                    <p>placeholder="${requestScope.articleVendu.lieuRetrait}</p>
                     <label for="rue">Rue : </label>
                     <input type="text" id="rue" class="form-control"/><br/>
 
@@ -65,7 +66,6 @@
                     <input type="text" id="ville" class="form-control"/>
                     <br/>
                 </fieldset>
-
                 <input type="submit" value="Enregistrer" class="btn btn-outline-primary">
                 <button value="" class="btn btn-outline-danger">Annuler</button>
                 <button value="" class="btn btn-outline-danger">Annuler la vente</button>
@@ -74,7 +74,7 @@
     </card>
 </div>
 <div>
-    <%= request.getParameter("listArticle") %>
+
 </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
