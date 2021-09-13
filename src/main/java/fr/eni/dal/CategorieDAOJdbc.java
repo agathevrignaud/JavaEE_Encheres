@@ -17,6 +17,9 @@ public class CategorieDAOJdbc implements CategorieDAO {
     // TODO : vérifier le fonctionnement attendu d'une suppression de catégorie
     private static final String DELETE_CATEGORY = "DELETE FROM CATEGORIES WHERE no_categorie=?";
 
+    /**
+     * Séléctionne toutes le catégories
+     */
     @Override
     public List<Categorie> selectAll() {
         List<Categorie> lesCategories = new ArrayList<Categorie>();
@@ -37,6 +40,9 @@ public class CategorieDAOJdbc implements CategorieDAO {
         return lesCategories;
     }
 
+    /**
+     * Créer une catégorie
+     */
     @Override
     public void createCategory(Categorie laCategorie) {
         if(laCategorie==null) {
@@ -55,6 +61,9 @@ public class CategorieDAOJdbc implements CategorieDAO {
         }
     }
 
+    /**
+     * Mettre à jour une catégorie
+     */
     @Override
     public void updateCategory(Categorie laCategorie) {
         if(laCategorie==null) {
@@ -73,6 +82,9 @@ public class CategorieDAOJdbc implements CategorieDAO {
         }
     }
 
+    /**
+     * Supprimer une catégorie
+     */
     @Override
     public void deleteCategory(int idCategory) {
         try(Connection cnx = ConnectionProvider.getConnection()) {
@@ -84,6 +96,9 @@ public class CategorieDAOJdbc implements CategorieDAO {
         }
     }
 
+    /**
+     * Séléctionner une catégorie par son id
+     */
     public Categorie selectById(int idCategorie) {
         Categorie categorie = null;
         try(Connection cnx = ConnectionProvider.getConnection()){
@@ -100,6 +115,9 @@ public class CategorieDAOJdbc implements CategorieDAO {
         return categorie;
     }
 
+    /**
+     * Map une catégorie
+     */
     public Categorie map(ResultSet rs) throws SQLException {
         int no_categorie = rs.getInt("no_categorie");
         String libelle = rs.getString("libelle");
