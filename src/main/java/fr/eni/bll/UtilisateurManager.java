@@ -5,9 +5,11 @@ import fr.eni.dal.DAOFactory;
 import fr.eni.dal.UtilisateurDAO;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class UtilisateurManager {
     private final UtilisateurDAO utilisateurDAO;
+    Logger log = Logger.getLogger(this.getClass().getSimpleName());
 
     public UtilisateurManager() {
         utilisateurDAO = DAOFactory.getUtilisateurDAO();
@@ -23,7 +25,7 @@ public class UtilisateurManager {
 
     public Utilisateur addNewUser(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws BLLException {
         BLLException bllException = new BLLException();
-        Utilisateur lUtilisateur = null;
+        Utilisateur lUtilisateur;
         isUserInfoValid(pseudo, email, motDePasse, motDePasseConfirmation, bllException);
         if (!bllException.hasErreurs()) {
             lUtilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
