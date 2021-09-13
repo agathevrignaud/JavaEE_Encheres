@@ -31,7 +31,7 @@
     </div>
 </form>
 <br>
-<c:if test="${sessionScope.userIsAuthenticated}">
+<c:if test="${isUserLoggedIn}">
 
     <card>
         <form action="">
