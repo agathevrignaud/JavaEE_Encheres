@@ -6,9 +6,6 @@
     </head>
     <body>
         <%@ include file="/WEB-INF/navigation/header.jsp" %>
-        <c:if test="${not empty listeErreurs}">
-            <!-- TODO : Afficher les erreurs liées au formulaire ici -->
-        </c:if>
         <h3>Veuillez entrez vos identifiants de connexion :</h3>
         <form method="post" action="${pageContext.request.contextPath}/forgottenPwd">
             <fieldset>
@@ -22,6 +19,11 @@
                 </c:when>
                 <c:when test="${isUserInDb != null && !isUserInDb}">
                     <c:out value="Erreur lors de la saisie, veuillez recommencer."></c:out>
+                    <c:if test="${not empty listeCodesErreurs}">
+                        <c:forEach items="${ listeCodesErreurs }" var="code">
+                            <li>${LecteurMessage.getMessageErreur(code)}</li>
+                        </c:forEach>
+                    </c:if>
                 </c:when>
             </c:choose>
         </form>
