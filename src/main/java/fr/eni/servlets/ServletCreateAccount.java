@@ -1,5 +1,6 @@
 package fr.eni.servlets;
 
+import fr.eni.bll.BLLException;
 import fr.eni.bll.UtilisateurManager;
 import fr.eni.bo.Utilisateur;
 
@@ -33,15 +34,14 @@ public class ServletCreateAccount extends HttpServlet {
             case "createAccount":
                 //  TODO : compléter des fonctions de vérif avec code d'erreur personnalisé
                 String pseudo = checkUsername(request, listeCodesErreur);
-                System.out.print(listeCodesErreur.size());
-                String nom = request.getParameter("surname");
-                String prenom = request.getParameter("firstname");
-                String email = request.getParameter("email");
+                String nom = checkSurname(request, listeCodesErreur);
+                String prenom = checkFirstName(request, listeCodesErreur);
+                String email = checkEmail(request, listeCodesErreur);
                 String telephone = request.getParameter("phoneNumber");
-                String rue = request.getParameter("streetName");
-                String codePostal = request.getParameter("zipCode");
-                String ville = request.getParameter("city");
-                String motDePasse = request.getParameter("password");
+                String rue = checkStreetName(request, listeCodesErreur);
+                String codePostal = checkZipCode(request, listeCodesErreur);
+                String ville = checkCity(request, listeCodesErreur);
+                String motDePasse = checkPassword(request, listeCodesErreur);
                 String motDePasseConfirmation = request.getParameter("confirmPwd");
 
                 if (listeCodesErreur.size()>0) {
@@ -69,13 +69,82 @@ public class ServletCreateAccount extends HttpServlet {
 
     }
 
-
     private String checkUsername(HttpServletRequest request, List<Integer> listeCodesErreur) {
         String username;
         username = request.getParameter("username");
         if(username == null || username.trim().equals("")) {
             listeCodesErreur.add(CodesResultatServlets.USERNAME_REQUIRED);
         }
+        // TODO : modifier le manager pour avoir un booléen
         return username;
     }
+
+    private String checkSurname(HttpServletRequest request, List<Integer> listeCodesErreur) {
+        String surname;
+        surname = request.getParameter("surname");
+        if(surname == null || surname.trim().equals("")) {
+            listeCodesErreur.add(CodesResultatServlets.SURNAME_REQUIRED);
+        }
+        return surname;
+    }
+
+    private String checkFirstName(HttpServletRequest request, List<Integer> listeCodesErreur) {
+        String firstName;
+        firstName = request.getParameter("firstName");
+        if(firstName == null || firstName.trim().equals("")) {
+            listeCodesErreur.add(CodesResultatServlets.FIRSTNAME_REQUIRED);
+        }
+        return firstName;
+    }
+
+    private String checkEmail(HttpServletRequest request, List<Integer> listeCodesErreur) {
+        String email;
+        email = request.getParameter("email");
+        if(email == null || email.trim().equals("")) {
+            listeCodesErreur.add(CodesResultatServlets.EMAIL_REQUIRED);
+        }
+        // TODO : modifier le manager pour avoir un booléen
+        return email;
+    }
+
+    private String checkStreetName(HttpServletRequest request, List<Integer> listeCodesErreur) {
+        String streetName;
+        streetName = request.getParameter("streetName");
+        if(streetName == null || streetName.trim().equals("")) {
+            listeCodesErreur.add(CodesResultatServlets.STREETNAME_REQUIRED);
+        }
+        return streetName;
+    }
+
+    private String checkZipCode(HttpServletRequest request, List<Integer> listeCodesErreur) {
+        String zipCode;
+        zipCode = request.getParameter("zipCode");
+        if(zipCode == null || zipCode.trim().equals("")) {
+            listeCodesErreur.add(CodesResultatServlets.ZIPCODE_REQUIRED);
+        }
+        return zipCode;
+    }
+
+    private String checkCity(HttpServletRequest request, List<Integer> listeCodesErreur) {
+        String city;
+        city = request.getParameter("city");
+        if(city == null || city.trim().equals("")) {
+            listeCodesErreur.add(CodesResultatServlets.CITY_REQUIRED);
+        }
+        return city;
+    }
+
+    private String checkPassword(HttpServletRequest request, List<Integer> listeCodesErreur) {
+        String pwd = request.getParameter("pwd");
+        String confirmPwd = request.getParameter("confirmPwd");
+        if(pwd == null || pwd.trim().equals("")) {
+            listeCodesErreur.add(CodesResultatServlets.PWD_REQUIRED);
+        }
+        if(confirmPwd == null || confirmPwd.trim().equals("")) {
+            listeCodesErreur.add(CodesResultatServlets.PWD_CONFIRMED_REQUIRED);
+        }
+        // TODO : Vérifier si les deux pwd sont identiques, puis si pwd est valide
+        return pwd;
+    }
+
 }

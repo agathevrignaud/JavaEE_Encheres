@@ -6,7 +6,6 @@ import fr.eni.dal.DAOFactory;
 import fr.eni.dal.UtilisateurDAO;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class UtilisateurManager {
     private final UtilisateurDAO utilisateurDAO;
@@ -23,69 +22,99 @@ public class UtilisateurManager {
         return utilisateurDAO.selectById(userId);
     }
 
-    public Utilisateur addNewUser(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws BLLException {
-        Utilisateur lUtilisateur = new Utilisateur();
-        try {
-            isUserInfoValid(pseudo, email, motDePasse, motDePasseConfirmation);
+    //TODO : supprimer la DALException (qui sort de nulle part)
+    public Utilisateur addNewUser(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws BLLException, DALException {
+        BLLException bllException = new BLLException();
+        Utilisateur lUtilisateur = null;
+        isUserInfoValid(pseudo, email, motDePasse, motDePasseConfirmation, bllException);
+        if (!bllException.hasErreurs()) {
             lUtilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
-            try {
-                lUtilisateur = utilisateurDAO.createUser(lUtilisateur);
-            } catch (DALException dalEx) {
-                dalEx.printStackTrace();
-            }
-
-        } catch (BLLException bllEx) {
-            throw new BLLException("Erreur lors de la création de l'utilisateur", bllEx);
+            lUtilisateur = utilisateurDAO.createUser(lUtilisateur);
+        } else {
+            throw bllException;
         }
         return lUtilisateur;
     }
 
-    public void isUserInfoValid(String pseudo, String email, String mdp, String mdpConf) throws BLLException {
-        isPseudoAndEmailValid(pseudo, email);
-        isPasswordValid(mdp, mdpConf);
+    public boolean isUserInfoValid(String pseudo, String email, String mdp, String mdpConf, BLLException bllException) throws BLLException {
+        return isUsernameValid(pseudo, bllException) && isEmailValid(email, bllException) && isPasswordValid(mdp, mdpConf, bllException);
     }
 
-    public void isPseudoAndEmailValid(String pseudo, String email) throws BLLException {
+    public boolean isUsernameValid(String pseudo, BLLException bllException) throws BLLException {
         List<Utilisateur> lesUtilisateurs = utilisateurDAO.selectAll();
-
-        String regexEmail = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\\\.[A-Za-z0-9-]+)*(\\\\.[A-Za-z]{2,})$";
-        if (Pattern.compile(regexEmail).matcher(email).matches()) {
-            throw new BLLException("L'adresse mail doit être correct");
-        }
-
-        // Uniquement des caractères alphanumériques
         String regexPatternPseudo = "^[a-zA-Z0-9]*$";
-        if (!pseudo.matches(regexPatternPseudo)) {
-            throw new BLLException("Le pseudo doit être correct");
-        }
-        // pseudo + email uniques
-        for (Utilisateur unUtilisateur : lesUtilisateurs) {
-            if (unUtilisateur.getPseudo().equals(pseudo) || unUtilisateur.getEmail().equals(email)) {
-                throw new BLLException("Pseudo ou adresse mail déjà existante");
+        boolean isValid = true;
+        if (pseudo.length() > 0 || pseudo.trim().equals("")) {
+            if (!pseudo.matches(regexPatternPseudo)) {
+                isValid = false;
+                bllException.ajouterErreur(CodesResultatBLL.USERNAME_INVALID);
             }
+            for (Utilisateur unUtilisateur : lesUtilisateurs) {
+                if (unUtilisateur.getPseudo().equals(pseudo)) {
+                    isValid = false;
+                    bllException.ajouterErreur(CodesResultatBLL.USERNAME_ALREADY_USED);
+                }
+            }
+        } else {
+            isValid = false;
+            bllException.ajouterErreur(CodesResultatBLL.USERNAME_REQUIRED);
         }
+        return isValid;
     }
 
-    public void isPasswordValid(String mdp, String mdpConf) throws BLLException {
-        String regexPattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,12}$";
-
-        if (mdp.length() > 0 && mdpConf.length() > 0) {
-            if (!mdp.matches(regexPattern)) {
-                throw new BLLException("Le mot de passe doit avoir un format correct");
+    public boolean isEmailValid(String email, BLLException bllException) throws BLLException {
+        List<Utilisateur> lesUtilisateurs = utilisateurDAO.selectAll();
+        boolean isValid = true;
+        if (email.length() > 0 || email.trim().equals("")) {
+            for (Utilisateur unUtilisateur : lesUtilisateurs) {
+                if (unUtilisateur.getEmail().equals(email)) {
+                    isValid = false;
+                    bllException.ajouterErreur(CodesResultatBLL.EMAIL_ALREADY_USED);
+                }
             }
-            if (!mdp.equals(mdpConf)) {
-                throw new BLLException("Les mots de passe ne sont pas identiques");
+        } else {
+            isValid = false;
+            bllException.ajouterErreur(CodesResultatBLL.EMAIL_REQUIRED);
+        }
+        return isValid;
+    }
+
+    public boolean isPasswordValid(String mdp, String mdpConf, BLLException bllException) throws BLLException {
+        boolean isValid = true;
+        String regexPattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,12}$";
+        if (mdp.length() > 0 || mdp.trim().equals("") || mdpConf.length() > 0 || mdpConf.trim().equals("")) {
+            if (mdp.length() > 0 && mdpConf.length() > 0) {
+                if (!mdp.matches(regexPattern)) {
+                    isValid = false;
+                    bllException.ajouterErreur(CodesResultatBLL.PWD_NOT_VALID);
+                }
+                if (!mdp.equals(mdpConf)) {
+                    bllException.ajouterErreur(CodesResultatBLL.PWD_PWD_CONFIRMED_NOT_IDENTICAL);
+                    isValid = false;
+                }
+            }
+        } else {
+            if (mdp.length() > 0 || mdp.trim().equals("")) {
+                isValid = false;
+                bllException.ajouterErreur(CodesResultatBLL.PWD_REQUIRED);
+            }
+            if (mdpConf.length() > 0 || mdpConf.trim().equals("")) {
+                isValid = false;
+                bllException.ajouterErreur(CodesResultatBLL.PWD_CONFIRMED_REQUIRED);
             }
         }
+
+        return isValid ;
     }
 
     public void updateUserData(int userId, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws BLLException {
+        BLLException bllException = new BLLException();
         try {
-            isUserInfoValid(pseudo, email, motDePasse, motDePasseConfirmation);
+            isUserInfoValid(pseudo, email, motDePasse, motDePasseConfirmation, bllException);
             Utilisateur lUtilisateur = new Utilisateur(userId, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
             utilisateurDAO.updateUserData(lUtilisateur);
         } catch (BLLException bllEx) {
-            throw new BLLException("Erreur lors de la màj de l'utilisateur", bllEx);
+
         }
     }
 

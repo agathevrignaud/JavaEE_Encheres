@@ -3,6 +3,9 @@
     <body>
         <ul>
             <li>
+                <!-- TODO : US 6003 + 9001
+                <i class="fas fa-shopping-cart"></i>
+                -->
                 <a href="${pageContext.request.contextPath}/">ENI Enchères</a>
             </li>
             <c:choose>
@@ -10,14 +13,14 @@
                     <li>
                         <a href="${pageContext.request.contextPath}/myProfile?idUser=${userInfo.no_utilisateur}">Mon Profil</a>
                     </li>
+                    <c:if test="${userInfo.administrateur}">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/adminTools">Administration</a>
+                        </li
+                    </c:if>
                     <li>
                         <a href="${pageContext.request.contextPath}/">Déconnexion</a>
                     </li
-                        <c:if test="${userInfo.administrateur}">
-                            <li>
-                                <a href="${pageContext.request.contextPath}/adminTools">Administration</a>
-                            </li
-                        </c:if>
                 </c:when>
                 <c:otherwise>
                     <li>

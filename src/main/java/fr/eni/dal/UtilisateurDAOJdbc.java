@@ -83,9 +83,9 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
     }
 
     @Override
-    public Utilisateur createUser(Utilisateur lUtilisateur) throws DALException {
+    public Utilisateur createUser(Utilisateur lUtilisateur) {
         if (lUtilisateur == null) {
-            throw new NullPointerException("lUtilisateur shoudln't be null");
+            //
         }
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(INSERT_USER, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -107,7 +107,6 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.close();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new DALException(e.getMessage(), e.getCause());
         }
         return lUtilisateur;
     }

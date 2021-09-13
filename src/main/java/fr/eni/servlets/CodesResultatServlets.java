@@ -2,8 +2,8 @@ package fr.eni.servlets;
 
     // 30000 et 39999
     public abstract class CodesResultatServlets {
-    // Error Codes for Accounts/Users
-        //  Error Codes for Account Creation
+    // Codes for Accounts/Users
+        //  Codes for Account Creation
         public static final int CREATE_ACCOUNT_ERROR=30000;
         public static final int CREATE_ACCOUNT_SUCCESS=30001;
         public static final int USERNAME_REQUIRED=30003;
@@ -20,24 +20,24 @@ package fr.eni.servlets;
         public static final int PWD_NOT_VALID=30013;
         public static final int PWD_PWD_CONFIRMED_NOT_IDENTICAL=30014;
 
-        // Error Codes for Login
+        // Codes for Login
         public static final int LOGIN_ERROR = 30100;
         public static final int LOGIN_SUCCESS = 30101;
 
-        // Error Codes for Forgotten Password
+        // Codes for Forgotten Password
         public static final int F_PWD_ERROR = 30200;
         public static final int F_PWD_SUCCESS = 30301;
 
-        // Error Codes for Profile Edition (re-using some account creation codes)
+        // Codes for Profile Edition (re-using some account creation codes)
         public static final int PROFILE_EDIT_ERROR = 30300;
         public static final int PROFILE_EDIT_SUCCESS = 30301;
 
-    // Error Codes for Auctions
-        // Error Codes for Auction Creation
-        // Error Codes for Auction Edition
+    // Codes for Auctions
+        // Codes for Auction Creation
+        // Codes for Auction Edition
 
-    // Error Codes for Administration Pannel
-        // Error Codes for User Management
-        // Error Codes for Category Management
+    // Codes for Administration Pannel
+        // Codes for User Management
+        // Codes for Category Management
 
     }
