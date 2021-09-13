@@ -15,10 +15,7 @@ public abstract class CodesResultatServlets {
     public static final int CITY_REQUIRED=30009;
     public static final int PWD_REQUIRED=30010;
     public static final int PWD_CONFIRMED_REQUIRED=30011;
-    public static final int USERNAME_ALREADY_USED=30012;
-    public static final int EMAIL_ALREADY_USED=30013;
-    public static final int PWD_NOT_VALID=30014;
-    public static final int PWD_PWD_CONFIRMED_NOT_IDENTICAL=30015;
+    public static final int PWD_PWD_CONFIRMED_NOT_IDENTICAL=30012;
 
     // Codes for Login
     public static final int LOGIN_ERROR = 30100;

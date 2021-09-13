@@ -5,12 +5,12 @@ import fr.eni.dal.DAOFactory;
 import fr.eni.dal.UtilisateurDAO;
 
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UtilisateurManager {
     private final UtilisateurDAO utilisateurDAO;
-    private static final Logger LOG = Logger.getLogger("LogsBLL");
-
+    private static final Logger myLogger = Logger.getLogger("LogsBLL");
     public UtilisateurManager() {
         utilisateurDAO = DAOFactory.getUtilisateurDAO();
     }
@@ -31,7 +31,7 @@ public class UtilisateurManager {
             lUtilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
             lUtilisateur = utilisateurDAO.createUser(lUtilisateur);
         } else {
-            LOG.warning("Erreur lors de la création du compte");
+            myLogger.log(Level.WARNING,"Erreur lors de la création de l'utilisateur " + pseudo, bllException);
             throw bllException;
         }
         return lUtilisateur;
@@ -48,17 +48,17 @@ public class UtilisateurManager {
         String regexPatternPseudo = "^[a-zA-Z0-9]*$";
         if (pseudo.length() > 0 || pseudo.trim().equals("")) {
             if (!pseudo.matches(regexPatternPseudo)) {
-                LOG.warning("");
+                myLogger.log(Level.WARNING,"Format du nom d'utilisateur invalide",bllException);
                 bllException.ajouterErreur(CodesResultatBLL.USERNAME_INVALID);
             }
             for (Utilisateur unUtilisateur : lesUtilisateurs) {
                 if (unUtilisateur.getPseudo().equals(pseudo)) {
-                    LOG.warning("");
+                    myLogger.log(Level.WARNING,"Nom d'utilisateur déjà pris", bllException);
                     bllException.ajouterErreur(CodesResultatBLL.USERNAME_ALREADY_USED);
                 }
             }
         } else {
-            LOG.warning("");
+            myLogger.log(Level.WARNING,"Nom d'utilisateur vide ou null", bllException);
             bllException.ajouterErreur(CodesResultatBLL.USERNAME_REQUIRED);
         }
     }
@@ -68,12 +68,12 @@ public class UtilisateurManager {
         if (email.length() > 0 || email.trim().equals("")) {
             for (Utilisateur unUtilisateur : lesUtilisateurs) {
                 if (unUtilisateur.getEmail().equals(email)) {
-                    LOG.warning("");
+                    myLogger.log(Level.WARNING,"Email déjà utilisé", bllException);
                     bllException.ajouterErreur(CodesResultatBLL.EMAIL_ALREADY_USED);
                 }
             }
         } else {
-            LOG.warning("");
+            myLogger.log(Level.WARNING,"Email vide ou null", bllException);
             bllException.ajouterErreur(CodesResultatBLL.EMAIL_REQUIRED);
         }
     }
@@ -83,35 +83,35 @@ public class UtilisateurManager {
         if (mdp.length() > 0 || mdp.trim().equals("") || mdpConf.length() > 0 || mdpConf.trim().equals("")) {
             if (mdp.length() > 0 && mdpConf.length() > 0) {
                 if (!mdp.matches(regexPattern)) {
-                    LOG.warning("");
+                    myLogger.log(Level.WARNING,"Format du mdp invalide", bllException);
                     bllException.ajouterErreur(CodesResultatBLL.PWD_NOT_VALID);
                 }
                 if (!mdp.equals(mdpConf)) {
-                    LOG.warning("");
+                    myLogger.log(Level.WARNING,"Format du mdp invalide", bllException);
                     bllException.ajouterErreur(CodesResultatBLL.PWD_PWD_CONFIRMED_NOT_IDENTICAL);
                 }
             }
         } else {
             if (mdp.length() > 0 || mdp.trim().equals("")) {
-                LOG.warning("");
+                myLogger.log(Level.WARNING,"Mdp vide ou null", bllException);
                 bllException.ajouterErreur(CodesResultatBLL.PWD_REQUIRED);
             }
             if (mdpConf.length() > 0 || mdpConf.trim().equals("")) {
-                LOG.warning("");
+                myLogger.log(Level.WARNING,"Confirmation mdp vide ou nulle", bllException);
                 bllException.ajouterErreur(CodesResultatBLL.PWD_CONFIRMED_REQUIRED);
             }
         }
     }
 
-    public void updateUserData(int userId, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws BLLException {
+    public void updateUserData(int idUser, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws BLLException {
         BLLException bllException = new BLLException();
         Utilisateur lUtilisateur;
         isUserInfoValid(pseudo, email, motDePasse, motDePasseConfirmation, bllException);
         if (!bllException.hasErreurs()) {
-            lUtilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
+            lUtilisateur = new Utilisateur(idUser, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
             utilisateurDAO.updateUserData(lUtilisateur);
         } else {
-            LOG.warning("");
+            myLogger.log(Level.WARNING,"Erreur lors de la mise à jour des informations de l'utilisateur " + idUser, bllException);
             throw bllException;
         }
     }
@@ -122,6 +122,7 @@ public class UtilisateurManager {
 
     public void updateUserCredit(int creditSpent, int idUser) throws BLLException {
         if ((utilisateurDAO.selectById(idUser).getCredit() - creditSpent) < 0) {
+            myLogger.log(Level.WARNING,"Erreur lors de la mise à jour des crédits de l'utilisateur " + idUser, new BLLException());
             throw new BLLException();
         } else {
             utilisateurDAO.updateUserCredit(utilisateurDAO.selectById(idUser).getCredit() - creditSpent, idUser);

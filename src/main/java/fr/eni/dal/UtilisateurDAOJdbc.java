@@ -9,10 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-// TODO : Ajouter des logs + meilleure gestion des erreurs avec un système de codes/messages
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UtilisateurDAOJdbc implements UtilisateurDAO {
+    private static final Logger myLogger = Logger.getLogger("LogsDAL");
     private static final String SELECT_ALL_USERS = "SELECT * FROM UTILISATEURS U";
     private static final String SELECT_USER_BY_ID = "SELECT * FROM UTILISATEURS WHERE NO_UTILISATEUR=?";
     private static final String INSERT_USER = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?)";
@@ -52,6 +53,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             e.printStackTrace();
             BLLException bllException = new BLLException();
             bllException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_ALL);
+            myLogger.log(Level.WARNING,"Erreur lors de la sélection des utilisateurs", bllException);
             throw bllException;
         }
         return lesUtilisateurs;
@@ -81,9 +83,10 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            BLLException BLLException = new BLLException();
-            BLLException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_BY_ID);
-            throw BLLException;
+            BLLException bllException = new BLLException();
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_BY_ID);
+            myLogger.log(Level.WARNING,"Erreur lors de la sélection de l'utilisateur (idUser : " + idUser +")", bllException);
+            throw bllException;
         }
         return lUtilisateur;
     }
@@ -115,6 +118,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             e.printStackTrace();
             BLLException bllException = new BLLException();
             bllException.ajouterErreur(CodesResultatDAL.ERROR_CREATE_USER);
+            myLogger.log(Level.WARNING,"Erreur lors de la création d'un nouvel utilisateur", bllException);
             throw bllException;
         }
         return lUtilisateur;
@@ -141,6 +145,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             e.printStackTrace();
             BLLException bllException = new BLLException();
             bllException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_USER_DATA);
+            myLogger.log(Level.WARNING,"Erreur lors de la mise à jour des informations de l'utilisateur (idUser : " + lUtilisateur.getNo_utilisateur()  + ")", bllException);
             throw bllException;
         }
     }
@@ -148,7 +153,6 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
     @Override
     public void updateUserAccountStatus(int idUser) throws BLLException {
         Utilisateur lUtilisateur = this.selectById(idUser);
-
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(UPDATE_USER_ACCOUNT_STATUS);
             pstmt.setBoolean(1, !lUtilisateur.isCompteActif());
@@ -156,9 +160,10 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            BLLException BLLException = new BLLException();
-            BLLException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_USER_ACCOUNT_STATUS);
-            throw BLLException;
+            BLLException bllException = new BLLException();
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_USER_ACCOUNT_STATUS);
+            myLogger.log(Level.WARNING,"Erreur lors de la mise à jour du statut du compte de l'utilisateur (idUser : " + idUser  + ")", bllException);
+            throw bllException;
         }
     }
 
@@ -173,6 +178,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             e.printStackTrace();
             BLLException bllException = new BLLException();
             bllException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_USER_CREDIT);
+            myLogger.log(Level.WARNING,"Erreur lors de la mise à jour des crédits de l'utilisateur (idUser : " + idUser  + ")", bllException);
             throw bllException;
         }
     }
@@ -187,6 +193,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             e.printStackTrace();
             BLLException bllException = new BLLException();
             bllException.ajouterErreur(CodesResultatDAL.ERROR_DELETE_USER);
+            myLogger.log(Level.WARNING,"Erreur lors de la suppression de l'utilisateur (idUser : " + idUser  + ")", bllException);
             throw bllException;
         }
     }
@@ -211,6 +218,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             e.printStackTrace();
             BLLException bllException = new BLLException();
             bllException.ajouterErreur(CodesResultatDAL.ERROR_CHECK_USER_EXISTENCE);
+            myLogger.log(Level.WARNING,"Erreur lors de la vérification de l'utilisateur supposé " + username + "/" + email, bllException);
             throw bllException;
         }
         return lUtilisateur;
@@ -227,6 +235,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             e.printStackTrace();
             BLLException bllException = new BLLException();
             bllException.ajouterErreur(CodesResultatDAL.ERROR_RESET_PWD);
+            myLogger.log(Level.WARNING,"Erreur lors de la réinitialisation du mdp de l'utilisateur (idUser : " + idUser  + ")", bllException);
             throw bllException;
         }
     }
