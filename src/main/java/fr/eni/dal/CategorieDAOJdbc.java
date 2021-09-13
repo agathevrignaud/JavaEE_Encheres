@@ -17,6 +17,9 @@ public class CategorieDAOJdbc implements CategorieDAO {
     private static final String SELECT_BY_ID = "SELECT * FROM CATEGORIES WHERE no_categorie = ?";
     private static final String CHECK_IF_CATEGORY_IS_USED = "SELECT COUNT(no_categorie) as nbrUtilisations FROM ARTICLES_VENDUS WHERE no_categorie=?";
 
+    /**
+     * Séléctionne toutes le catégories
+     */
     @Override
     public List<Categorie> selectAll() {
         List<Categorie> lesCategories = new ArrayList<Categorie>();
@@ -38,6 +41,9 @@ public class CategorieDAOJdbc implements CategorieDAO {
         return lesCategories;
     }
 
+    /**
+     * Créer une catégorie
+     */
     @Override
     public void createCategory(Categorie laCategorie) {
         if (laCategorie == null) {
@@ -55,6 +61,9 @@ public class CategorieDAOJdbc implements CategorieDAO {
         }
     }
 
+    /**
+     * Mettre à jour une catégorie
+     */
     @Override
     public void updateCategory(Categorie laCategorie) {
         if (laCategorie == null) {
@@ -72,6 +81,9 @@ public class CategorieDAOJdbc implements CategorieDAO {
         }
     }
 
+    /**
+     * Supprimer une catégorie
+     */
     @Override
     public void deleteCategory(int idCategory) {
         try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -99,6 +111,9 @@ public class CategorieDAOJdbc implements CategorieDAO {
         return numberOfUses;
     }
 
+    /**
+     * Séléctionner une catégorie par son id
+     */
     public Categorie selectById(int idCategorie) {
         Categorie categorie = null;
         try(Connection cnx = ConnectionProvider.getConnection()){
@@ -115,6 +130,9 @@ public class CategorieDAOJdbc implements CategorieDAO {
         return categorie;
     }
 
+    /**
+     * Map une catégorie
+     */
     public Categorie map(ResultSet rs) throws SQLException {
         int no_categorie = rs.getInt("no_categorie");
         String libelle = rs.getString("libelle");
