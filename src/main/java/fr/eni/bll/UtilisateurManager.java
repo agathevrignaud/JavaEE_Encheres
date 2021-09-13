@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 public class UtilisateurManager {
     private final UtilisateurDAO utilisateurDAO;
-    Logger log = Logger.getLogger(this.getClass().getSimpleName());
+    private static final Logger LOG = Logger.getLogger("LogsBLL");
 
     public UtilisateurManager() {
         utilisateurDAO = DAOFactory.getUtilisateurDAO();
@@ -31,6 +31,7 @@ public class UtilisateurManager {
             lUtilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
             lUtilisateur = utilisateurDAO.createUser(lUtilisateur);
         } else {
+            LOG.warning("Erreur lors de la création du compte");
             throw bllException;
         }
         return lUtilisateur;
@@ -47,14 +48,17 @@ public class UtilisateurManager {
         String regexPatternPseudo = "^[a-zA-Z0-9]*$";
         if (pseudo.length() > 0 || pseudo.trim().equals("")) {
             if (!pseudo.matches(regexPatternPseudo)) {
+                LOG.warning("");
                 bllException.ajouterErreur(CodesResultatBLL.USERNAME_INVALID);
             }
             for (Utilisateur unUtilisateur : lesUtilisateurs) {
                 if (unUtilisateur.getPseudo().equals(pseudo)) {
+                    LOG.warning("");
                     bllException.ajouterErreur(CodesResultatBLL.USERNAME_ALREADY_USED);
                 }
             }
         } else {
+            LOG.warning("");
             bllException.ajouterErreur(CodesResultatBLL.USERNAME_REQUIRED);
         }
     }
@@ -64,10 +68,12 @@ public class UtilisateurManager {
         if (email.length() > 0 || email.trim().equals("")) {
             for (Utilisateur unUtilisateur : lesUtilisateurs) {
                 if (unUtilisateur.getEmail().equals(email)) {
+                    LOG.warning("");
                     bllException.ajouterErreur(CodesResultatBLL.EMAIL_ALREADY_USED);
                 }
             }
         } else {
+            LOG.warning("");
             bllException.ajouterErreur(CodesResultatBLL.EMAIL_REQUIRED);
         }
     }
@@ -77,17 +83,21 @@ public class UtilisateurManager {
         if (mdp.length() > 0 || mdp.trim().equals("") || mdpConf.length() > 0 || mdpConf.trim().equals("")) {
             if (mdp.length() > 0 && mdpConf.length() > 0) {
                 if (!mdp.matches(regexPattern)) {
+                    LOG.warning("");
                     bllException.ajouterErreur(CodesResultatBLL.PWD_NOT_VALID);
                 }
                 if (!mdp.equals(mdpConf)) {
+                    LOG.warning("");
                     bllException.ajouterErreur(CodesResultatBLL.PWD_PWD_CONFIRMED_NOT_IDENTICAL);
                 }
             }
         } else {
             if (mdp.length() > 0 || mdp.trim().equals("")) {
+                LOG.warning("");
                 bllException.ajouterErreur(CodesResultatBLL.PWD_REQUIRED);
             }
             if (mdpConf.length() > 0 || mdpConf.trim().equals("")) {
+                LOG.warning("");
                 bllException.ajouterErreur(CodesResultatBLL.PWD_CONFIRMED_REQUIRED);
             }
         }
@@ -95,12 +105,14 @@ public class UtilisateurManager {
 
     public void updateUserData(int userId, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws BLLException {
         BLLException bllException = new BLLException();
-        try {
-            isUserInfoValid(pseudo, email, motDePasse, motDePasseConfirmation, bllException);
-            Utilisateur lUtilisateur = new Utilisateur(userId, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
+        Utilisateur lUtilisateur;
+        isUserInfoValid(pseudo, email, motDePasse, motDePasseConfirmation, bllException);
+        if (!bllException.hasErreurs()) {
+            lUtilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
             utilisateurDAO.updateUserData(lUtilisateur);
-        } catch (BLLException bllEx) {
-
+        } else {
+            LOG.warning("");
+            throw bllException;
         }
     }
 
@@ -108,9 +120,9 @@ public class UtilisateurManager {
         utilisateurDAO.updateUserAccountStatus(idUser);
     }
 
-    public void updateUserCredit(int creditSpent, int idUser) throws Exception {
+    public void updateUserCredit(int creditSpent, int idUser) throws BLLException {
         if ((utilisateurDAO.selectById(idUser).getCredit() - creditSpent) < 0) {
-            throw new Exception();
+            throw new BLLException();
         } else {
             utilisateurDAO.updateUserCredit(utilisateurDAO.selectById(idUser).getCredit() - creditSpent, idUser);
         }
