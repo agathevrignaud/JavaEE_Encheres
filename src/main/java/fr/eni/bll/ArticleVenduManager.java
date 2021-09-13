@@ -17,19 +17,9 @@ public class ArticleVenduManager {
         articleVenduDAO = DAOFactory.getArticleVenduDAO();
     }
 
-    public List<ArticleVendu> getAllArticles() {
-        return articleVenduDAO.selectAll();
-    }
-
     public void addNewArticle(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
                               int miseAPrix, String etatVente, int idUser, Categorie laCategorie, Retrait lieuRetrait) {
         ArticleVendu lArticle = new ArticleVendu();
-    public void deleteArticle(int id) {}
-
-    public List<ArticleVendu> selectById(int id){
-
-        return null;
-    }
 
         lArticle.setNomArticle(nomArticle);
         lArticle.setDescription(description);
@@ -44,4 +34,26 @@ public class ArticleVenduManager {
         articleVenduDAO.createArticle(lArticle);
     }
 
+    /**
+     * Retourne une liste de tous les articles
+     */
+    public List<ArticleVendu> getAllArticles() {
+        return articleVenduDAO.selectAll();
+    }
+
+    /**
+     * Séléctionner un article vendu
+     */
+    public ArticleVendu selectArticleVendu(int idArticleVendu) {
+
+        return articleVenduDAO.selectById(idArticleVendu);
+    }
+
+    /**
+     * Supprimer un article (id)
+     */
+    public void deleteArticle(int id) {
+    }
+
+   
 }

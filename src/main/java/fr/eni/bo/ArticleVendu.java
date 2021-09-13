@@ -2,6 +2,9 @@ package fr.eni.bo;
 
 import java.time.LocalDate;
 
+/**
+ * Classe Article vendu
+ */
 public class ArticleVendu {
     private int no_article;
     private String nomArticle;
@@ -16,6 +19,19 @@ public class ArticleVendu {
     private int no_utilisateur;
 
     public ArticleVendu() {
+    }
+
+    public ArticleVendu(int no_article, String nomArticle, String description, Date dateDebutEnchere, Date dateFinEnchere, int miseAPrix, int prixVente, String etatVente, int no_utilisateur, Categorie no_categorie) {
+        this.no_article = no_article;
+        this.nomArticle = nomArticle;
+        this.description = description;
+        this.dateDebutEnchere = dateDebutEnchere;
+        this.dateFinEnchere = dateFinEnchere;
+        this.miseAPrix = miseAPrix;
+        this.prixVente = prixVente;
+        this.etatVente = etatVente;
+        this.no_utilisateur = no_utilisateur;
+        this.laCategorie = no_categorie;
     }
 
     public int getNo_article() {

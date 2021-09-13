@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
 
+
 @WebServlet(name = "ServletCancelSale", value = "/cancelsale")
 public class ServletCancelSale extends HttpServlet {
     @Override
@@ -17,9 +18,8 @@ public class ServletCancelSale extends HttpServlet {
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/cancelSale.jsp");
 
         ArticleVenduManager articleVenduManager = new ArticleVenduManager();
-        List<ArticleVendu> listArticle = null;
-        listArticle = articleVenduManager.selectById(1);
-        request.setAttribute("listArticle", listArticle);
+        ArticleVendu articleVendu = articleVenduManager.selectArticleVendu(2);
+        request.setAttribute("articleVendu", articleVendu);
 
         rd.forward(request, response);
 

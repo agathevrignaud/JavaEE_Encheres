@@ -14,6 +14,7 @@ public class CategorieDAOJdbc implements CategorieDAO {
     private static final String INSERT_NEW_CATEGORY = "INSERT INTO CATEGORIES VALUES (?)";
     private static final String UPDATE_CATEGORY = "UPDATE CATEGORIES SET libelle=? WHERE no_categorie=?";
     private static final String DELETE_CATEGORY = "DELETE FROM CATEGORIES WHERE no_categorie=?";
+    private static final String SELECT_BY_ID = "SELECT * FROM CATEGORIES WHERE no_categorie = ?";
     private static final String CHECK_IF_CATEGORY_IS_USED = "SELECT COUNT(no_categorie) as nbrUtilisations FROM ARTICLES_VENDUS WHERE no_categorie=?";
 
     @Override
@@ -96,5 +97,27 @@ public class CategorieDAOJdbc implements CategorieDAO {
             e.printStackTrace();
         }
         return numberOfUses;
+    }
+
+    public Categorie selectById(int idCategorie) {
+        Categorie categorie = null;
+        try(Connection cnx = ConnectionProvider.getConnection()){
+            PreparedStatement psmt = cnx.prepareStatement(SELECT_BY_ID);
+            psmt.setInt(1, idCategorie);
+            ResultSet rs = psmt.executeQuery();
+            if (rs.next()){
+                categorie = map(rs);
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return categorie;
+    }
+
+    public Categorie map(ResultSet rs) throws SQLException {
+        int no_categorie = rs.getInt("no_categorie");
+        String libelle = rs.getString("libelle");
+        return new Categorie(no_categorie, libelle);
     }
 }
