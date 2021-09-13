@@ -36,4 +36,5 @@ public class ArticleVenduManager {
 
         articleVenduDAO.createArticle(lArticle);
     }
+
 }

@@ -1,15 +1,13 @@
 package fr.eni.bll;
 
 import fr.eni.bo.Utilisateur;
-import fr.eni.dal.DALException;
 import fr.eni.dal.DAOFactory;
 import fr.eni.dal.UtilisateurDAO;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class UtilisateurManager {
-    private final UtilisateurDAO utilisateurDAO;
+    private UtilisateurDAO utilisateurDAO;
 
     public UtilisateurManager() {
         utilisateurDAO = DAOFactory.getUtilisateurDAO();
@@ -59,6 +57,11 @@ public class UtilisateurManager {
         }
         // pseudo + email uniques
         for (Utilisateur unUtilisateur : lesUtilisateurs) {
+            if (unUtilisateur.getNo_utilisateur() != idUser) {
+                if (unUtilisateur.getPseudo().equals(pseudo) || unUtilisateur.getEmail().equals(email)) {
+                    isValid = false;
+                    break;
+                }
             if (unUtilisateur.getPseudo().equals(pseudo) || unUtilisateur.getEmail().equals(email)) {
                 throw new BLLException("Pseudo ou adresse mail déjà existante");
             }
@@ -78,6 +81,9 @@ public class UtilisateurManager {
         }
     }
 
+    public void updateUserData(int userId, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws Exception {
+        if (isUserInfoValid(userId, pseudo, email, motDePasse, motDePasseConfirmation)) {
+            Utilisateur lUtilisateur = new Utilisateur(userId, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
     public void updateUserData(int userId, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, String motDePasseConfirmation) throws BLLException {
         try {
             isUserInfoValid(pseudo, email, motDePasse, motDePasseConfirmation);
@@ -92,11 +98,11 @@ public class UtilisateurManager {
         utilisateurDAO.updateUserAccountStatus(idUser);
     }
 
-    public void updateUserCredit(int creditSpent, int idUser) throws Exception {
-        if ((utilisateurDAO.selectById(idUser).getCredit() - creditSpent) < 0) {
+    public void updateUserCredit(int credit, int idUser) throws Exception {
+        if ((utilisateurDAO.selectById(idUser).getCredit() + credit) < 0) {
             throw new Exception();
         } else {
-            utilisateurDAO.updateUserCredit(utilisateurDAO.selectById(idUser).getCredit() - creditSpent, idUser);
+            utilisateurDAO.updateUserCredit(utilisateurDAO.selectById(idUser).getCredit() + credit, idUser);
         }
     }
 

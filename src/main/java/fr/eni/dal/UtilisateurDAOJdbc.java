@@ -12,15 +12,14 @@ import java.util.List;
 // TODO : Ajouter des logs + meilleure gestion des erreurs avec un système de codes/messages
 
 public class UtilisateurDAOJdbc implements UtilisateurDAO {
-    private static final String SELECT_ALL_USERS = "SELECT * FROM UTILISATEURS U";
+    private static final String SELECT_ALL_USERS = "SELECT * FROM UTILISATEURS";
     private static final String SELECT_USER_BY_ID = "SELECT * FROM UTILISATEURS WHERE NO_UTILISATEUR=?";
-    private static final String INSERT_USER = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String INSERT_USER = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?)";
     private static final String UPDATE_USER_DATA = "UPDATE UTILISATEURS SET " +
             "pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? " +
             "WHERE no_utilisateur=?";
     private static final String UPDATE_USER_ACCOUNT_STATUS = "UPDATE UTILISATEURS SET compteActif=? WHERE no_utilisateur=?";
     private static final String UPDATE_USER_CREDIT = "UPDATE UTILISATEURS SET credit=? WHERE no_utilisateur=?";
-
     private static final String DELETE_USER = "DELETE FROM UTILISATEURS WHERE no_utilisateur=?";
 
     @Override
@@ -52,7 +51,6 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return lesUtilisateurs;
     }
 
@@ -64,6 +62,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.setInt(1, idUser);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
+                lUtilisateur.setNo_utilisateur(rs.getInt("no_utilisateur"));
                 lUtilisateur.setPseudo(rs.getString("pseudo"));
                 lUtilisateur.setNom(rs.getString("nom"));
                 lUtilisateur.setPrenom(rs.getString("prenom"));
@@ -90,23 +89,21 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             throw new NullPointerException("lUtilisateur shoudln't be null");
         }
 
+        // TODO : Revoir l'histoire des Generated_Keys (récupérer le no_utilisateur après création ?)
         try (Connection cnx = ConnectionProvider.getConnection()) {
-            PreparedStatement pStmt = cnx.prepareStatement(INSERT_USER);
-            pStmt.setString(1, lUtilisateur.getPseudo());
-            pStmt.setString(2, lUtilisateur.getNom());
-            pStmt.setString(3, lUtilisateur.getPrenom());
-            pStmt.setString(4, lUtilisateur.getEmail());
-            pStmt.setString(5, lUtilisateur.getTelephone());
-            pStmt.setString(6, lUtilisateur.getRue());
-            pStmt.setString(7, lUtilisateur.getCodePostal());
-            pStmt.setString(8, lUtilisateur.getVille());
-            pStmt.setString(9, lUtilisateur.getMotDePasse());
-            pStmt.setInt(10, 0);
-            pStmt.setBoolean(11, false);
-            pStmt.setBoolean(12, true);
-            pStmt.executeUpdate();
+            PreparedStatement pstmt = cnx.prepareStatement(INSERT_USER);
 
-            pStmt.close();
+            pstmt.setString(1, lUtilisateur.getPseudo());
+            pstmt.setString(2, lUtilisateur.getNom());
+            pstmt.setString(3, lUtilisateur.getPrenom());
+            pstmt.setString(4, lUtilisateur.getEmail());
+            pstmt.setString(5, lUtilisateur.getTelephone());
+            pstmt.setString(6, lUtilisateur.getRue());
+            pstmt.setString(7, lUtilisateur.getCodePostal());
+            pstmt.setString(8, lUtilisateur.getVille());
+            pstmt.setString(9, lUtilisateur.getMotDePasse());
+
+            pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
             throw new DALException(e.getMessage(), e.getCause());
@@ -130,7 +127,8 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.setInt(10, lUtilisateur.getNo_utilisateur());
 
             pstmt.executeUpdate();
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            System.out.print("Erreur lors de la màj de l'utilisateur");
             e.printStackTrace();
         }
     }

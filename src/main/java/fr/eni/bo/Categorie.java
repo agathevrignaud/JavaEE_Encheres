@@ -7,6 +7,15 @@ public class Categorie {
     public Categorie() {
     }
 
+    public Categorie(String libelle) {
+        this.libelle = libelle;
+    }
+
+    public Categorie(int no_categorie, String libelle) {
+        this.no_categorie = no_categorie;
+        this.libelle = libelle;
+    }
+
     public int getNo_categorie() {
         return no_categorie;
     }
