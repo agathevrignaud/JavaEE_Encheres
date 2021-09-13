@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public class UtilisateurDAOJdbc implements UtilisateurDAO {
     private static final Logger myLogger = Logger.getLogger("LogsDAL");
-    private static final String SELECT_ALL_USERS = "SELECT * FROM UTILISATEURS U";
+    private static final String SELECT_ALL_USERS = "SELECT * FROM UTILISATEURS";
     private static final String SELECT_USER_BY_ID = "SELECT * FROM UTILISATEURS WHERE NO_UTILISATEUR=?";
     private static final String INSERT_USER = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?)";
     private static final String UPDATE_USER_DATA = "UPDATE UTILISATEURS SET " +
@@ -66,7 +66,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_USER_BY_ID);
             pstmt.setInt(1, idUser);
             ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
+            if(rs.next()) {
                 lUtilisateur.setNo_utilisateur(rs.getInt("no_utilisateur"));
                 lUtilisateur.setPseudo(rs.getString("pseudo"));
                 lUtilisateur.setNom(rs.getString("nom"));
@@ -141,7 +141,8 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.setInt(10, lUtilisateur.getNo_utilisateur());
 
             pstmt.executeUpdate();
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            System.out.print("Erreur lors de la màj de l'utilisateur");
             e.printStackTrace();
             BLLException bllException = new BLLException();
             bllException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_USER_DATA);

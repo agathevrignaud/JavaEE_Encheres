@@ -26,6 +26,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
     private static final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article,description,date_debut_encheres, " +
             "date_fin_encheres, prix_initial, etat_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?,?)";
 
+
     // TODO : fournir List<ArticleVendu> avec toutes les infos, le tri se fera côté front ?
 
     @Override
@@ -45,6 +46,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO{
                 lArticle.setDescription(rs.getString("A.description"));
                 lArticle.setDateDebutEnchere(rs.getDate("A.date_debut_encheres").toLocalDate());
                 lArticle.setDateFinEnchere(rs.getDate("A.date_fin_encheres").toLocalDate());
+
                 // TODO : check si prix non nuls
                 lArticle.setMiseAPrix(rs.getInt("A.prix_initial"));
                 lArticle.setPrixVente(rs.getInt("A.prix_vente"));

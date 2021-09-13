@@ -125,7 +125,7 @@ public class UtilisateurManager {
             myLogger.log(Level.WARNING,"Erreur lors de la mise à jour des crédits de l'utilisateur " + idUser, new BLLException());
             throw new BLLException();
         } else {
-            utilisateurDAO.updateUserCredit(utilisateurDAO.selectById(idUser).getCredit() - creditSpent, idUser);
+            utilisateurDAO.updateUserCredit(utilisateurDAO.selectById(idUser).getCredit() + creditSpent, idUser);
         }
     }
 
