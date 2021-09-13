@@ -9,7 +9,7 @@
 <h1><%= "Hello World!" %>
 </h1>
 <br/>
-<a href="adminTools">Administration</a>
+<a href="/">homepage</a>
 <!-- TODO : faire la navigation entre les écrans ! -->
 </body>
 </html>
