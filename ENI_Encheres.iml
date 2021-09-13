@@ -63,5 +63,8 @@
     <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-util-scan:9.0.50" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-jaspic-api:9.0.50" level="project" />
     <orderEntry type="library" name="Maven: com.microsoft.sqlserver:mssql-jdbc:9.4.0.jre16" level="project" />
+    <orderEntry type="library" name="jquery-3.2.1.slim" level="application" />
+    <orderEntry type="library" name="popper.js" level="application" />
+    <orderEntry type="library" name="@popperjs/core" level="application" />
   </component>
 </module>
