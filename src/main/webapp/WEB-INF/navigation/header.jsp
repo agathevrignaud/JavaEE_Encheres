@@ -48,6 +48,12 @@
                     </li>
                 </c:otherwise>
             </c:choose>
+            <li>
+                <img src="${pageContext.request.contextPath}/utils/images/france.png" alt="french flag" width="30" height="30"/>
+            </li>
+            <li>
+                <img src="${pageContext.request.contextPath}/utils/images/united-kingdom.png" alt="united kingdom flag" width="30" height="30"/>
+            </li>
         </ul>
     </body>
 </html>
