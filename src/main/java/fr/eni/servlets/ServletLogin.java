@@ -14,7 +14,8 @@ import java.util.List;
 
 @WebServlet(
     urlPatterns= {
-        "/login"
+        "/login",
+        "/signIn"
     })
 public class ServletLogin extends HttpServlet {
     private static final UtilisateurManager utilisateurManager = new UtilisateurManager();
