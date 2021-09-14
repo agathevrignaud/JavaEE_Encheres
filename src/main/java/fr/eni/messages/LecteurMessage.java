@@ -17,7 +17,7 @@ public class LecteurMessage {
 
     private LecteurMessage() {}
 
-    public static  String getMessageErreur(int code) {
+    public static String getMessageErreur(int code) {
         String message="";
         try {
             if(rb!=null) {
