@@ -25,7 +25,8 @@ public class ServletCancelSale extends HttpServlet {
         ArticleVenduManager articleVenduManager = new ArticleVenduManager();
         RetraitManager retraitManager = new RetraitManager();
 
-        ArticleVendu articleVendu = articleVenduManager.selectArticleVendu(10);
+        //TODO: récupérer l'id de l'article sur lequel l'utilisateur à cliqué avant d'arriver sur la page d'annulation
+        ArticleVendu articleVendu = articleVenduManager.selectArticleVendu(1);
         Retrait retrait = retraitManager.getRetraitById(articleVendu.getNo_article());
 
         request.setAttribute("articleVenduManager",articleVenduManager);
@@ -42,7 +43,7 @@ public class ServletCancelSale extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         switch (request.getParameter("btnPressed")) {
             case "delete":
-                ArticleVendu articleVendu = articleVenduManager.selectArticleVendu(10);
+                ArticleVendu articleVendu = articleVenduManager.selectArticleVendu(1);
                 request.setAttribute("articleVendu", articleVendu);
                 Retrait retrait = retraitManager.getRetraitById(articleVendu.getNo_article());
                 try{
