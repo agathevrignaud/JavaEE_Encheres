@@ -14,8 +14,6 @@ public class EnchereManager {
         enchereDAO = DAOFactory.getEnchereDAO();
     }
 
-    public List<Enchere> getAllEncheres() { return enchereDAO.selectAll();}
-
     public List<Enchere> getAllEncheresByIdArticle(int idArticle) {
         return enchereDAO.selectByIdArticle(idArticle);
     }

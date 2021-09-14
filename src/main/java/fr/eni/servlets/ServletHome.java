@@ -19,24 +19,31 @@ import java.util.Map;
 
 @WebServlet(value = "/home")
 public class ServletHome extends HttpServlet {
+    public final ArticleVenduManager articleVenduManager = new ArticleVenduManager();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<ArticleVendu> lesArticles =  articleVenduManager.getAllArticles();
+        request.setAttribute("lesArticles" , lesArticles);
+
+//        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
+//        EnchereManager enchereManager = new EnchereManager();
+//        ArticleVenduManager articleVenduManager = new ArticleVenduManager();
+//
+//        List<Enchere> lesEncheres = enchereManager.getAllEncheres();
+//        List<Map<String, String>> lesEncheresAffiche = new ArrayList<>();
+//
+//        for (Enchere lEnchere : lesEncheres) {
+//            Article article = articleVenduManager.get
+//
+//            Map<String, String> infoEnchere = new HashMap<String, String>();
+//            infoEnchere.put("nom_article", )
+//        }
+//
+//
+//        request.setAttribute("lesEncheres" , lesEncheresAffiche);
+
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
-        EnchereManager enchereManager = new EnchereManager();
-        ArticleVenduManager articleVenduManager = new ArticleVenduManager();
-
-        List<Enchere> lesEncheres = enchereManager.getAllEncheres();
-        List<Map<String, String>> lesEncheresAffiche = new ArrayList<>();
-
-        for (Enchere lEnchere : lesEncheres) {
-            Article article = articleVenduManager.get
-
-            Map<String, String> infoEnchere = new HashMap<String, String>();
-            infoEnchere.put("nom_article", )
-        }
-
-
-        request.setAttribute("lesEncheres" , lesEncheresAffiche);
         rd.forward(request, response);
     }
 
