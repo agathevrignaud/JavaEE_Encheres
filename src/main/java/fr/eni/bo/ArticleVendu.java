@@ -21,7 +21,7 @@ public class ArticleVendu {
     public ArticleVendu() {
     }
 
-    public ArticleVendu(int no_article, String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, int prixVente, String etatVente, int no_utilisateur, Categorie no_categorie) {
+    public ArticleVendu(int no_article, String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, int prixVente, String etatVente, int no_utilisateur, Categorie no_categorie, Retrait retrait) {
         this.no_article = no_article;
         this.nomArticle = nomArticle;
         this.description = description;
@@ -32,6 +32,7 @@ public class ArticleVendu {
         this.etatVente = etatVente;
         this.no_utilisateur = no_utilisateur;
         this.laCategorie = no_categorie;
+        this.lieuRetrait = retrait;
     }
 
 

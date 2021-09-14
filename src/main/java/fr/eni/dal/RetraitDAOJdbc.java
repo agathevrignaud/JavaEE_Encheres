@@ -8,8 +8,10 @@ import java.sql.ResultSet;
 
 public class RetraitDAOJdbc implements RetraitDAO {
 
-    private static final String SELECT_RETRAIT_BY_ID = "SELECT * FROM RETRAIT WHERE no_article=?";
-    private static final String INSERT_RETRAIT = "INSERT INTO RETRAIT VALUES (?,?,?)";
+    private static final String SELECT_RETRAIT_BY_ID = "SELECT * FROM RETRAITS WHERE no_article=?";
+    private static final String INSERT_RETRAIT = "INSERT INTO RETRAITS VALUES (?,?,?)";
+
+
 
     @Override
     public Retrait selectById(int idRetrait) {

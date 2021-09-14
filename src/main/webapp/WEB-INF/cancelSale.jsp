@@ -54,16 +54,15 @@
                 <fieldset>
                     <legend>Retrait</legend>
                     <hr>
-                    <p>placeholder="${requestScope.articleVendu.lieuRetrait}</p>
                     <label for="rue">Rue : </label>
-                    <input type="text" id="rue" class="form-control"/><br/>
+                    <input type="text" id="rue" class="form-control" placeholder="${requestScope.retrait.rue}"/><br/>
 
                     <label for="cp">Code postal : </label>
-                    <input type="text" id="cp" minlength="5" maxlength="5" class="form-control"/>
+                    <input type="text" id="cp" minlength="5" maxlength="5" class="form-control" placeholder="${requestScope.retrait.codePostal}"/>
                     <br/>
 
                     <label for="ville">Ville : </label>
-                    <input type="text" id="ville" class="form-control"/>
+                    <input type="text" id="ville" class="form-control" placeholder="${requestScope.retrait.ville}"/>
                     <br/>
                 </fieldset>
                 <input type="submit" value="Enregistrer" class="btn btn-outline-primary">

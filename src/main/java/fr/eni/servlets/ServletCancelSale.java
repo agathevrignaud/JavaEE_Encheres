@@ -1,7 +1,9 @@
 package fr.eni.servlets;
 
 import fr.eni.bll.ArticleVenduManager;
+import fr.eni.bll.RetraitManager;
 import fr.eni.bo.ArticleVendu;
+import fr.eni.bo.Retrait;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -20,6 +22,10 @@ public class ServletCancelSale extends HttpServlet {
         ArticleVenduManager articleVenduManager = new ArticleVenduManager();
         ArticleVendu articleVendu = articleVenduManager.selectArticleVendu(2);
         request.setAttribute("articleVendu", articleVendu);
+
+        RetraitManager retraitManager = new RetraitManager();
+        Retrait retrait = retraitManager.getRetraitById(2);
+        request.setAttribute("retrait", retrait);
 
         rd.forward(request, response);
 
