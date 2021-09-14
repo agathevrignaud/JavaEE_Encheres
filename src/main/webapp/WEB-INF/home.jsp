@@ -31,7 +31,7 @@
             </div>
         </form>
         <br>
-        <c:if test="${pageContext.request.userPrincipal != null}">
+        <c:if test="${isUserLoggedIn}">
             <card>
                 <form action="">
                     <div class="form-check">
@@ -54,8 +54,6 @@
                     <button type="submit">Valider</button>
                 </form>
             </card>
-        </c:if>
-        <c:if test="${pageContext.request.userPrincipal != null}">
             <card>
                 <form action="">
                     <div class="form-check">
@@ -110,7 +108,4 @@
             </div>
         </div>
     </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-        crossorigin="anonymous"></script>
 </html>

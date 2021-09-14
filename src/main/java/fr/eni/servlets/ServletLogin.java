@@ -3,6 +3,7 @@ package fr.eni.servlets;
 import fr.eni.bll.BLLException;
 import fr.eni.bll.UtilisateurManager;
 import fr.eni.bo.Utilisateur;
+import fr.eni.messages.LecteurMessage;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
