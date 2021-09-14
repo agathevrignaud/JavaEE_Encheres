@@ -35,6 +35,7 @@ public class ArticleVenduManager {
         lArticle.setLieuRetrait(lieuRetrait);
 
         articleVenduDAO.createArticle(lArticle);
+
     }
 
 }
