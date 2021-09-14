@@ -1,11 +1,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<html>
+
+<fmt:setLocale value="${cookie['cookie_lang'].value}" />
+<fmt:setBundle basename="messages"/>
+
+<!DOCTYPE html>
+
+<html lang="${cookie['cookie_lang'].value}">
     <head>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/utils/css/all.css">
     </head>
     <body>
         <ul>
+            <li>
+                ${cookie['cookie_lang'].value}
+            </li>
             <c:choose>
                 <c:when test="${isUserLoggedIn}">
                     <%@include file="/WEB-INF/navigation/sessionTimeOut.jsp"%>
@@ -49,10 +58,24 @@
                 </c:otherwise>
             </c:choose>
             <li>
-                <img src="${pageContext.request.contextPath}/utils/images/france.png" alt="french flag" width="30" height="30"/>
+                <a href="${pageContext.request.contextPath}/language?lang=fr">
+                    <img
+                        src="${pageContext.request.contextPath}/utils/images/france.png"
+                        alt="french flag"
+                        width="30"
+                        height="30"
+                    />
+                </a>
             </li>
             <li>
-                <img src="${pageContext.request.contextPath}/utils/images/united-kingdom.png" alt="united kingdom flag" width="30" height="30"/>
+                <a href="${pageContext.request.contextPath}/language?lang=en">
+                    <img
+                        src="${pageContext.request.contextPath}/utils/images/united-kingdom.png"
+                        alt="united kingdom flag"
+                        width="30"
+                        height="30"
+                    />
+                </a>
             </li>
         </ul>
     </body>
