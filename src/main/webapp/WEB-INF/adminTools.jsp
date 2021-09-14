@@ -71,7 +71,7 @@
                         <c:if test="${editBtnPressed}">
                             <form method="get" action="${pageContext.request.contextPath}/editCategory">
                                 <input type="hidden" name="idCategory" value="${c.no_categorie}">
-                                <label for="newName">Nouveau nom</label>
+                                <label for="newName"><fmt:message key="admin.newCategoryName"/></label>
                                 <input type="text" name="newName" id="newName"/>
                                 <button type="submit">
                                     <i class="fas fa-check" title="<fmt:message key="admin.confirm"/>"></i>

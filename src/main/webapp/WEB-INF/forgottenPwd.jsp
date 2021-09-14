@@ -8,7 +8,7 @@
     </head>
     <body>
         <%@ include file="/WEB-INF/navigation/header.jsp" %>
-        <h3><fmt:message key="forgotpwd.title"/></h3>
+        <h3><fmt:message key="forgotpwd.msg_input"/></h3>
         <form method="post" action="${pageContext.request.contextPath}/forgottenPwd">
             <fieldset>
                 <label for="username">
@@ -24,10 +24,10 @@
             </button>
             <c:choose>
                 <c:when test="${isUserInDb != null && isUserInDb}">
-                    <c:out value="<fmt:message key='forgotpwd.success'/>"></c:out>
+                    <fmt:message key='forgotpwd.success'/>"
                 </c:when>
                 <c:when test="${isUserInDb != null && !isUserInDb}">
-                    <c:out  value="<fmt:message key='forgotpwd.error'/>"></c:out>
+                    <fmt:message key='forgotpwd.error'/>"
                     <c:if test="${not empty listeCodesErreurs}">
                         <c:forEach var="code" items="${listeCodesErreur}">
                             <li>${LecteurMessage.getMessageErreur(code)}</li>
