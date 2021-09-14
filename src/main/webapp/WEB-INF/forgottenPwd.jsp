@@ -1,8 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${cookie['cookie_lang'].value}" />
 <fmt:setBundle basename="messages"/>
-<html>
+
+<!DOCTYPE html>
+<html lang="${cookie['cookie_lang'].value}">
     <head>
         <title><fmt:message key="forgotpwd.title"/></title>
     </head>

@@ -4,7 +4,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<html>
+<fmt:setLocale value="${cookie['cookie_lang'].value}" />
+<fmt:setBundle basename="messages"/>
+
+<!DOCTYPE html>
+<html lang="${cookie['cookie_lang'].value}">
     <head>
         <title><fmt:message key="login.signIn"/></title>
     </head>
@@ -13,6 +17,13 @@
     </header>
     <body>
         <%@ include file="/WEB-INF/navigation/header.jsp" %>
+        <c:if test="${unauthorized}">
+            <script>
+                window.addEventListener("load",function(){
+                    alert("Accès refusé. Veuillez vous connecter.");
+                });
+            </script>
+        </c:if>
         <form action="${pageContext.request.contextPath}/login" method="post">
             <fieldset>
                 <legend><fmt:message key="login.signIn"/></legend>

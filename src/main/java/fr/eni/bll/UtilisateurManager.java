@@ -122,7 +122,7 @@ public class UtilisateurManager {
     }
 
     public void updateUserCredit(int creditSpent, int idUser) throws BLLException {
-        if ((utilisateurDAO.selectById(idUser).getCredit() - creditSpent) < 0) {
+        if ((utilisateurDAO.selectById(idUser).getCredit() + creditSpent) < 0) {
             myLogger.log(Level.WARNING,"Erreur lors de la mise à jour des crédits de l'utilisateur " + idUser, new BLLException());
             throw new BLLException();
         } else {

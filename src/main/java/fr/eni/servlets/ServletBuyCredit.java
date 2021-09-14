@@ -19,23 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ServletBuyCredit extends HttpServlet {
     private static final UtilisateurManager utilisateurManager = new UtilisateurManager();
 
-    /* TODO : Ajouter un doFilter pour que seul un utilisateur connecté puisse accéder à cette page !
-    public  void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
-            throws IOException, ServletException {
-
-        vérifier si l'utilisateur qui navigue est connecté (isAuthenticated)
-        &&
-        vérifier si celui qui achète est le proprio du compte
-        -> msg d'erreur "accès refusé : touche à ton cul"
-
-        filterChain.doFilter(request, response) ;
-    }
-    */
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("firstName", request.getParameter("firstName"));
-        request.setAttribute("idUser", request.getParameter("idUser"));
-
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/buyCredit.jsp") ;
         requestDispatcher.forward(request, response) ;
     }
