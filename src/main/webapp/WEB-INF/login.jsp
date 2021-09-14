@@ -17,6 +17,13 @@
     </header>
     <body>
         <%@ include file="/WEB-INF/navigation/header.jsp" %>
+        <c:if test="${unauthorized}">
+            <script>
+                window.addEventListener("load",function(){
+                    alert("Accès refusé. Veuillez vous connecter.");
+                });
+            </script>
+        </c:if>
         <form action="${pageContext.request.contextPath}/login" method="post">
             <fieldset>
                 <legend><fmt:message key="login.signIn"/></legend>
