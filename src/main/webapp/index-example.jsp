@@ -3,11 +3,13 @@
 <html>
 <head>
     <title>JSP - Hello World</title>
+    <link rel="stylesheet" href="utils/css/all.css">
 </head>
 <body>
 <h1><%= "Hello World!" %>
 </h1>
 <br/>
-<a href="hello-servlet">Hello Servlet</a>
+<a href="${pageContext.request.contextPath}/home">Home</a>
+<!-- TODO : faire la navigation entre les écrans ! -->
 </body>
 </html>

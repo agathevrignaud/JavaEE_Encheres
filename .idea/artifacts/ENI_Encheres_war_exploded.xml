@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="ENI_Encheres:war exploded">
-    <output-path>$PROJECT_DIR$/target/ENI_Encheres-1.0-SNAPSHOT</output-path>
+    <output-path>$PROJECT_DIR$/target/ENI-Encheres-1.0-SNAPSHOT</output-path>
     <properties id="maven-jee-properties">
       <options>
         <exploded>true</exploded>
@@ -14,9 +14,25 @@
         <element id="directory" name="classes">
           <element id="module-output" name="ENI_Encheres" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-catalina:9.0.50" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-servlet-api:9.0.50" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-jsp-api:9.0.50" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-el-api:9.0.50" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-juli:9.0.50" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-annotations-api:9.0.50" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-api:9.0.50" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-jni:9.0.50" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-coyote:9.0.50" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-util:9.0.50" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-util-scan:9.0.50" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-jaspic-api:9.0.50" />
+          <element id="library" level="project" name="Maven: com.microsoft.sqlserver:mssql-jdbc:9.4.0.jre16" />
+          <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
+        </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/ENI_Encheres-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/ENI-Encheres-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="ENI_Encheres/web/Web" />
     </root>
