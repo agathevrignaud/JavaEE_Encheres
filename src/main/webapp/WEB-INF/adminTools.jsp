@@ -5,7 +5,7 @@
 
 <html>
     <head>
-        <title>Panneau d'Administration</title>
+        <title><fmt:message key="admin.title"/></title>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/utils/css/all.css">
     </head>
     <body>
@@ -19,7 +19,7 @@
             <c:forEach var="u" items="${lesUtilisateurs}">
             <tbody>
                 <tr>
-                    <!-- infos utilisateur -->
+                    <!-- user list -->
                     <td>
                         <a href="${pageContext.request.contextPath}/myProfile?idUser=${u.no_utilisateur}">
                             <i class="fas fa-user" title="<fmt:message key="admin.seeProfile"/>"></i>
@@ -29,6 +29,7 @@
                     <td>${u.prenom}</td>
                     <td>${u.email}</td>
                     <td>
+                    <!-- deactivate/activate/delete user account -->
                     <c:choose>
                         <c:when test="${u.compteActif}">
                             <a href="${pageContext.request.contextPath}/deactivateAccount?idUser=${u.no_utilisateur}">
@@ -59,11 +60,11 @@
             <c:forEach var="c" items="${lesCategories}">
                 <tbody>
                 <tr>
-                    <!-- infos Catégorie -->
+                    <!-- category list -->
                     <td>
                             ${c.libelle}
                     </td>
-                    <!-- Actions sur une Catégorie -->
+                    <!-- modify/delete a category -->
                     <td>
                         <a href="${pageContext.request.contextPath}/displayEditCategory?btnPressed=${!editBtnPressed}">
                             <i class="fas fa-pen" title="<fmt:message key="admin.editCategoryName"/>"></i>
@@ -90,7 +91,7 @@
         <c:if test="${deleteCategoryError}">
             <fmt:message key="admin.deleteCategoryError"/>
         </c:if>
-
+        <!-- Add new category -->
         <form method="post" action="${pageContext.request.contextPath}/createNewCategory">
                 <label for="newCategory"><fmt:message key="admin.addNewCategory"/></label>
                 <input type="text" name="newCategory" id="newCategory"/>
