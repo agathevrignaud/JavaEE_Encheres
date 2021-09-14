@@ -6,7 +6,8 @@
     <title>Acheter des crédits</title>
 </head>
 <body>
-    <h3>Achetez des crédits pour votre compte, ${firstName}</h3>
+    <%@include file="/WEB-INF/navigation/header.jsp" %>
+    <h3>Achetez des crédits pour votre compte, ${firstName} !</h3>
     <form method="post" action="${pageContext.request.contextPath}/creditShop">
         <label></label><input type="number" min="0" max="500" step="10" name="creditsBought">
         <input type="hidden" value="${idUser}" name="idUser">

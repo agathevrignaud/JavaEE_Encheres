@@ -4,9 +4,11 @@
 <html>
     <head>
         <title>Panneau d'Administration</title>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/utils/css/all.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/utils/css/all.css">
+        <!-- https://pro.fontawesome.com/releases/v5.10.0/css/all.css -->
     </head>
     <body>
+        <%@include file="/WEB-INF/navigation/header.jsp" %>
         <table>
             <thead>
                 <tr>

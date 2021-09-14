@@ -1,50 +1,44 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: rsaintalme2021
-  Date: 13/09/2021
-  Time: 09:37
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<header>
-    <ul class="nav ">
-        <li class="nav-item">
-            <a class="nav-link disabled">ENI Enchères</a>
-        </li>
-
-        <c:choose>
-            <c:when test="${isUserLoggedIn}">
-                <li class="nav-item justify-content-end">
-                    <a class="nav-link" href="#">Enchères</a>
-                </li>
-                <li class="nav-item justify-content-end">
-                    <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Vendre un article</a>
-                </li>
-                <li class="nav-item justify-content-end">
-                    <a class="nav-link"
-                       href="${pageContext.request.contextPath}/myProfile?idUser=${userInfo.no_utilisateur}"
-                       tabindex="-1" aria-disabled="true">Mon profil</a>
-                </li>
-                <li class="nav-item justify-content-end">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/logout" tabindex="-1"
-                       aria-disabled="true">Deconnexion</a>
-                </li>
-                <c:if test="${userInfo.administrateur}">
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setBundle basename="messages"/>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/utils/css/all.css">
+    </head>
+    <body>
+        <ul>
+            <c:choose>
+                <c:when test="${isUserLoggedIn}">
+                    <%@include file="/WEB-INF/navigation/sessionTimeOut.jsp"%>
                     <li>
-                        <a class="nav-link" href="adminTools" tabindex="-1" aria-disabled="true">Administration</a>
+                        <a href="${pageContext.request.contextPath}/home">
+                            <i class="fas fa-shopping-cart" title="Accueil"></i>
+                        </a>
                     </li>
-                </c:if>
-            </c:when>
-            <c:otherwise>
-                <li class="nav-item justify-content-end">
-                    <a class="nav-link" href="signup">S'inscrire</a>
-                </li>
-                <li class="nav-item justify-content-end">
-                    <a class="nav-link" href="login" tabindex="-1" aria-disabled="true">Se connecter</a>
-                </li>
-            </c:otherwise>
-        </c:choose>
-
-    </ul>
-</header>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/myProfile?idUser=${userInfo.no_utilisateur}">Mon Profil</a>
+                    </li>
+                    <c:if test="${userInfo.administrateur}">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/adminTools">Administration</a>
+                        </li>
+                    </c:if>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/logout">Déconnexion</a>
+                    </li
+                </c:when>
+                <c:otherwise>
+                    <li>
+                            <i class="fas fa-shopping-cart" title="Accueil"></i>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/signUp">S'inscrire</a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/login">Se connecter</a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+        </ul>
+    </body>
+</html>

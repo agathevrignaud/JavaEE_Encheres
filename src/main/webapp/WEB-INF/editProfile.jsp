@@ -7,6 +7,7 @@
         <title>Edit profile</title>
     </head>
         <body>
+            <%@include file="/WEB-INF/navigation/header.jsp" %>
             <p>Mon Profil</p>
             <form method="post" action="${pageContext.request.contextPath}/editMyProfile" >
                 <fieldset>
