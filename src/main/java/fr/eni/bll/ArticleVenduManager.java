@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ArticleVenduManager {
-    private ArticleVenduDAO articleVenduDAO;
+    private final ArticleVenduDAO articleVenduDAO;
 
     public ArticleVenduManager() { articleVenduDAO = DAOFactory.getArticleVenduDAO();}
 
