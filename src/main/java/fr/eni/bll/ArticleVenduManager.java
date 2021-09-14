@@ -53,6 +53,7 @@ public class ArticleVenduManager {
      * Supprimer un article (id)
      */
     public void deleteArticle(int id) {
+        articleVenduDAO.deleteArticle(id);
     }
 
    

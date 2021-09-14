@@ -21,4 +21,7 @@ public class RetraitManager {
         retraitDAO.createRetrait(lieuRetrait);
     }
 
+    public void deleteRetrait(int id) {
+        retraitDAO.deleteRetrait(id);
+    }
 }

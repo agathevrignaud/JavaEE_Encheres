@@ -15,16 +15,22 @@ import java.util.List;
 
 @WebServlet(name = "ServletCancelSale", value = "/cancelsale")
 public class ServletCancelSale extends HttpServlet {
+    private static final ArticleVenduManager articleVenduManager = new ArticleVenduManager();
+    private static final RetraitManager retraitManager = new RetraitManager();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/cancelSale.jsp");
 
         ArticleVenduManager articleVenduManager = new ArticleVenduManager();
-        ArticleVendu articleVendu = articleVenduManager.selectArticleVendu(2);
-        request.setAttribute("articleVendu", articleVendu);
-
         RetraitManager retraitManager = new RetraitManager();
-        Retrait retrait = retraitManager.getRetraitById(2);
+
+        ArticleVendu articleVendu = articleVenduManager.selectArticleVendu(10);
+        Retrait retrait = retraitManager.getRetraitById(articleVendu.getNo_article());
+
+        request.setAttribute("articleVenduManager",articleVenduManager);
+        request.setAttribute("articleVendu", articleVendu);
+        request.setAttribute("retraitManager", retraitManager);
         request.setAttribute("retrait", retrait);
 
         rd.forward(request, response);
@@ -33,6 +39,27 @@ public class ServletCancelSale extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        switch (request.getParameter("btnPressed")) {
+            case "delete":
+                ArticleVendu articleVendu = articleVenduManager.selectArticleVendu(10);
+                request.setAttribute("articleVendu", articleVendu);
+                Retrait retrait = retraitManager.getRetraitById(articleVendu.getNo_article());
+                try{
+                    retraitManager.deleteRetrait(retrait.getNo_article());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try{
+                    articleVenduManager.deleteArticle(articleVendu.getNo_article());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                RequestDispatcher rd = request.getRequestDispatcher("/home.jsp");
+                rd.forward(request, response);
+                break;
+            case "save":
+        }
 
     }
 }

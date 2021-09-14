@@ -28,7 +28,7 @@
 
         </div>
         <div class="card-body">
-            <form action="CancelSale" method="post">
+            <form action="${pageContext.request.contextPath}/cancelsale" method="post">
 
                 <label for="nomArticle">Article :</label>
                 <input type="text" id="nomArticle" class="form-control" placeholder="${requestScope.articleVendu.nomArticle}"/><br/>
@@ -65,9 +65,9 @@
                     <input type="text" id="ville" class="form-control" placeholder="${requestScope.retrait.ville}"/>
                     <br/>
                 </fieldset>
-                <input type="submit" value="Enregistrer" class="btn btn-outline-primary">
-                <button value="" class="btn btn-outline-danger">Annuler</button>
-                <button value="" class="btn btn-outline-danger">Annuler la vente</button>
+                <input type="submit" name="btnPressed" value="save" class="btn btn-outline-primary">
+                <button name="btnPressed" value="" class="btn btn-outline-danger">Annuler</button>
+                <button name="btnPressed" type="submit" value="delete" class="btn btn-outline-danger">Annuler la vente</button>
             </form>
         </div>
     </card>

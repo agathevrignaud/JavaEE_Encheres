@@ -5,11 +5,13 @@ import fr.eni.bo.Retrait;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class RetraitDAOJdbc implements RetraitDAO {
 
     private static final String SELECT_RETRAIT_BY_ID = "SELECT * FROM RETRAITS WHERE no_article=?";
     private static final String INSERT_RETRAIT = "INSERT INTO RETRAITS VALUES (?,?,?)";
+    private static final String DELETE_RETRAIT = "DELETE FROM RETRAITS WHERE no_article =?";
 
 
 
@@ -40,9 +42,18 @@ public class RetraitDAOJdbc implements RetraitDAO {
             pstmt.setString(2, lieuRetrait.getCodePostal());
             pstmt.setString(3, lieuRetrait.getVille());
             pstmt.executeUpdate();
-            pstmt.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void deleteRetrait(int id) {
+        try(Connection cnx = ConnectionProvider.getConnection()){
+            PreparedStatement pstmt = cnx.prepareStatement(DELETE_RETRAIT);
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }
