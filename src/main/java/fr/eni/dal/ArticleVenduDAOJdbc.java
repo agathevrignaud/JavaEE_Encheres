@@ -23,9 +23,9 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             "ON A.no_categorie = C.no_categorie" +
             "INNER JOIN RETRAITS R " +
             "ON A.no_article = R.no_article";
+    private static final String SELECT_ARTICLE_BY_ID = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
     private static final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article,description,date_debut_encheres, " +
             "date_fin_encheres, prix_initial, etat_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?,?)";
-
 
     // TODO : fournir List<ArticleVendu> avec toutes les infos, le tri se fera côté front ?
 
@@ -71,6 +71,20 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
         }
 
         return lesArticles;
+    }
+
+    @Override
+    public void setSelectArticleById(int idArticle){
+        ArticleVendu lArticleVendu = new ArticleVendu();
+        try(Connection cnx = ConnectionProvider.getConnection()){
+            PreparedStatement pstmt = cnx.prepareStatement(SELECT_ARTICLE_BY_ID);
+            pstmt.setInt(1, idArticle);
+            ResultSet rs = pstmt.executeQuery();
+            if(rs.next()){
+            }
+        }catch (Exception e){
+
+        }
     }
 
     @Override

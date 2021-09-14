@@ -80,19 +80,21 @@
         </c:if>
         <br>
         <div class=" d-flex justify-content-around">
-            <div class="card">
-                <div class="card-header">
-                    <img src="https://www.rueducommerce.fr/medias/3c7295be321035dea924efd54375a286/p_1000x1000/f3-b-blue-lgpu-nc-mid-sideoff.jpg"
-                         alt="" width="50px;">
-                </div>
-                <div class="card-body">
-                    <p>PC Gamer pour travailler</p>
-                    <p>Prix: 210 points</p>
-                    <p>Fin de l'enchère: 10/08/22</p>
-                    <p>Vendeur: jojo44</p>
+            <c:forEach var="enchere" items="${lesEncheres}">
+                <div class="card">
+                    <div class="card-header">
+                        <img src="https://www.rueducommerce.fr/medias/3c7295be321035dea924efd54375a286/p_1000x1000/f3-b-blue-lgpu-nc-mid-sideoff.jpg"
+                             alt="" width="50px;">
+                    </div>
+                    <div class="card-body">
+                        <p>PC Gamer pour travailler</p>
+                        <p>Prix: ${enchere.getMontantEnchere()}</p>
+                        <p>Fin de l'enchère: 10/08/22</p>
+                        <p>Vendeur: jojo44</p>
 
+                    </div>
                 </div>
-            </div>
+            </c:forEach>
 
             <div class="card">
                 <div class="card-header">
