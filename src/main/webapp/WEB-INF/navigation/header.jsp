@@ -12,30 +12,40 @@
                     <%@include file="/WEB-INF/navigation/sessionTimeOut.jsp"%>
                     <li>
                         <a href="${pageContext.request.contextPath}/home">
-                            <i class="fas fa-shopping-cart" title="Accueil"></i>
+                            <i class="fas fa-shopping-cart" title="<fmt:message key="header.homepage"/>"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/myProfile?idUser=${userInfo.no_utilisateur}">Mon Profil</a>
+                        <a href="${pageContext.request.contextPath}/myProfile?idUser=${userInfo.no_utilisateur}">
+                            <fmt:message key="header.myProfile"/>
+                        </a>
                     </li>
                     <c:if test="${userInfo.administrateur}">
                         <li>
-                            <a href="${pageContext.request.contextPath}/adminTools">Administration</a>
+                            <a href="${pageContext.request.contextPath}/adminTools">
+                                <fmt:message key="header.adminTools"/>
+                            </a>
                         </li>
                     </c:if>
                     <li>
-                        <a href="${pageContext.request.contextPath}/logout">Déconnexion</a>
+                        <a href="${pageContext.request.contextPath}/logout">
+                            <fmt:message key="header.logout"/>
+                        </a>
                     </li
                 </c:when>
                 <c:otherwise>
                     <li>
-                            <i class="fas fa-shopping-cart" title="Accueil"></i>
+                            <i class="fas fa-shopping-cart" title="<fmt:message key="header.homepage"/>"></i>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/signUp">S'inscrire</a>
+                        <a href="${pageContext.request.contextPath}/signUp">
+                            <fmt:message key="header.signUp"/>
+                        </a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/login">Se connecter</a>
+                        <a href="${pageContext.request.contextPath}/login">
+                            <fmt:message key="header.signIn"/>
+                        </a>
                     </li>
                 </c:otherwise>
             </c:choose>
