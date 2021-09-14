@@ -3,9 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-<<<<<<< HEAD
 <head>
     <title>Accueil</title>
 </head>
@@ -32,7 +29,7 @@
             </div>
         </form>
         <br>
-        <c:if test="${pageContext.request.userPrincipal != null}">
+        <c:if test="${isUserLoggedIn}">
             <card>
                 <form action="">
                     <div class="form-check">
@@ -55,8 +52,6 @@
                     <button type="submit">Valider</button>
                 </form>
             </card>
-        </c:if>
-        <c:if test="${pageContext.request.userPrincipal != null}">
             <card>
                 <form action="">
                     <div class="form-check">
@@ -111,7 +106,4 @@
             </div>
         </div>
     </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-        crossorigin="anonymous"></script>
 </html>
