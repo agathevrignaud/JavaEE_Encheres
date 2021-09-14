@@ -33,9 +33,6 @@ public class ServletBuyCredit extends HttpServlet {
     */
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("firstName", request.getParameter("firstName"));
-        request.setAttribute("idUser", request.getParameter("idUser"));
-
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/buyCredit.jsp") ;
         requestDispatcher.forward(request, response) ;
     }

@@ -14,17 +14,17 @@
         <%@include file="/WEB-INF/navigation/header.jsp" %>
         <h3>
             <fmt:message key="buycredit.msg_info">
-                <fmt:param value="${firstName}"></fmt:param>
+                <fmt:param value="${userInfo.prenom}"></fmt:param>
             </fmt:message>
         </h3>
         <form method="post" action="${pageContext.request.contextPath}/creditShop">
             <input type="number" min="0" max="500" step="10" name="creditsBought">
-            <input type="hidden" value="${idUser}" name="idUser">
+            <input type="hidden" value="${userInfo.no_utilisateur}" name="idUser">
             <button type="submit"><fmt:message key="buycredit.confirm"/></button>
         </form>
         <c:if test="${newBalance != null}">
             <fmt:message key='buycredit.msgNewBalance'>
-                <fmt:param value="${credit}"></fmt:param>
+                <fmt:param value="${newBalance}"></fmt:param>
             </fmt:message>
         </c:if>
     </body>

@@ -121,13 +121,14 @@ public class UtilisateurManager {
         utilisateurDAO.updateUserAccountStatus(idUser);
     }
 
-    public void updateUserCredit(int creditSpent, int idUser) throws BLLException {
-        if ((utilisateurDAO.selectById(idUser).getCredit() - creditSpent) < 0) {
+    public Utilisateur updateUserCredit(int creditSpent, int idUser) throws BLLException {
+        if ((utilisateurDAO.selectById(idUser).getCredit() + creditSpent) < 0) {
             myLogger.log(Level.WARNING,"Erreur lors de la mise à jour des crédits de l'utilisateur " + idUser, new BLLException());
             throw new BLLException();
         } else {
             utilisateurDAO.updateUserCredit(utilisateurDAO.selectById(idUser).getCredit() + creditSpent, idUser);
         }
+        return utilisateurDAO.selectById(idUser);
     }
 
     public void deleteUser(int idUser) throws BLLException {

@@ -12,9 +12,6 @@
     </head>
     <body>
         <ul>
-            <li>
-                ${cookie['cookie_lang'].value}
-            </li>
             <c:choose>
                 <c:when test="${isUserLoggedIn}">
                     <%@include file="/WEB-INF/navigation/sessionTimeOut.jsp"%>
@@ -39,11 +36,11 @@
                         <a href="${pageContext.request.contextPath}/logout">
                             <fmt:message key="header.logout"/>
                         </a>
-                    </li
+                    </li>
                 </c:when>
                 <c:otherwise>
                     <li>
-                            <i class="fas fa-shopping-cart" title="<fmt:message key="header.homepage"/>"></i>
+                        <i class="fas fa-shopping-cart" title="<fmt:message key="header.homepage"/>"></i>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/signUp">
