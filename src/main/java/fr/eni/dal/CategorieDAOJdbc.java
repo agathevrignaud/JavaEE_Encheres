@@ -1,6 +1,7 @@
 package fr.eni.dal;
 
 import fr.eni.bo.Categorie;
+import fr.eni.bo.Retrait;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +17,7 @@ public class CategorieDAOJdbc implements CategorieDAO {
     // TODO : vérifier le fonctionnement attendu d'une suppression de catégorie
     private static final String DELETE_CATEGORY = "DELETE FROM CATEGORIES WHERE no_categorie=?";
     private static final String CHECK_IF_CATEGORY_IS_USED = "SELECT COUNT(no_categorie) as nbrUtilisations FROM ARTICLES_VENDUS WHERE no_categorie=?";
+    private static final String SELECT_CATEGORY_BY_ID = "SELECT * FROM CATEGORIES WHERE id = ?";
 
     @Override
     public List<Categorie> selectAll() {
@@ -98,5 +100,21 @@ public class CategorieDAOJdbc implements CategorieDAO {
             e.printStackTrace();
         }
         return numberOfUses;
+    }
+
+    public Categorie selectCategoryById(int idCat) {
+        Categorie categorie = new Categorie();
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pstmt = cnx.prepareStatement(SELECT_CATEGORY_BY_ID);
+            pstmt.setInt(1, idCat);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                categorie.setNo_categorie(idCat);
+                categorie.setLibelle("libelle");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return categorie;
     }
 }

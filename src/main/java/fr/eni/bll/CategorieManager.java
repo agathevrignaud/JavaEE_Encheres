@@ -46,4 +46,6 @@ public class CategorieManager {
         return categorieDAO.getAllUses(idCategory);
     }
 
+    public Categorie selectCategoryById(int idCategory) {return categorieDAO.selectCategoryById(idCategory);}
+
 }

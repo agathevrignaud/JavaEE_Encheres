@@ -42,7 +42,7 @@
                         <label for="idCategory">Catégorie : </label>
                         <select id="idCategory" name="categories" class="form-control">
                             <c:forEach items="${listeCategorie}" var="categorie">
-                                <option id="${categorie.libelle}" value="${categorie.no_categorie}">
+                                <option id="categoryId" value="${categorie.no_categorie}">
                                         ${categorie.libelle}
                                 </option>
                             </c:forEach>
@@ -76,7 +76,7 @@
                             <br/>
                         </fieldset>
 
-                        <input type="submit" value="Enregistrer" class="btn btn-outline-primary">
+                        <input type="submit" name="btnPressed" value="save" class="btn btn-outline-primary">
                         <a href="home.jsp">
                             <button value="" class="btn btn-outline-danger">Annuler</button>
                         </a>
