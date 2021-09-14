@@ -1,8 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setBundle basename="messages"/>
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/utils/css/all.css">
-        <!-- https://pro.fontawesome.com/releases/v5.10.0/css/all.css -->
     </head>
     <body>
         <ul>

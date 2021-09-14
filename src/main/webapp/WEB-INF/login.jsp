@@ -1,9 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
     <head>
-        <title>Se connecter</title>
+        <title><fmt:message key="login.signIn"/></title>
     </head>
     <header>
         <h2>ENI-Enchères</h2>
