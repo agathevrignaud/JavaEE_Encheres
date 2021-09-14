@@ -19,7 +19,9 @@
         <button type="submit"><fmt:message key="buycredit.confirm"/></button>
     </form>
     <c:if test="${newBalance != null}">
-        <fmt:message key='buycredit.msgNewBalance'/>
+        <fmt:message key='buycredit.msgNewBalance'>
+            <fmt:param value="${credit}"></fmt:param>
+        </fmt:message>
     </c:if>
 </body>
 </html>
