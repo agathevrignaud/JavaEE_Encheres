@@ -78,7 +78,7 @@
 
                         <input type="submit" name="btnPressed" value="save" class="btn btn-outline-primary">
                         <a href="home.jsp">
-                            <button value="" class="btn btn-outline-danger">Annuler</button>
+                            <button type="submit" name="btnPressed" value="backhome" class="btn btn-outline-danger">Annuler</button>
                         </a>
                     </div>
                 </form>

@@ -17,7 +17,7 @@ public class CategorieDAOJdbc implements CategorieDAO {
     // TODO : vérifier le fonctionnement attendu d'une suppression de catégorie
     private static final String DELETE_CATEGORY = "DELETE FROM CATEGORIES WHERE no_categorie=?";
     private static final String CHECK_IF_CATEGORY_IS_USED = "SELECT COUNT(no_categorie) as nbrUtilisations FROM ARTICLES_VENDUS WHERE no_categorie=?";
-    private static final String SELECT_CATEGORY_BY_ID = "SELECT * FROM CATEGORIES WHERE id = ?";
+    private static final String SELECT_CATEGORY_BY_ID = "SELECT * FROM CATEGORIES WHERE no_categorie = ?";
 
     @Override
     public List<Categorie> selectAll() {
@@ -109,8 +109,8 @@ public class CategorieDAOJdbc implements CategorieDAO {
             pstmt.setInt(1, idCat);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                categorie.setNo_categorie(idCat);
-                categorie.setLibelle("libelle");
+                categorie.setNo_categorie(rs.getInt("no_categorie"));
+                categorie.setLibelle(rs.getString("libelle"));
             }
         } catch (Exception e) {
             e.printStackTrace();
