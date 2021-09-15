@@ -16,12 +16,12 @@ public class ArticleVenduManager {
         articleVenduDAO = DAOFactory.getArticleVenduDAO();
     }
 
-    public List<ArticleVendu> getAllArticles() {
+    public List<ArticleVendu> getAllArticles() throws BLLException{
         return articleVenduDAO.selectAll();
     }
 
     public void addNewArticle(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-                              int miseAPrix, String etatVente, int idUser, Categorie laCategorie, Retrait lieuRetrait) {
+                              int miseAPrix, String etatVente, int idUser, Categorie laCategorie, Retrait lieuRetrait) throws BLLException {
         ArticleVendu lArticle = new ArticleVendu();
 
         lArticle.setNomArticle(nomArticle);

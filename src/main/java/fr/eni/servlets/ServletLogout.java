@@ -17,7 +17,6 @@ public class ServletLogout extends HttpServlet {
         laSession.setAttribute("isUserLoggedIn", false );
         laSession.setAttribute("userInfo", null);
         response.sendRedirect(request.getContextPath() + "/home");
-
     }
 
     @Override

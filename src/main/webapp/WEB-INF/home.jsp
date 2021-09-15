@@ -13,19 +13,18 @@
 <div class="d-flex justify-content-center">
     <h2>Liste des enchères</h2>
 </div>
-<form action="">
+<form action="home" method="post">
     <p>Filtres:</p>
     <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-           aria-describedby="search-addon"/>
-    <label for="category-select">Catégories:</label>
-
-    <select name="category" id="category-select">
-        <option id="cat1" value="toutes">Toutes</option>
-        <option id="cat2" value="informatique">Informatique</option>
-        <option id="cat3" value="vetement">Vêtement</option>
-        <option id="cat4" value="ameublement">Ameublement</option>
-        <option value="sport">Sports&Loisirs</option>
-    </select>
+           aria-describedby="search-addon" name="nomArticle"/>
+    <label for="category-select">Catégories:
+        <select name="categories" id="category-select">
+            <option id="cat" value="toutes">Toutes</option>
+            <c:forEach var="laCategorie" items="${lesCategories}">
+                <option value="${laCategorie.getLibelle()}">${laCategorie.getLibelle()}</option>
+            </c:forEach>
+        </select>
+    </label>
     <div>
         <button class="btn btn-primary" type="submit">Rechercher</button>
     </div>
@@ -90,7 +89,8 @@
             <p>${lArticle.getNomArticle()}</p>
             <p>Prix: ${lArticle.getPrixVente()}</p>
             <p>Fin de l'enchère: ${lArticle.getDateFinEnchere()}</p>
-            <p>Vendeur: <a href="${pageContext.request.contextPath}/myProfile?idUser=${lArticle.getNo_utilisateur()}">${lArticle.getPseudoUtilisateur()}</a>
+            <p>Vendeur: <a
+                    href="${pageContext.request.contextPath}/myProfile?idUser=${lArticle.getNo_utilisateur()}">${lArticle.getPseudoUtilisateur()}</a>
             </p>
 
 
