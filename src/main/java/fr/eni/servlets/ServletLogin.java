@@ -76,8 +76,7 @@ public class ServletLogin extends HttpServlet {
                     HttpSession laSession = request.getSession();
                     laSession.setAttribute("isUserLoggedIn", true );
                     laSession.setAttribute("userInfo", lUtilisateur);
-                    rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
-                    rd.forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/home");
                 }
                 break;
         }
