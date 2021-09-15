@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +26,7 @@ public class ServletHome extends HttpServlet {
         try {
             List<Categorie> lesCategories = categorieManager.getAllCategories();
 
-            if(request.getAttribute("lesArticles") == null){
+            if (request.getAttribute("lesArticles") == null) {
                 List<ArticleVendu> lesArticles = articleVenduManager.getAllArticles();
                 request.setAttribute("lesArticles", lesArticles);
             }
@@ -50,10 +48,16 @@ public class ServletHome extends HttpServlet {
             String nomArticle = new String(request.getParameter("nomArticle").getBytes(), "UTF-8");
             String laCategorie = new String(request.getParameter("categories").getBytes(), "UTF-8");
 
+            boolean isUserLoggedIn = request.getSession().getAttribute("isUserLoggedIn") != null && (boolean) request.getSession().getAttribute("isUserLoggedIn");
+
             if (!nomArticle.equals("") && laCategorie.equals("toutes")) {
                 for (ArticleVendu lArticle : lesArticles) {
                     if (lArticle.getNomArticle().contains(nomArticle)) {
-                        articlesTrouveParFiltre.add(lArticle);
+                        if (!isUserLoggedIn) {
+                            articlesTrouveParFiltre.add(lArticle);
+                        } else {
+                            filtreSupplementaireModeConnecte(request, articlesTrouveParFiltre, lArticle);
+                        }
                     }
                 }
             } else if (nomArticle.equals("") && laCategorie.equals("toutes")) {
@@ -74,6 +78,7 @@ public class ServletHome extends HttpServlet {
                 }
             }
 
+
             request.setAttribute("lesArticles", articlesTrouveParFiltre);
             System.out.println(nomArticle + " - " + laCategorie);
 
@@ -82,5 +87,20 @@ public class ServletHome extends HttpServlet {
         }
 
         doGet(request, response);
+    }
+
+    private void filtreSupplementaireModeConnecte(HttpServletRequest request, List<ArticleVendu> articlesTrouveParFiltre, ArticleVendu lArticle) {
+        if (request.getParameter("choix") != null) {
+            if (request.getParameter("choix").equals("vente")) {
+                boolean enchereOuverte = Boolean.parseBoolean(request.getParameter("enchereOuverte"));
+                boolean enchereEnCours = Boolean.parseBoolean(request.getParameter("enchereEnCours"));
+                boolean enchereRemportees = Boolean.parseBoolean(request.getParameter("enchereRemportees"));
+                System.out.println("BOOLEANS = " + enchereEnCours + " " + enchereOuverte + " " + enchereRemportees);
+
+                articlesTrouveParFiltre.add(lArticle);
+            }
+        }
+
+
     }
 }
