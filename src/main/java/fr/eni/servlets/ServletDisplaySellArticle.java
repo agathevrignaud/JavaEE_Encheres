@@ -1,6 +1,7 @@
 package fr.eni.servlets;
 
 import fr.eni.bll.ArticleVenduManager;
+import fr.eni.bll.BLLException;
 import fr.eni.bll.EnchereManager;
 import fr.eni.bll.UtilisateurManager;
 import fr.eni.bo.ArticleVendu;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +35,33 @@ public class ServletDisplaySellArticle extends HttpServlet {
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             //  TODO : rentre l'id article dynamique (sur 2 en dur)
             // request.getParameter(idArticle)
-            int idArticle = 2;
+            int idArticle = 1006;
             ArticleVendu lArticle = articleVenduManager.getArticleById(idArticle);
             request.setAttribute("lArticle", lArticle);
             Enchere lEnchere = enchereManager.getHighestBidByIdArticle(idArticle);
             request.setAttribute("lEnchere", lEnchere);
+            List<Enchere> lesEncherisseurs = enchereManager.getAllBidsByIdArticle(idArticle);
+            request.setAttribute("lesEncherisseurs", lesEncherisseurs);
 
+            if (LocalDate.now().isAfter(lArticle.getDateDebutEnchere()) && LocalDate.now().isBefore(lArticle.getDateFinEnchere())) {
+                Utilisateur lUtilisateur = null;
+                try {
+                    lUtilisateur = utilisateurManager.getUserById(lEnchere.getNo_utilisateur());
+                } catch (BLLException e) {
+                    e.printStackTrace();
+                }
+                request.setAttribute("highestBidder", lUtilisateur);
+                request.setAttribute("auctionInProgress", true);
+                request.setAttribute("auctionEditable", false);
+            } else {
+                if (LocalDate.now().isBefore(lArticle.getDateDebutEnchere())) {
+                    request.setAttribute("auctionInProgress", false);
+                    request.setAttribute("auctionEditable", true);
+                } else {
+                    request.setAttribute("auctionInProgress", false);
+                    request.setAttribute("auctionEditable", false);
+                }
+            }
             RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/displaySellDetail.jsp");
             rd.forward(request, response);
         }
@@ -79,7 +102,6 @@ public class ServletDisplaySellArticle extends HttpServlet {
                     e.printStackTrace();
                 }
             }
-
         }
 
     private int checkBid(int bid, int highestBid, int credit, List<Integer> listeCodesErreur) {

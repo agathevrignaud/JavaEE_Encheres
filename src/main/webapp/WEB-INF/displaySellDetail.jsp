@@ -13,9 +13,32 @@
     </head>
     <body>
         <%@include file="/WEB-INF/navigation/header.jsp" %>
-        <h2><fmt:message key="displaysell.title"/></h2>
+
+        <c:choose>
+            <c:when test="${auctionInProgress && !auctionEditable}">
+                <h2><fmt:message key="displaysell.title"/></h2>
+            </c:when>
+            <c:when test="${!auctionInProgress && !auctionEditable}">
+                <c:choose>
+                    <c:when test="${userInfo.no_utilisateur == lEnchere.no_utilisateur}">
+                        <h2><fmt:message key="displaysell.youWon"/></h2>
+                    </c:when>
+                    <c:when test="${userInfo.no_utilisateur != lEnchere.no_utilisateur}">
+                        <h2>
+                            <fmt:message key='displaysell.someoneElseWon'>
+                                <fmt:param value="${highestBidder.nom}"></fmt:param>
+                            </fmt:message>
+                        </h2>
+                    </c:when>
+                </c:choose>
+            </c:when>
+        </c:choose>
 
         <h3>${lArticle.nomArticle}</h3>
+        <c:if test="${userInfo.no_utilisateur == lArticle.no_utilisateur}">
+            <fmt:message key="displaysell.youAreTheSeller"/>
+        </c:if>
+        <br/>
         <label>
             <fmt:message key="displaysell.description"/>
         </label>
@@ -44,8 +67,18 @@
             <fmt:message key="displaysell.seller"/>
         </label>
         ${lArticle.no_utilisateur}<br/>
-        Vendeur à venir (cf branche 2004 & modifs associées)<br/>
-        <c:if test="${userInfo.no_utilisateur != lArticle.no_utilisateur}">
+
+        <c:if test="${!auctionInProgress}">
+            <c:if test="${userInfo.no_utilisateur == lEnchere.no_utilisateur}">
+                <label>
+                    <fmt:message key="displaysell.sellerTel"/>
+                </label>
+                ${highestBidder.telephone}<br/>
+            </c:if>
+        </c:if>
+
+        <!-- The user logged in is not the seller -->
+        <c:if test="${(userInfo.no_utilisateur != lArticle.no_utilisateur) && (auctionInProgress)}">
             <label>
                 <fmt:message key="displaysell.myBid"/>
             </label><br/>
@@ -62,11 +95,36 @@
                     </c:forEach>
                 </ul>
             </c:if>
-            <c:if test="${not empty successfulBid}">
-                <fmt:message key="displaysell.success">
+            <c:if test="${successfulBid}">
+                <fmt:message key='displaysell.success'>
                     <fmt:param value="${lArticle.nomArticle}"></fmt:param>
-                    <fmt:param value="${userInfo.credit}"></fmt:param>
+                    <fmt:param value="${highestBidder.credit}"></fmt:param>
                 </fmt:message>
+            </c:if>
+        </c:if>
+
+        <!-- The user logged in is the seller -->
+        <c:if test="${(userInfo.no_utilisateur == lArticle.no_utilisateur)}">
+            <!-- TODO : à compléter vers la page de modification d'une vente -->
+            <c:if test="${auctionEditable}">
+                <a href="${pageContext.request.contextPath}/home">Modifier la vente</a>
+            </c:if>
+            <br/>
+            <c:if test="${!auctionEditable}">
+                <table>
+                    <tr>
+                        <th>Enchérisseurs</th>
+                        <th>Montant enchère</th>
+                        <th>Date de l'enchère</th>
+                    </tr>
+                    <tr>
+                        <c:forEach var="e" items="${lesEncherisseurs}">
+                            <td>${e.nom}</td>
+                            <td>${e.montant_enchere}</td>
+                            <td>${e.date_enchere}</td>
+                        </c:forEach>
+                    </tr>
+                </table>
             </c:if>
         </c:if>
     </body>

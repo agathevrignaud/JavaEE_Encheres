@@ -11,7 +11,12 @@ import java.util.List;
 
 public class EnchereDAOJdbc implements EnchereDAO {
     public static final String INSERT_BID = "INSERT INTO ENCHERES VALUES(?,?,?,?)";
-    private static final String SELECT_ALL_BIDS_BY_ARTICLE = "SELECT * FROM ENCHERES WHERE no_article=? ORDER BY montant_enchere DESC";
+    private static final String SELECT_ALL_BIDS_BY_ARTICLE = "SELECT E.no_utilisateur, U.nom, E.no_article, E.date_enchere, E.montant_enchere " +
+            "FROM ENCHERES E " +
+            "INNER JOIN UTILISATEURS U " +
+            "ON E.no_utilisateur = U.no_utilisateur " +
+            "WHERE E.no_article=? " +
+            "ORDER BY E.montant_enchere DESC";
     private static final String SELECT_HIGHEST_BID_BY_ARTICLE = "SELECT E.no_utilisateur, U.nom, E.no_article, E.date_enchere, E.montant_enchere " +
             "FROM ENCHERES E " +
             "INNER JOIN UTILISATEURS U " +
@@ -31,6 +36,7 @@ public class EnchereDAOJdbc implements EnchereDAO {
             while (rs.next()) {
                 Enchere lEnchere = new Enchere();
                 lEnchere.setNo_utilisateur(rs.getInt("no_utilisateur"));
+                lEnchere.setNomUtilisateur(rs.getString("nom"));
                 lEnchere.setNo_article(rs.getInt("no_article"));
                 lEnchere.setDateEnchere(rs.getTimestamp("date_enchere").toLocalDateTime());
                 lEnchere.setMontantEnchere(rs.getInt("montant_enchere"));

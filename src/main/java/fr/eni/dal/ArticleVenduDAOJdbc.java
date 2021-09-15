@@ -36,8 +36,6 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             "date_fin_encheres, prix_initial, etat_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?,?)";
     private static final String UPDATE_ARTICLE_BID = "UPDATE ARTICLES_VENDUS SET prix_vente=? WHERE no_article=?";
 
-    // TODO : fournir List<ArticleVendu> avec toutes les infos, le tri se fera côté front ?
-
     @Override
     public List<ArticleVendu> selectAll() {
         List<ArticleVendu> lesArticles = new ArrayList<>();
