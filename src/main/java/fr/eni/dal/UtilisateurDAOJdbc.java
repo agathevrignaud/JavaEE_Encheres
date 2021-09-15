@@ -169,7 +169,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
     }
 
     @Override
-    public void updateUserCredit(int newCredit, int idUser) throws BLLException {
+    public int updateUserCredit(int newCredit, int idUser) throws BLLException {
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(UPDATE_USER_CREDIT);
             pstmt.setInt(1, newCredit);
@@ -182,6 +182,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             myLogger.log(Level.WARNING,"Erreur lors de la mise à jour des crédits de l'utilisateur (idUser : " + idUser  + ")", bllException);
             throw bllException;
         }
+        return newCredit;
     }
 
     @Override

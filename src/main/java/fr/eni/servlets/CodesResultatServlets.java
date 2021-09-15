@@ -34,6 +34,8 @@ public abstract class CodesResultatServlets {
 // Codes for Auctions
     // Codes for Auction Creation
     public static final int AUCTION_CREATION_SUCCESS = 30400;
+    public static final int USER_BID_TOO_LOW=30401;
+    public static final int NOT_ENOUGH_TO_BID=30402;
     // Codes for Auction Edition
 
 

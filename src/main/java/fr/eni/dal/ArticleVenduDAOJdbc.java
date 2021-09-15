@@ -1,18 +1,16 @@
 package fr.eni.dal;
 
+import fr.eni.bll.BLLException;
 import fr.eni.bo.ArticleVendu;
 import fr.eni.bo.Categorie;
 import fr.eni.bo.Retrait;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
-
     private static final String SELECT_ALL_ARTICLES = "SELECT U.nom, A.no_article, A.nom_article, A.description, " +
             "A.date_debut_encheres, A.date_fin_encheres, A.prix_initial, A.prix_vente, A.etat_vente, A.no_utilisateur, C.*, " +
             "R.rue, R.ville, R.code_postal " +
@@ -36,6 +34,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             "WHERE A.no_article=?";
     private static final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article,description,date_debut_encheres, " +
             "date_fin_encheres, prix_initial, etat_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?,?)";
+    private static final String UPDATE_ARTICLE_BID = "UPDATE ARTICLES_VENDUS SET prix_vente=? WHERE no_article=?";
 
     // TODO : fournir List<ArticleVendu> avec toutes les infos, le tri se fera côté front ?
 
@@ -145,6 +144,18 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             pstmt.executeUpdate();
             pstmt.close();
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateBidOnArticle(int bid, int idArticle) {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pstmt = cnx.prepareStatement(UPDATE_ARTICLE_BID);
+            pstmt.setInt(1, bid);
+            pstmt.setInt(2, idArticle);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

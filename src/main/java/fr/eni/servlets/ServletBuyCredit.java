@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(
         urlPatterns= {
@@ -26,8 +27,12 @@ public class ServletBuyCredit extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            utilisateurManager.updateUserCredit(Integer.parseInt(request.getParameter("creditsBought")), Integer.parseInt(request.getParameter("idUser")));
-            request.setAttribute("newBalance", utilisateurManager.getUserById(Integer.parseInt(request.getParameter("idUser"))).getCredit());
+            HttpSession laSession = request.getSession();
+            Utilisateur lUtilisateur = (Utilisateur) laSession.getAttribute("userInfo");
+            int newBalance = utilisateurManager.updateUserCredit(Integer.parseInt(request.getParameter("creditsBought")), Integer.parseInt(request.getParameter("idUser")));
+            lUtilisateur.setCredit(newBalance);
+            request.setAttribute("newBalance", newBalance);
+            laSession.setAttribute("userInfo", lUtilisateur);
         } catch (Exception e) {
             e.printStackTrace();
         }

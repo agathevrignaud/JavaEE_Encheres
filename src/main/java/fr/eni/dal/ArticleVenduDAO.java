@@ -8,4 +8,5 @@ public interface ArticleVenduDAO {
     List<ArticleVendu> selectAll();
     ArticleVendu selectArticleById(int idArticle);
     void createArticle(ArticleVendu lArticle);
+    void updateBidOnArticle(int bid, int idArticle);
 }

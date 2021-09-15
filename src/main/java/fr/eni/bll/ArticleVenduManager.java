@@ -41,4 +41,7 @@ public class ArticleVenduManager {
         articleVenduDAO.createArticle(lArticle);
     }
 
+    public void updateArticlePrice(int bid, int idArticle) {
+        articleVenduDAO.updateBidOnArticle(bid, idArticle);
+    }
 }
