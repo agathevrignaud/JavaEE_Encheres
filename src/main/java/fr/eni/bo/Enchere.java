@@ -3,36 +3,27 @@ package fr.eni.bo;
 import java.time.LocalDateTime;
 
 public class Enchere {
-    private int noUtilisateur;
-    private String nomUtilisateur;
-    private int noArticle;
+    private Utilisateur lUtilisateur;
+    private Categorie laCategorie;
     private LocalDateTime dateEnchere;
     private int montantEnchere;
 
     public Enchere() {}
 
-    public int getNo_utilisateur() {
-        return noUtilisateur;
+    public Utilisateur getlUtilisateur() {
+        return lUtilisateur;
     }
 
-    public void setNo_utilisateur(int no_utilisateur) {
-        this.noUtilisateur = no_utilisateur;
+    public void setlUtilisateur(Utilisateur lUtilisateur) {
+        this.lUtilisateur = lUtilisateur;
     }
 
-    public String getNomUtilisateur() {
-        return nomUtilisateur;
+    public Categorie getLaCategorie() {
+        return laCategorie;
     }
 
-    public void setNomUtilisateur(String nomUtilisateur) {
-        this.nomUtilisateur = nomUtilisateur;
-    }
-
-    public int getNo_article() {
-        return noArticle;
-    }
-
-    public void setNo_article(int no_article) {
-        this.noArticle = no_article;
+    public void setLaCategorie(Categorie laCategorie) {
+        this.laCategorie = laCategorie;
     }
 
     public LocalDateTime getDateEnchere() {
@@ -50,5 +41,4 @@ public class Enchere {
     public void setMontantEnchere(int montantEnchere) {
         this.montantEnchere = montantEnchere;
     }
-
 }

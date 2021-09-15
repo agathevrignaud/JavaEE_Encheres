@@ -4,6 +4,7 @@ import fr.eni.bll.BLLException;
 import fr.eni.bo.ArticleVendu;
 import fr.eni.bo.Categorie;
 import fr.eni.bo.Retrait;
+import fr.eni.bo.Utilisateur;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             "ON A.no_categorie = C.no_categorie " +
             "INNER JOIN RETRAITS R " +
             "ON A.no_article = R.no_article";
-    private static final String SELECT_ARTICLE_BY_ID = "SELECT U.nom, A.no_article, A.nom_article, A.description, " +
+    private static final String SELECT_ARTICLE_BY_ID = "SELECT U.*, A.no_article, A.nom_article, A.description, " +
             "A.date_debut_encheres, A.date_fin_encheres, A.prix_initial, A.prix_vente, A.etat_vente, A.no_utilisateur, C.*, " +
             "R.rue, R.ville, R.code_postal " +
             "FROM ARTICLES_VENDUS A " +
@@ -44,32 +45,38 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_ARTICLES);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                ArticleVendu lArticle = new ArticleVendu();
                 Retrait lieuRetrait = new Retrait();
-                Categorie laCategorie = new Categorie();
-
-                lArticle.setNo_article(rs.getInt("A.no_article"));
-                lArticle.setNomArticle(rs.getString("A.nom_article"));
-                lArticle.setDescription(rs.getString("A.description"));
-                lArticle.setDateDebutEnchere(rs.getDate("A.date_debut_encheres").toLocalDate());
-                lArticle.setDateFinEnchere(rs.getDate("A.date_fin_encheres").toLocalDate());
-
-                // TODO : check si prix non nuls
-                lArticle.setMiseAPrix(rs.getInt("A.prix_initial"));
-                lArticle.setPrixVente(rs.getInt("A.prix_vente"));
-                lArticle.setEtatVente(rs.getString("A.etat_vente"));
-
                 lieuRetrait.setNo_article(rs.getInt("A.no_article"));
                 lieuRetrait.setRue(rs.getString("R.rue"));
                 lieuRetrait.setCodePostal(rs.getString("R.code_postal"));
                 lieuRetrait.setVille(rs.getString("R.ville"));
-                lArticle.setLieuRetrait(lieuRetrait);
 
+                Categorie laCategorie = new Categorie();
                 laCategorie.setNo_categorie(rs.getInt("C.no_categorie"));
                 laCategorie.setLibelle(rs.getString("C.libelle"));
-                lArticle.setLaCategorie(laCategorie);
 
-                lArticle.setNo_utilisateur(rs.getInt("A.no_utilisateur"));
+                Utilisateur lUtilisateur = new Utilisateur();
+                lUtilisateur.setNumUtilisateur(rs.getInt("U.no_utilisateur"));
+                lUtilisateur.setNom(rs.getString("U.nom"));
+                lUtilisateur.setPrenom(rs.getString("U.prenom"));
+                lUtilisateur.setEmail(rs.getString("U.email"));
+                lUtilisateur.setTelephone(rs.getString("U.telephone"));
+                lUtilisateur.setRue(rs.getString("U.rue"));
+                lUtilisateur.setCodePostal(rs.getString("U.codePostal"));
+                lUtilisateur.setVille(rs.getString("U.ville"));
+
+                ArticleVendu lArticle = new ArticleVendu(
+                        rs.getInt("A.no_article"),
+                        rs.getString("A.nom_article"),
+                        rs.getString("A.description"),
+                        rs.getDate("A.date_debut_encheres").toLocalDate(),
+                        rs.getDate("A.date_fin_encheres").toLocalDate(),
+                        rs.getInt("A.prix_initial"),
+                        rs.getInt("A.prix_vente"),
+                        lieuRetrait,
+                        laCategorie,
+                        lUtilisateur
+                );
 
                 lesArticles.add(lArticle);
             }
