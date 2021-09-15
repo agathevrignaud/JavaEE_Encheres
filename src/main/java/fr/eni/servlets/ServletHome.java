@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,8 +47,8 @@ public class ServletHome extends HttpServlet {
             List<ArticleVendu> lesArticles = articleVenduManager.getAllArticles();
             List<ArticleVendu> articlesTrouveParFiltre = new ArrayList<>();
 
-            String nomArticle = request.getParameter("nomArticle");
-            String laCategorie = request.getParameter("categories");
+            String nomArticle = new String(request.getParameter("nomArticle").getBytes(), "UTF-8");
+            String laCategorie = new String(request.getParameter("categories").getBytes(), "UTF-8");
 
             if (!nomArticle.equals("") && laCategorie.equals("toutes")) {
                 for (ArticleVendu lArticle : lesArticles) {
