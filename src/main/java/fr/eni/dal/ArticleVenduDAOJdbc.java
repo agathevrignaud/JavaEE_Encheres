@@ -79,14 +79,14 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
      * Créer un article
      */
     @Override
-    public void createArticle(ArticleVendu lArticle) {
+    public ArticleVendu createArticle(ArticleVendu lArticle) {
         if (lArticle == null) {
             //throw exception
         }
 
         // TODO : Revoir l'histoire des Generated_Keys (récupérer le no_article après création ?)
         try (Connection cnx = ConnectionProvider.getConnection()) {
-            PreparedStatement pstmt = cnx.prepareStatement(INSERT_ARTICLE);
+            PreparedStatement pstmt = cnx.prepareStatement(INSERT_ARTICLE, PreparedStatement.RETURN_GENERATED_KEYS);
 
             pstmt.setString(1, lArticle.getNomArticle());
             pstmt.setString(2, lArticle.getDescription());
@@ -96,31 +96,32 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             pstmt.setString(6, lArticle.getEtatVente());
             pstmt.setInt(7, lArticle.getNo_utilisateur());
             pstmt.setInt(8, lArticle.getLaCategorie().getNo_categorie());
-
             pstmt.executeUpdate();
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                lArticle.setNo_article(rs.getInt(1));
+            }
+
             pstmt.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return lArticle;
     }
-
-
 
 
     /**
      * Supprimer un article à partir de son id
      */
-    public void deleteArticle(int id){
-        try(Connection cnx = ConnectionProvider.getConnection()){
+    public void deleteArticle(int id) {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(DELETE_ARTICLE);
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
 
     /**
@@ -128,11 +129,11 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
      */
     public ArticleVendu selectById(int idArticle) {
         ArticleVendu result = null;
-        try(Connection cnx = ConnectionProvider.getConnection()){
+        try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement psmt = cnx.prepareStatement(SELECT_BY_ID);
             psmt.setInt(1, idArticle);
             ResultSet rs = psmt.executeQuery();
-            if (rs.next()){
+            if (rs.next()) {
                 result = map(rs);
             }
         } catch (SQLException throwables) {
@@ -141,8 +142,6 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
 
         return result;
     }
-
-
 
 
     /**
@@ -165,8 +164,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
         Retrait retrait = retraitDAOJdbc.selectById(rs.getInt("no_article"));
 
 
-
-        return new ArticleVendu(no_article, nom_article, description, debut_encheres, fin_encheres, prix_initial, prix_vente,etat_vente, no_utilisateur, no_categorie, retrait);
+        return new ArticleVendu(no_article, nom_article, description, debut_encheres, fin_encheres, prix_initial, prix_vente, etat_vente, no_utilisateur, no_categorie, retrait);
     }
 
 }
