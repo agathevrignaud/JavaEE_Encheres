@@ -20,6 +20,10 @@ public class ArticleVenduManager {
         return articleVenduDAO.selectAll();
     }
 
+    public ArticleVendu getArticleById(int idArticle) {
+        return articleVenduDAO.selectArticleById(idArticle);
+    }
+
     public void addNewArticle(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
                               int miseAPrix, String etatVente, int idUser, Categorie laCategorie, Retrait lieuRetrait) {
         ArticleVendu lArticle = new ArticleVendu();

@@ -18,7 +18,8 @@ import javax.servlet.http.HttpSession;
             "/deleteCategory",
             "/createNewCategory",
             "/editMyProfile",
-            "/creditShop"
+            "/creditShop",
+            "/articleDetails"
         },
         dispatcherTypes= {
                 DispatcherType.REQUEST,

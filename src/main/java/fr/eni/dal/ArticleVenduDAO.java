@@ -5,7 +5,7 @@ import fr.eni.bo.ArticleVendu;
 import java.util.List;
 
 public interface ArticleVenduDAO {
-    public List<ArticleVendu> selectAll();
-
-    public void createArticle(ArticleVendu lArticle);
+    List<ArticleVendu> selectAll();
+    ArticleVendu selectArticleById(int idArticle);
+    void createArticle(ArticleVendu lArticle);
 }
