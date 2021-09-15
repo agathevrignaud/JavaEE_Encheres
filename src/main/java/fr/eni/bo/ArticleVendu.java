@@ -15,8 +15,7 @@ public class ArticleVendu {
     private Categorie laCategorie;
     private int no_utilisateur;
 
-    public ArticleVendu() {
-    }
+    public ArticleVendu() {}
 
     public int getNo_article() {
         return no_article;
