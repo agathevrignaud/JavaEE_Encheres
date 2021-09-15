@@ -80,34 +80,20 @@
         </c:if>
         <br>
         <div class=" d-flex justify-content-around">
-            <c:forEach var="enchere" items="${lesEncheres}">
+            <c:forEach var="lArticle" items="${lesArticles}">
                 <div class="card">
                     <div class="card-header">
                         <img src="https://www.rueducommerce.fr/medias/3c7295be321035dea924efd54375a286/p_1000x1000/f3-b-blue-lgpu-nc-mid-sideoff.jpg"
                              alt="" width="50px;">
                     </div>
                     <div class="card-body">
-                        <p>PC Gamer pour travailler</p>
-                        <p>Prix: ${enchere.getMontantEnchere()}</p>
-                        <p>Fin de l'enchère: 10/08/22</p>
-                        <p>Vendeur: jojo44</p>
+                        <p>${lArticle.getNomArticle()}</p>
+                        <p>Prix: ${lArticle.getPrixVente()}</p>
+                        <p>Fin de l'enchère: ${lArticle.getDateFinEnchere()}</p>
+                        <p>Vendeur: ${lArticle.getPseudoUtilisateur()}</p>
 
                     </div>
                 </div>
             </c:forEach>
-
-            <div class="card">
-                <div class="card-header">
-                    <img src="https://boulanger.scene7.com/is/image/Boulanger/bfr_overlay?$product_id=8713016009906_h_f_l_0&bfr_overlay?layer=comp&$t1=&$product_id=Boulanger/8713016009906_h_f_l_0&qlt=85,0&resMode=sharp2&op_usm=1.75,0.3,2,0&id=Q7OKO3&fmt=jpg&fit=constrain,1&wid=350&hei=350&qlt=85,0&resMode=sharp2&op_usm=1.75,0.3,2,0"
-                         alt="" width="50px;">
-                </div>
-                <div class="card-body">
-                    <p>Cuiseur à riz</p>
-                    <p>Prix: 185 points</p>
-                    <p>Fin de l'enchère: 10/04/22</p>
-                    <p>Vendeur: ninja29</p>
-                </div>
-            </div>
-        </div>
     </body>
 </html>

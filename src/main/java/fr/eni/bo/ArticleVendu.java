@@ -14,6 +14,7 @@ public class ArticleVendu {
     private Retrait lieuRetrait;
     private Categorie laCategorie;
     private int no_utilisateur;
+    private String pseudoUtilisateur;
 
     public ArticleVendu() {
     }
@@ -70,6 +71,14 @@ public class ArticleVendu {
         return prixVente;
     }
 
+    public String getPseudoUtilisateur() {
+        return pseudoUtilisateur;
+    }
+
+    public void setPseudoUtilisateur(String pseudoUtilisateur) {
+        this.pseudoUtilisateur = pseudoUtilisateur;
+    }
+
     public void setPrixVente(int prixVente) {
         this.prixVente = prixVente;
     }
@@ -120,6 +129,7 @@ public class ArticleVendu {
                 ", lieuRetrait=" + lieuRetrait +
                 ", laCategorie=" + laCategorie +
                 ", no_utilisateur=" + no_utilisateur +
+                ", nomUtilisateur='" + pseudoUtilisateur + '\'' +
                 '}';
     }
 }

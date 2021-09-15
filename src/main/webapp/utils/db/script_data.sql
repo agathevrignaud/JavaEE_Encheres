@@ -21,3 +21,7 @@ VALUES ('PC Gaming', 'Très Bon Etat Général', '07-09-2021', '10-09-2021', 150
 INSERT INTO ENCHERES
 VALUES (2, 1, '2021-09-10 10:30:50', 220),
        (3, 1, '2021-09-10 11:45:22', 250);
+
+INSERT INTO RETRAITS
+VALUES (1, '2 rue Beaulieu', 35400, 'RENNES'),
+       (2, '22 rue Pierre Jacques', 92000, 'PARIS');

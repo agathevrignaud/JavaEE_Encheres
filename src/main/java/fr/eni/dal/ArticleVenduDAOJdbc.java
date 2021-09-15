@@ -14,16 +14,15 @@ import java.util.List;
 public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
 
     private static final String SELECT_ALL_ARTICLES = "SELECT A.no_article, A.nom_article, A.description, " +
-            "A.date_debut_encheres, A.date_fin_encheres, A.prix_initial, A.prix_vente, A.etat_vente, A.no_utilisateur, C.*, " +
+            "A.date_debut_encheres, A.date_fin_encheres, A.prix_initial, A.prix_vente, A.etat_vente, A.no_utilisateur, U.pseudo, C.*, " +
             "R.rue, R.ville, R.code_postal " +
             "FROM ARTICLES_VENDUS A " +
             "INNER JOIN UTILISATEURS U " +
             "ON A.no_utilisateur = U.no_utilisateur " +
             "INNER JOIN CATEGORIES C " +
-            "ON A.no_categorie = C.no_categorie" +
+            "ON A.no_categorie = C.no_categorie " +
             "INNER JOIN RETRAITS R " +
             "ON A.no_article = R.no_article";
-    private static final String SELECT_ARTICLE_BY_ID = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
     private static final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article,description,date_debut_encheres, " +
             "date_fin_encheres, prix_initial, etat_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?,?)";
 
@@ -41,28 +40,29 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
                 Retrait lieuRetrait = new Retrait();
                 Categorie laCategorie = new Categorie();
 
-                lArticle.setNo_article(rs.getInt("A.no_article"));
-                lArticle.setNomArticle(rs.getString("A.nom_article"));
-                lArticle.setDescription(rs.getString("A.description"));
-                lArticle.setDateDebutEnchere(rs.getDate("A.date_debut_encheres").toLocalDate());
-                lArticle.setDateFinEnchere(rs.getDate("A.date_fin_encheres").toLocalDate());
+                lArticle.setNo_article(rs.getInt("no_article"));
+                lArticle.setNomArticle(rs.getString("nom_article"));
+                lArticle.setDescription(rs.getString("description"));
+                lArticle.setDateDebutEnchere(rs.getDate("date_debut_encheres").toLocalDate());
+                lArticle.setDateFinEnchere(rs.getDate("date_fin_encheres").toLocalDate());
 
                 // TODO : check si prix non nuls
-                lArticle.setMiseAPrix(rs.getInt("A.prix_initial"));
-                lArticle.setPrixVente(rs.getInt("A.prix_vente"));
-                lArticle.setEtatVente(rs.getString("A.etat_vente"));
+                lArticle.setMiseAPrix(rs.getInt("prix_initial"));
+                lArticle.setPrixVente(rs.getInt("prix_vente"));
+                lArticle.setEtatVente(rs.getString("etat_vente"));
 
-                lieuRetrait.setNo_article(rs.getInt("A.no_article"));
-                lieuRetrait.setRue(rs.getString("R.rue"));
-                lieuRetrait.setCodePostal(rs.getString("R.code_postal"));
-                lieuRetrait.setVille(rs.getString("R.ville"));
+                lieuRetrait.setNo_article(rs.getInt("no_article"));
+                lieuRetrait.setRue(rs.getString("rue"));
+                lieuRetrait.setCodePostal(rs.getString("code_postal"));
+                lieuRetrait.setVille(rs.getString("ville"));
                 lArticle.setLieuRetrait(lieuRetrait);
 
-                laCategorie.setNo_categorie(rs.getInt("C.no_categorie"));
-                laCategorie.setLibelle(rs.getString("C.libelle"));
+                laCategorie.setNo_categorie(rs.getInt("no_categorie"));
+                laCategorie.setLibelle(rs.getString("libelle"));
                 lArticle.setLaCategorie(laCategorie);
 
-                lArticle.setNo_utilisateur(rs.getInt("A.no_utilisateur"));
+                lArticle.setNo_utilisateur(rs.getInt("no_utilisateur"));
+                lArticle.setPseudoUtilisateur(rs.getString("pseudo"));
 
                 lesArticles.add(lArticle);
             }
@@ -73,19 +73,6 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
         return lesArticles;
     }
 
-    @Override
-    public void setSelectArticleById(int idArticle){
-        ArticleVendu lArticleVendu = new ArticleVendu();
-        try(Connection cnx = ConnectionProvider.getConnection()){
-            PreparedStatement pstmt = cnx.prepareStatement(SELECT_ARTICLE_BY_ID);
-            pstmt.setInt(1, idArticle);
-            ResultSet rs = pstmt.executeQuery();
-            if(rs.next()){
-            }
-        }catch (Exception e){
-
-        }
-    }
 
     @Override
     public void createArticle(ArticleVendu lArticle) {
