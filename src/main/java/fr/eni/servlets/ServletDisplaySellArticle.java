@@ -38,8 +38,10 @@ public class ServletDisplaySellArticle extends HttpServlet {
             int idArticle = 2;
             ArticleVendu lArticle = articleVenduManager.getArticleById(idArticle);
             request.setAttribute("lArticle", lArticle);
+
             Enchere lEnchere = enchereManager.getHighestBidByIdArticle(idArticle);
             request.setAttribute("lEnchere", lEnchere);
+
             List<Enchere> lesEncherisseurs = enchereManager.getAllBidsByIdArticle(idArticle);
             request.setAttribute("lesEncherisseurs", lesEncherisseurs);
 

@@ -36,8 +36,6 @@ public class FilterUnauthorizedAccess implements Filter {
             chain.doFilter(request, response);
         }
         else {
-//            HttpServletResponse httpResponse = (HttpServletResponse) response;
-//            httpResponse.sendRedirect(((HttpServletRequest) request).getContextPath()+"/login?unauthorized=1");
             request.setAttribute("unauthorized", true);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/login.jsp");
             dispatcher.forward(request, response);

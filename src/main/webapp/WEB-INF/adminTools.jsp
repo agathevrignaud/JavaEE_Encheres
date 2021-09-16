@@ -24,7 +24,7 @@
                 <tr>
                     <!-- user list -->
                     <td>
-                        <a href="${pageContext.request.contextPath}/myProfile?idUser=${u.no_utilisateur}">
+                        <a href="${pageContext.request.contextPath}/myProfile?idUser=${u.numUtilisateur}">
                             <i class="fas fa-user" title="<fmt:message key="admin.seeProfile"/>"></i>
                         </a>
                     </td>
@@ -35,17 +35,17 @@
                     <!-- deactivate/activate/delete user account -->
                     <c:choose>
                         <c:when test="${u.compteActif}">
-                            <a href="${pageContext.request.contextPath}/deactivateAccount?idUser=${u.no_utilisateur}">
+                            <a href="${pageContext.request.contextPath}/deactivateAccount?idUser=${u.numUtilisateur}">
                                 <i class="fas fa-user-minus" title="<fmt:message key="admin.deactivateAccount"/>"></i>
                             </a>
                         </c:when>
                         <c:when test="${!u.compteActif}">
-                            <a href="${pageContext.request.contextPath}/reactivateAccount?idUser=${u.no_utilisateur}">
+                            <a href="${pageContext.request.contextPath}/reactivateAccount?idUser=${u.numUtilisateur}">
                                 <i class="fas fa-user-plus" title="<fmt:message key="admin.reactivateAccount"/>"></i>
                             </a>
                         </c:when>
                     </c:choose>
-                            <a href="${pageContext.request.contextPath}/deleteAccount?idUser=${u.no_utilisateur}">
+                            <a href="${pageContext.request.contextPath}/deleteAccount?idUser=${u.numUtilisateur}">
                                 <i class="fas fa-user-times" title="<fmt:message key="admin.deleteAccount"/>"></i>
                             </a>
                     </td>
@@ -74,7 +74,7 @@
                         </a>
                         <c:if test="${editBtnPressed}">
                             <form method="get" action="${pageContext.request.contextPath}/editCategory">
-                                <input type="hidden" name="idCategory" value="${c.no_categorie}">
+                                <input type="hidden" name="idCategory" value="${c.numCategorie}">
                                 <label for="newName"><fmt:message key="admin.newCategoryName"/></label>
                                 <input type="text" name="newName" id="newName"/>
                                 <button type="submit">
@@ -83,7 +83,7 @@
                             </form>
                             </a>
                         </c:if>
-                            <a href="${pageContext.request.contextPath}/deleteCategory?idCategory=${c.no_categorie}">
+                            <a href="${pageContext.request.contextPath}/deleteCategory?idCategory=${c.numCategorie}">
                                 <i class="fas fa-minus" title="<fmt:message key="admin.deleteCategory"/>"></i>
                             </a>
                     </td>

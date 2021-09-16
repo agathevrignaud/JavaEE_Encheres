@@ -40,11 +40,11 @@ public class ServletAdminTools extends HttpServlet {
             request.setAttribute("listeCodesErreur",listeCodesErreur);
             doGet(request, response);
         } else {
-            int idUser = Integer.parseInt(request.getParameter("idUser"));
             switch (request.getServletPath()) {
                 //  User Account Management
                 case "/deactivateAccount":
                     try {
+                        int idUser = Integer.parseInt(request.getParameter("idUser"));
                         utilisateurManager.updateUserAccountStatus(idUser);
                         // Cancel all sales & bids by user, not reimboursed of his credit (?)
                         articleVenduManager.cancelAllSalesByUser(idUser);
@@ -58,6 +58,7 @@ public class ServletAdminTools extends HttpServlet {
                     break;
                 case "/reactivateAccount":
                     try {
+                        int idUser = Integer.parseInt(request.getParameter("idUser"));
                         utilisateurManager.updateUserAccountStatus(idUser);
                     } catch (BLLException e) {
                         e.printStackTrace();
@@ -68,6 +69,7 @@ public class ServletAdminTools extends HttpServlet {
                     break;
                 case "/deleteAccount":
                     try {
+                        int idUser = Integer.parseInt(request.getParameter("idUser"));
                         utilisateurManager.deleteUser(idUser);
                     } catch (BLLException e) {
                         e.printStackTrace();

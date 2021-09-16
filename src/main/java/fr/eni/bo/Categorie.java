@@ -4,23 +4,22 @@ public class Categorie {
     private int numCategorie;
     private String libelle;
 
-    public Categorie() {
-    }
+    public Categorie() {}
 
     public Categorie(String libelle) {
         this.libelle = libelle;
     }
 
-    public Categorie(int no_categorie, String libelle) {
-        this.numCategorie = no_categorie;
+    public Categorie(int numCategorie, String libelle) {
+        this.numCategorie = numCategorie;
         this.libelle = libelle;
     }
 
-    public int getNo_categorie() {
+    public int getNumCategorie() {
         return numCategorie;
     }
 
-    public void setNo_categorie(int no_categorie) {
+    public void setNumCategorie(int no_categorie) {
         this.numCategorie = no_categorie;
     }
 

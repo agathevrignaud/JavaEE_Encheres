@@ -20,10 +20,10 @@
             </c:when>
             <c:when test="${!auctionInProgress && !auctionEditable}">
                 <c:choose>
-                    <c:when test="${userInfo.no_utilisateur == lEnchere.no_utilisateur}">
+                    <c:when test="${userInfo.numUtilisateur == lEnchere.no_utilisateur}">
                         <h2><fmt:message key="displaysell.youWon"/></h2>
                     </c:when>
-                    <c:when test="${userInfo.no_utilisateur != lEnchere.no_utilisateur}">
+                    <c:when test="${userInfo.numUtilisateur != lEnchere.no_utilisateur}">
                         <h2>
                             <fmt:message key='displaysell.someoneElseWon'>
                                 <fmt:param value="${highestBidder.nom}"></fmt:param>
@@ -35,7 +35,7 @@
         </c:choose>
 
         <h3>${lArticle.nomArticle}</h3>
-        <c:if test="${userInfo.no_utilisateur == lArticle.no_utilisateur}">
+        <c:if test="${userInfo.numUtilisateur == lArticle.numUtilisateur}">
             <fmt:message key="displaysell.youAreTheSeller"/>
         </c:if>
         <br/>
@@ -66,10 +66,10 @@
         <label>
             <fmt:message key="displaysell.seller"/>
         </label>
-        ${lArticle.no_utilisateur}<br/>
+        ${lArticle.lUtilisateur.pseudo}<br/>
 
         <c:if test="${!auctionInProgress}">
-            <c:if test="${userInfo.no_utilisateur == lEnchere.no_utilisateur}">
+            <c:if test="${userInfo.numUtilisateur == lEnchere.numUtilisateur}">
                 <label>
                     <fmt:message key="displaysell.sellerTel"/>
                 </label>
@@ -78,12 +78,12 @@
         </c:if>
 
         <!-- The user logged in is not the seller -->
-        <c:if test="${(userInfo.no_utilisateur != lArticle.no_utilisateur) && (auctionInProgress)}">
+        <c:if test="${(userInfo.numUtilisateur != lArticle.numUtilisateur) && (auctionInProgress)}">
             <label>
                 <fmt:message key="displaysell.myBid"/>
             </label><br/>
             <form method="post" action="${pageContext.request.contextPath}/makeABid">
-                <input type="hidden" id="idArticle" name="idArticle" value="${lArticle.no_article}"/>
+                <input type="hidden" id="idArticle" name="idArticle" value="${lArticle.numUtilisateur}"/>
                 <input type="hidden" id="highestBid" name="highestBid" value="${lArticle.prixVente}"/>
                 <input type="number" id="bid" name="bid" min="${lArticle.prixVente}" step="10" value="${lArticle.prixVente}"/>
                 <button type="submit" name="makeABid"><fmt:message key="displaysell.makeABid"/></button>
@@ -104,7 +104,7 @@
         </c:if>
 
         <!-- The user logged in is the seller -->
-        <c:if test="${(userInfo.no_utilisateur == lArticle.no_utilisateur)}">
+        <c:if test="${(userInfo.numUtilisateur == lArticle.numUtilisateur)}">
             <!-- TODO : à compléter vers la page de modification d'une vente -->
             <c:if test="${auctionEditable}">
                 <a href="${pageContext.request.contextPath}/home">Modifier la vente</a>
@@ -113,12 +113,17 @@
             <c:if test="${!auctionEditable}">
                 <table>
                     <tr>
-                        <th>Enchérisseurs</th>
-                        <th>Montant enchère</th>
-                        <th>Date de l'enchère</th>
+                        <th><fmt:message key="displaysell.allBidders"/></th>
+                        <th><fmt:message key="displaysell.bidValue"/></th>
+                        <th><fmt:message key="displaysell.bidDate"/></th>
                     </tr>
                     <tr>
                         <c:forEach var="e" items="${lesEncherisseurs}">
+                            <td>
+                                <a href="${pageContext.request.contextPath}/myProfile?idUser=${u.numUtilisateur}">
+                                    <i class="fas fa-user" title="<fmt:message key="admin.seeProfile"/>"></i>
+                                </a>
+                            </td>
                             <td>${e.nom}</td>
                             <td>${e.montant_enchere}</td>
                             <td>${e.date_enchere}</td>

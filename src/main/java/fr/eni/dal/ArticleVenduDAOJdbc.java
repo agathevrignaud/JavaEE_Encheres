@@ -149,7 +149,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             pstmt.setDate(4, Date.valueOf(lArticle.getDateFinEnchere()));
             pstmt.setInt(5, lArticle.getMiseAPrix());
             pstmt.setInt(6, lArticle.getlUtilisateur().getNumUtilisateur());
-            pstmt.setInt(7, lArticle.getLaCategorie().getNo_categorie());
+            pstmt.setInt(7, lArticle.getLaCategorie().getNumCategorie());
             pstmt.executeUpdate();
             ResultSet rs = pstmt.getGeneratedKeys();
             if (rs.next()) {

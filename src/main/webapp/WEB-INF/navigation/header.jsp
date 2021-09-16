@@ -21,7 +21,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/myProfile?idUser=${userInfo.no_utilisateur}">
+                        <a href="${pageContext.request.contextPath}/myProfile?idUser=${userInfo.numUtilisateur}">
                             <fmt:message key="header.myProfile"/>
                         </a>
                     </li>

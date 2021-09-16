@@ -26,7 +26,7 @@ public class CategorieDAOJdbc implements CategorieDAO {
             while (rs.next()) {
                 Categorie laCategorie = new Categorie();
 
-                laCategorie.setNo_categorie(rs.getInt("no_categorie"));
+                laCategorie.setNumCategorie(rs.getInt("no_categorie"));
                 laCategorie.setLibelle(rs.getString("libelle"));
 
                 lesCategories.add(laCategorie);
@@ -63,7 +63,7 @@ public class CategorieDAOJdbc implements CategorieDAO {
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(UPDATE_CATEGORY);
             pstmt.setString(1, laCategorie.getLibelle());
-            pstmt.setInt(2, laCategorie.getNo_categorie());
+            pstmt.setInt(2, laCategorie.getNumCategorie());
             pstmt.executeUpdate();
             pstmt.close();
         } catch (Exception e) {

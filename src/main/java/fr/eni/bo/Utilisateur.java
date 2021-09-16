@@ -60,8 +60,8 @@ public class Utilisateur {
         return numUtilisateur;
     }
 
-    public void setNumUtilisateur(int no_utilisateur) {
-        this.numUtilisateur = no_utilisateur;
+    public void setNumUtilisateur(int numUtilisateur) {
+        this.numUtilisateur = numUtilisateur;
     }
 
     public String getPseudo() {
