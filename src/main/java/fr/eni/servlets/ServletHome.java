@@ -3,8 +3,11 @@ package fr.eni.servlets;
 import fr.eni.bll.ArticleVenduManager;
 import fr.eni.bll.BLLException;
 import fr.eni.bll.CategorieManager;
+import fr.eni.bll.EnchereManager;
 import fr.eni.bo.ArticleVendu;
 import fr.eni.bo.Categorie;
+import fr.eni.bo.Enchere;
+import fr.eni.bo.Utilisateur;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +24,7 @@ import java.util.List;
 public class ServletHome extends HttpServlet {
     public final ArticleVenduManager articleVenduManager = new ArticleVenduManager();
     public final CategorieManager categorieManager = new CategorieManager();
+    public final EnchereManager enchereManager = new EnchereManager();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -90,15 +95,50 @@ public class ServletHome extends HttpServlet {
     }
 
     private void filtreSupplementaireModeConnecte(HttpServletRequest request, List<ArticleVendu> articlesTrouveParFiltre, ArticleVendu lArticle) {
+        HttpSession laSession = request.getSession(false);
+        Utilisateur lUtilisateur = (Utilisateur) laSession.getAttribute("userInfo");
+
         if (request.getParameter("choix") != null) {
-            if (request.getParameter("choix").equals("vente")) {
+            if (request.getParameter("choix").equals("achat")) {
                 boolean enchereOuverte = Boolean.parseBoolean(request.getParameter("enchereOuverte"));
                 boolean enchereEnCours = Boolean.parseBoolean(request.getParameter("enchereEnCours"));
                 boolean enchereRemportees = Boolean.parseBoolean(request.getParameter("enchereRemportees"));
-                System.out.println("BOOLEANS = " + enchereEnCours + " " + enchereOuverte + " " + enchereRemportees);
 
-                articlesTrouveParFiltre.add(lArticle);
+                if (enchereOuverte) {
+                    if ("A".equals(lArticle.getEtatVente())) {
+                        if (!articlesTrouveParFiltre.contains(lArticle)) {
+                            articlesTrouveParFiltre.add(lArticle);
+                        }
+                    }
+                }
+                if (enchereEnCours) {
+
+                    if ("E".equals(lArticle.getEtatVente())) {
+                        List<Enchere> encheres = enchereManager.getAllEncheresByIdArticle(lArticle.getNo_article());
+                        for (Enchere enchere : encheres) {
+                            if (enchere.getNo_utilisateur() == lUtilisateur.getNo_utilisateur()) {
+                                if (!articlesTrouveParFiltre.contains(lArticle)) {
+                                    articlesTrouveParFiltre.add(lArticle);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (enchereRemportees) {
+                    if ("F".equals(lArticle.getEtatVente())) {
+                        List<Enchere> encheres = enchereManager.getAllEncheresByIdArticle(lArticle.getNo_article());
+                        for (Enchere enchere : encheres) {
+                            if (enchere.getNo_utilisateur() == lUtilisateur.getNo_utilisateur() && enchere.getMontantEnchere() == lArticle.getPrixVente()) {
+                                if (!articlesTrouveParFiltre.contains(lArticle)) {
+                                    articlesTrouveParFiltre.add(lArticle);
+                                }
+                            }
+                        }
+                    }
+                }
             }
+        } else {
+            articlesTrouveParFiltre.add(lArticle);
         }
 
 

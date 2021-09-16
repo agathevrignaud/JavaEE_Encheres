@@ -29,7 +29,7 @@
     <card>
         <div class="form-check">
             <input class="form-check-input position-static" type="radio" name="choix" value="achat"
-                   aria-label="...">Achats
+                   aria-label="..." CHECKED>Achats
         </div>
         <div class="form-check">
             <input class="form-check-input position-static" type="checkbox" name="enchereOuverte" value="true"
@@ -48,7 +48,7 @@
     <card>
         <div class="form-check">
             <input class="form-check-input position-static" type="radio" name="choix" value="vente"
-                   aria-label="...">Mes ventes
+                   aria-label="..." >Mes ventes
         </div>
         <div class="form-check">
             <input class="form-check-input position-static" type="checkbox" id="inprogresssell"
