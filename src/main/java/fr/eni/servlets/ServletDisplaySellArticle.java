@@ -33,6 +33,9 @@ public class ServletDisplaySellArticle extends HttpServlet {
 
         @Override
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            final String NOT_STARTED = "A";
+            final String IN_PROGRESS = "E";
+
             //  TODO : rentre l'id article dynamique (sur 2 en dur)
             // request.getParameter(idArticle)
             int idArticle = 2;
@@ -45,12 +48,12 @@ public class ServletDisplaySellArticle extends HttpServlet {
             List<Enchere> lesEncherisseurs = enchereManager.getAllBidsByIdArticle(idArticle);
             request.setAttribute("lesEncherisseurs", lesEncherisseurs);
 
-            if (LocalDate.now().isAfter(lArticle.getDateDebutEnchere()) && LocalDate.now().isBefore(lArticle.getDateFinEnchere())) {
+            if (IN_PROGRESS.equals(lArticle.getEtatVente())) {
                 request.setAttribute("highestBidder", lEnchere.getlUtilisateur());
                 request.setAttribute("auctionInProgress", true);
                 request.setAttribute("auctionEditable", false);
             } else {
-                if (LocalDate.now().isBefore(lArticle.getDateDebutEnchere())) {
+                if (NOT_STARTED.equals(lArticle.getEtatVente())) {
                     request.setAttribute("auctionInProgress", false);
                     request.setAttribute("auctionEditable", true);
                 } else {

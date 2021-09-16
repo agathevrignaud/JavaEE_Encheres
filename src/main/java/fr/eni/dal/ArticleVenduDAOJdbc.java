@@ -12,9 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
-    private static final String SELECT_ALL_ARTICLES = "SELECT U.*, A.no_article, A.nom_article, A.description, " +
-            "A.date_debut_encheres, A.date_fin_encheres, A.prix_initial, A.prix_vente, A.etat_vente, A.no_utilisateur, C.*, " +
-            "R.rue, R.ville, R.code_postal " +
+    private static final String SELECT_ALL_ARTICLES = "SELECT U.*, A.*, C.*, R.* " +
             "FROM ARTICLES_VENDUS A " +
             "INNER JOIN UTILISATEURS U " +
             "ON A.no_utilisateur = U.no_utilisateur " +
@@ -22,9 +20,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             "ON A.no_categorie = C.no_categorie " +
             "INNER JOIN RETRAITS R " +
             "ON A.no_article = R.no_article";
-    private static final String SELECT_ARTICLE_BY_ID = "SELECT U.*, A.no_article, A.nom_article, A.description, " +
-            "A.date_debut_encheres, A.date_fin_encheres, A.prix_initial, A.prix_vente, A.etat_vente, A.no_utilisateur, C.*, " +
-            "R.rue, R.ville, R.code_postal " +
+    private static final String SELECT_ARTICLE_BY_ID = "SELECT U.*, A.*, C.*, R.* " +
             "FROM ARTICLES_VENDUS A " +
             "INNER JOIN UTILISATEURS U " +
             "ON A.no_utilisateur = U.no_utilisateur " +
@@ -34,7 +30,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             "ON A.no_article = R.no_article " +
             "WHERE A.no_article=?";
     private static final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article,description,date_debut_encheres, " +
-            "date_fin_encheres, prix_initial, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?)";
+            "date_fin_encheres, prix_initial, etat_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?)";
     private static final String UPDATE_ARTICLE_BID = "UPDATE ARTICLES_VENDUS SET prix_vente=? WHERE no_article=?";
     private static final String DELETE_ALL_ARTICLES_BY_USER_ID="DELETE FROM ARTICLES_VENDUS WHERE no_utilisateur=?";
 
@@ -74,6 +70,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
                         rs.getDate("A.date_fin_encheres").toLocalDate(),
                         rs.getInt("A.prix_initial"),
                         rs.getInt("A.prix_vente"),
+                        rs.getString("A.etat_vente"),
                         lieuRetrait,
                         laCategorie,
                         lUtilisateur
@@ -124,6 +121,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
                         rs.getDate("A.date_fin_encheres").toLocalDate(),
                         rs.getInt("A.prix_initial"),
                         rs.getInt("A.prix_vente"),
+                        rs.getString("A.etat_vente"),
                         lieuRetrait,
                         laCategorie,
                         lUtilisateur

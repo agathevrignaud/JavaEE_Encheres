@@ -64,6 +64,7 @@ CREATE TABLE ARTICLES_VENDUS
     date_fin_encheres   DATE                   NOT NULL,
     prix_initial        INTEGER                NOT NULL,
     prix_vente          INTEGER,
+    etat_vente          CHAR(1)                NOT NULL,
     no_utilisateur      INTEGER                NOT NULL,
     no_categorie        INTEGER                NOT NULL
 )

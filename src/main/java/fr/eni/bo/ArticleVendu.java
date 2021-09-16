@@ -10,6 +10,7 @@ public class ArticleVendu {
     private LocalDate dateFinEnchere;
     private int miseAPrix;
     private int prixVente;
+    private String etatVente; // A - en attente, C - en cours, F - finie
     private Retrait lieuRetrait;
     private Categorie laCategorie;
     private Utilisateur lUtilisateur;
@@ -48,7 +49,7 @@ public class ArticleVendu {
         this.prixVente = prixVente;
     }
 
-    public ArticleVendu(int numArticle, String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, int prixVente, Retrait lieuRetrait, Categorie laCategorie, Utilisateur lUtilisateur) {
+    public ArticleVendu(int numArticle, String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, int prixVente, String etatVente, Retrait lieuRetrait, Categorie laCategorie, Utilisateur lUtilisateur) {
         this.numArticle = numArticle;
         this.nomArticle = nomArticle;
         this.description = description;
@@ -56,6 +57,19 @@ public class ArticleVendu {
         this.dateFinEnchere = dateFinEnchere;
         this.miseAPrix = miseAPrix;
         this.prixVente = prixVente;
+        this.etatVente = etatVente;
+        this.lieuRetrait = lieuRetrait;
+        this.laCategorie = laCategorie;
+        this.lUtilisateur = lUtilisateur;
+    }
+
+    public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, String etatVente, Retrait lieuRetrait, Categorie laCategorie, Utilisateur lUtilisateur) {
+        this.nomArticle = nomArticle;
+        this.description = description;
+        this.dateDebutEnchere = dateDebutEnchere;
+        this.dateFinEnchere = dateFinEnchere;
+        this.miseAPrix = miseAPrix;
+        this.etatVente = etatVente;
         this.lieuRetrait = lieuRetrait;
         this.laCategorie = laCategorie;
         this.lUtilisateur = lUtilisateur;
@@ -115,6 +129,14 @@ public class ArticleVendu {
 
     public void setPrixVente(int prixVente) {
         this.prixVente = prixVente;
+    }
+
+    public String getEtatVente() {
+        return etatVente;
+    }
+
+    public void setEtatVente(String etatVente) {
+        this.etatVente = etatVente;
     }
 
     public Retrait getLieuRetrait() {
