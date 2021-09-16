@@ -3,6 +3,7 @@ package fr.eni.bll;
 
 //20000-29999
 public abstract class CodesResultatBLL {
+    //Codes for UtilisateurManager
     //Codes for Account Creation
     public static final int CREATE_ACCOUNT_ERROR=20000;
     public static final int CREATE_ACCOUNT_SUCCESS=20001;
@@ -15,10 +16,6 @@ public abstract class CodesResultatBLL {
     public static final int PWD_CONFIRMED_REQUIRED=20009;
     public static final int PWD_NOT_VALID=20010;
     public static final int PWD_PWD_CONFIRMED_NOT_IDENTICAL=20011;
-
-    //Codes for login
-    public static final int USER_NOT_AUTHENTICATED=20100;
-
 
 
 }

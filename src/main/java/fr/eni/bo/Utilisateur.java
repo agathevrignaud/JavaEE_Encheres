@@ -1,7 +1,5 @@
 package fr.eni.bo;
 
-import java.util.List;
-
 public class Utilisateur {
     private int numUtilisateur;
     private String pseudo;
@@ -19,8 +17,7 @@ public class Utilisateur {
 
     public Utilisateur() {}
 
-    public Utilisateur(int numUtilisateur, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville) {
-        this.numUtilisateur = numUtilisateur;
+    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville) {
         this.pseudo = pseudo;
         this.nom = nom;
         this.prenom = prenom;
@@ -32,28 +29,25 @@ public class Utilisateur {
     }
 
     public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse) {
-        this.pseudo = pseudo;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.email = email;
-        this.telephone = telephone;
-        this.rue = rue;
-        this.codePostal = codePostal;
-        this.ville = ville;
+        this(pseudo,nom, prenom, email, telephone, rue, codePostal, ville);
         this.motDePasse = motDePasse;
     }
 
-    public Utilisateur(int numUtilisateur, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse) {
+    public Utilisateur(int numUtilisateur, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville) {
+        this(pseudo,nom, prenom, email, telephone, rue, codePostal, ville);
         this.numUtilisateur = numUtilisateur;
-        this.pseudo = pseudo;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.email = email;
-        this.telephone = telephone;
-        this.rue = rue;
-        this.codePostal = codePostal;
-        this.ville = ville;
+    }
+
+    public Utilisateur(int numUtilisateur, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse) {
+        this(numUtilisateur, pseudo, nom, prenom, email, telephone, rue, ville, codePostal);
         this.motDePasse = motDePasse;
+    }
+
+    public Utilisateur(int numUtilisateur, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, int credit, boolean administrateur, boolean compteActif) {
+        this(numUtilisateur, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
+        this.credit = credit;
+        this.administrateur = administrateur;
+        this.compteActif = compteActif;
     }
 
     public int getNumUtilisateur() {

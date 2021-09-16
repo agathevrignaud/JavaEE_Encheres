@@ -1,18 +1,24 @@
 package fr.eni.servlets;
 
+import fr.eni.bll.ArticleVenduManager;
 import fr.eni.bll.BLLException;
+import fr.eni.bll.EnchereManager;
 import fr.eni.bll.UtilisateurManager;
+import fr.eni.bo.ArticleVendu;
+import fr.eni.bo.Enchere;
 import fr.eni.bo.Utilisateur;
-import org.apache.tomcat.util.modeler.Util;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet(name = "ServletEditProfile", value = "/editMyProfile")
+@WebServlet(value = "/editMyProfile")
 public class ServletEditProfile extends HttpServlet {
     private static final UtilisateurManager utilisateurManager = new UtilisateurManager();
+    private static final ArticleVenduManager articleVenduManager = new ArticleVenduManager();
+    private static final EnchereManager enchereManager = new EnchereManager();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -60,14 +66,30 @@ public class ServletEditProfile extends HttpServlet {
             case "delete":
                 // TODO : Ajouter une validation "êtes-vous sûr" etc etc
                 try {
-                    utilisateurManager.deleteUser(Integer.parseInt(request.getParameter("idUser")));
+                    int idUser = Integer.parseInt(request.getParameter("idUser"));
+                    reimburseAllBidders(idUser);
+                    utilisateurManager.deleteUser(idUser);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                // TODO : Redirection homepage en mode déconnecté + clean les infos de session
-                RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
+                HttpSession laSession = request.getSession();
+                laSession.setAttribute("isUserLoggedIn", false );
+                laSession.setAttribute("userInfo", null);
+                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
                 rd.forward(request, response);
                 break;
+        }
+    }
+
+    private void reimburseAllBidders(int idUser) {
+        List<ArticleVendu> lesArticles = articleVenduManager.getAllArticlesByUser(idUser);
+        for (ArticleVendu unArticle : lesArticles) {
+            Enchere lEnchere = enchereManager.getHighestBidByIdArticle(unArticle.getNumArticle());
+            try {
+                utilisateurManager.updateUserCredit(unArticle.getPrixVente(), lEnchere.getlUtilisateur().getNumUtilisateur());
+            } catch (BLLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

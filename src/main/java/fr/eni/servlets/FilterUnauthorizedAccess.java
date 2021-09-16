@@ -19,7 +19,10 @@ import javax.servlet.http.HttpSession;
             "/createNewCategory",
             "/editMyProfile",
             "/creditShop",
-            "/articleDetails"
+            "/auctionDetails",
+            "/createAuction",
+            "/editMyAuction",
+            "/cancelMyAuction"
         },
         dispatcherTypes= {
                 DispatcherType.REQUEST,

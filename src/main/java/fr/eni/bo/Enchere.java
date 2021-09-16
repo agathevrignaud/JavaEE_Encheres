@@ -1,6 +1,5 @@
 package fr.eni.bo;
 
-
 import java.time.LocalDateTime;
 
 public class Enchere {
@@ -49,5 +48,4 @@ public class Enchere {
     public void setMontantEnchere(int montantEnchere) {
         this.montantEnchere = montantEnchere;
     }
-
 }

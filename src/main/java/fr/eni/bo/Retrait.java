@@ -15,9 +15,7 @@ public class Retrait {
     }
 
     public Retrait(String rue, String codePostal, String ville, ArticleVendu lArticle) {
-        this.rue = rue;
-        this.codePostal = codePostal;
-        this.ville = ville;
+        this(rue, codePostal, ville);
         this.lArticle = lArticle;
     }
 
@@ -57,5 +55,4 @@ public class Retrait {
     public String toString() {
         return rue + "\n" + codePostal + " " + ville ;
     }
-
 }

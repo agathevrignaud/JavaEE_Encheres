@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UtilisateurDAOJdbc implements UtilisateurDAO {
-    private static final Logger myLogger = Logger.getLogger("LogsDAL");
+    private static final Logger myLogger = Logger.getLogger("LogsDAL_Utilisateur");
     private static final String SELECT_ALL_USERS = "SELECT * FROM UTILISATEURS";
     private static final String SELECT_USER_BY_ID = "SELECT * FROM UTILISATEURS WHERE NO_UTILISATEUR=?";
     private static final String INSERT_USER = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?)";
@@ -33,23 +33,10 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_USERS);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                Utilisateur lUtilisateur = new Utilisateur();
-                lUtilisateur.setNumUtilisateur(rs.getInt("no_utilisateur"));
-                lUtilisateur.setPseudo(rs.getString("pseudo"));
-                lUtilisateur.setNom(rs.getString("nom"));
-                lUtilisateur.setPrenom(rs.getString("prenom"));
-                lUtilisateur.setEmail(rs.getString("email"));
-                lUtilisateur.setTelephone(rs.getString("telephone"));
-                lUtilisateur.setRue(rs.getString("rue"));
-                lUtilisateur.setCodePostal(rs.getString("code_postal"));
-                lUtilisateur.setVille(rs.getString("ville"));
-                lUtilisateur.setMotDePasse(rs.getString("mot_de_passe"));
-                lUtilisateur.setCredit(rs.getInt("credit"));
-                lUtilisateur.setAdministrateur(rs.getBoolean("administrateur"));
-                lUtilisateur.setCompteActif(rs.getBoolean("compteActif"));
+                Utilisateur lUtilisateur = getUtilisateur(rs);
                 lesUtilisateurs.add(lUtilisateur);
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             BLLException bllException = new BLLException();
             bllException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_ALL);
@@ -61,27 +48,15 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 
     @Override
     public Utilisateur selectById(int idUser) throws BLLException {
-        Utilisateur lUtilisateur = new Utilisateur();
+        Utilisateur lUtilisateur = null ;
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_USER_BY_ID);
             pstmt.setInt(1, idUser);
             ResultSet rs = pstmt.executeQuery();
             if(rs.next()) {
-                lUtilisateur.setNumUtilisateur(rs.getInt("no_utilisateur"));
-                lUtilisateur.setPseudo(rs.getString("pseudo"));
-                lUtilisateur.setNom(rs.getString("nom"));
-                lUtilisateur.setPrenom(rs.getString("prenom"));
-                lUtilisateur.setEmail(rs.getString("email"));
-                lUtilisateur.setTelephone(rs.getString("telephone"));
-                lUtilisateur.setRue(rs.getString("rue"));
-                lUtilisateur.setCodePostal(rs.getString("code_postal"));
-                lUtilisateur.setVille(rs.getString("ville"));
-                lUtilisateur.setMotDePasse(rs.getString("mot_de_passe"));
-                lUtilisateur.setCredit(rs.getInt("credit"));
-                lUtilisateur.setAdministrateur(rs.getBoolean("administrateur"));
-                lUtilisateur.setCompteActif(rs.getBoolean("compteActif"));
+                lUtilisateur = getUtilisateur(rs);
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             BLLException bllException = new BLLException();
             bllException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_BY_ID);
@@ -93,42 +68,44 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 
     @Override
     public Utilisateur createUser(Utilisateur lUtilisateur) throws BLLException {
+        BLLException bllException = new BLLException();
         if (lUtilisateur == null) {
-            //
-        }
-        try (Connection cnx = ConnectionProvider.getConnection()) {
-            PreparedStatement pstmt = cnx.prepareStatement(INSERT_USER, PreparedStatement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, lUtilisateur.getPseudo());
-            pstmt.setString(2, lUtilisateur.getNom());
-            pstmt.setString(3, lUtilisateur.getPrenom());
-            pstmt.setString(4, lUtilisateur.getEmail());
-            pstmt.setString(5, lUtilisateur.getTelephone());
-            pstmt.setString(6, lUtilisateur.getRue());
-            pstmt.setString(7, lUtilisateur.getCodePostal());
-            pstmt.setString(8, lUtilisateur.getVille());
-            pstmt.setString(9, lUtilisateur.getMotDePasse());
-            pstmt.executeUpdate();
-            ResultSet rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {
-             lUtilisateur.setNumUtilisateur(rs.getInt("no_utilisateur"));
-            }
-            rs.close();
-            pstmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            BLLException bllException = new BLLException();
             bllException.ajouterErreur(CodesResultatDAL.ERROR_CREATE_USER);
-            myLogger.log(Level.WARNING,"Erreur lors de la création d'un nouvel utilisateur", bllException);
             throw bllException;
+        } else {
+            try (Connection cnx = ConnectionProvider.getConnection()) {
+                PreparedStatement pstmt = cnx.prepareStatement(INSERT_USER, PreparedStatement.RETURN_GENERATED_KEYS);
+                pstmt.setString(1, lUtilisateur.getPseudo());
+                pstmt.setString(2, lUtilisateur.getNom());
+                pstmt.setString(3, lUtilisateur.getPrenom());
+                pstmt.setString(4, lUtilisateur.getEmail());
+                pstmt.setString(5, lUtilisateur.getTelephone());
+                pstmt.setString(6, lUtilisateur.getRue());
+                pstmt.setString(7, lUtilisateur.getCodePostal());
+                pstmt.setString(8, lUtilisateur.getVille());
+                pstmt.setString(9, lUtilisateur.getMotDePasse());
+                pstmt.executeUpdate();
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    lUtilisateur.setNumUtilisateur(rs.getInt("no_utilisateur"));
+                }
+                rs.close();
+                pstmt.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                bllException.ajouterErreur(CodesResultatDAL.ERROR_CREATE_USER);
+                myLogger.log(Level.WARNING,"Erreur lors de la création d'un nouvel utilisateur", bllException);
+                throw bllException;
+            }
         }
         return lUtilisateur;
     }
 
     @Override
     public void updateUserData(Utilisateur lUtilisateur) throws BLLException {
+        BLLException bllException = new BLLException();
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(UPDATE_USER_DATA);
-
             pstmt.setString(1, lUtilisateur.getPseudo());
             pstmt.setString(2, lUtilisateur.getNom());
             pstmt.setString(3, lUtilisateur.getPrenom());
@@ -139,12 +116,9 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.setString(8, lUtilisateur.getVille());
             pstmt.setString(9, lUtilisateur.getMotDePasse());
             pstmt.setInt(10, lUtilisateur.getNumUtilisateur());
-
             pstmt.executeUpdate();
         } catch (Exception e) {
-            System.out.print("Erreur lors de la màj de l'utilisateur");
             e.printStackTrace();
-            BLLException bllException = new BLLException();
             bllException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_USER_DATA);
             myLogger.log(Level.WARNING,"Erreur lors de la mise à jour des informations de l'utilisateur (idUser : " + lUtilisateur.getNumUtilisateur()  + ")", bllException);
             throw bllException;
@@ -202,19 +176,14 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 
     @Override
     public Utilisateur checkIfUserExists(String username, String email) throws BLLException {
-        Utilisateur lUtilisateur = new Utilisateur();
+        Utilisateur lUtilisateur = null;
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(CHECK_USER_EXISTENCE);
             pstmt.setString(1, username);
             pstmt.setString(2, email);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                lUtilisateur.setNumUtilisateur(rs.getInt("no_utilisateur"));
-                lUtilisateur.setPseudo(rs.getString("pseudo"));
-                lUtilisateur.setNom(rs.getString("nom"));
-                lUtilisateur.setPrenom(rs.getString("prenom"));
-                lUtilisateur.setEmail(rs.getString("email"));
-                lUtilisateur.setEmail(rs.getString("mot_de_passe"));
+                lUtilisateur = getUtilisateur(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -240,5 +209,24 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             myLogger.log(Level.WARNING,"Erreur lors de la réinitialisation du mdp de l'utilisateur (idUser : " + idUser  + ")", bllException);
             throw bllException;
         }
+    }
+
+    private Utilisateur getUtilisateur(ResultSet rs) throws SQLException {
+        Utilisateur lUtilisateur = new Utilisateur(
+                rs.getInt("U.no_utilisateur"),
+                rs.getString("U.pseudo"),
+                rs.getString("U.nom"),
+                rs.getString("U.prenom"),
+                rs.getString("U.email"),
+                rs.getString("U.telephone"),
+                rs.getString("U.rue"),
+                rs.getString("U.codePostal"),
+                rs.getString("U.ville"),
+                rs.getString("mot_de_passe"),
+                rs.getInt("credit"),
+                rs.getBoolean("administrateur"),
+                rs.getBoolean("compteActif")
+        );
+        return lUtilisateur;
     }
 }

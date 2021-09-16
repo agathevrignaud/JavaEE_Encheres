@@ -2,6 +2,9 @@ package fr.eni.bo;
 
 import java.time.LocalDate;
 
+/**
+ * Classe Article vendu
+ */
 public class ArticleVendu {
     private int numArticle;
     private String nomArticle;
@@ -10,69 +13,52 @@ public class ArticleVendu {
     private LocalDate dateFinEnchere;
     private int miseAPrix;
     private int prixVente;
-    private String etatVente; // A - en attente, C - en cours, F - finie
+    private String etatVente; // P - en attente, C - en cours, F - finie, A - annulée
     private Retrait lieuRetrait;
     private Categorie laCategorie;
     private Utilisateur lUtilisateur;
 
     public ArticleVendu() {}
 
-    public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, Retrait lieuRetrait, Categorie laCategorie, Utilisateur lUtilisateur) {
+    public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix) {
         this.nomArticle = nomArticle;
         this.description = description;
         this.dateDebutEnchere = dateDebutEnchere;
         this.dateFinEnchere = dateFinEnchere;
         this.miseAPrix = miseAPrix;
+    }
+
+    public ArticleVendu(int numArticle, String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, int prixVente) {
+        this(nomArticle, description, dateDebutEnchere, dateFinEnchere, miseAPrix);
+        this.numArticle = numArticle;
+        this.prixVente = prixVente;
+    }
+
+    public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, String etatVente, Retrait lieuRetrait, Categorie laCategorie, Utilisateur lUtilisateur) {
+        this(nomArticle, description, dateDebutEnchere, dateFinEnchere, miseAPrix);
+        this.etatVente = etatVente;
         this.lieuRetrait = lieuRetrait;
         this.laCategorie = laCategorie;
         this.lUtilisateur = lUtilisateur;
     }
 
     public ArticleVendu(int numArticle, String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, int prixVente, Utilisateur lUtilisateur) {
-        this.numArticle = numArticle;
-        this.nomArticle = nomArticle;
-        this.description = description;
-        this.dateDebutEnchere = dateDebutEnchere;
-        this.dateFinEnchere = dateFinEnchere;
-        this.miseAPrix = miseAPrix;
-        this.prixVente = prixVente;
+        this(numArticle, nomArticle, description, dateDebutEnchere, dateFinEnchere, miseAPrix, prixVente);
         this.lUtilisateur = lUtilisateur;
-    }
-
-    public ArticleVendu(int numArticle, String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, int prixVente) {
-        this.numArticle = numArticle;
-        this.nomArticle = nomArticle;
-        this.description = description;
-        this.dateDebutEnchere = dateDebutEnchere;
-        this.dateFinEnchere = dateFinEnchere;
-        this.miseAPrix = miseAPrix;
-        this.prixVente = prixVente;
     }
 
     public ArticleVendu(int numArticle, String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, int prixVente, String etatVente, Retrait lieuRetrait, Categorie laCategorie, Utilisateur lUtilisateur) {
-        this.numArticle = numArticle;
-        this.nomArticle = nomArticle;
-        this.description = description;
-        this.dateDebutEnchere = dateDebutEnchere;
-        this.dateFinEnchere = dateFinEnchere;
-        this.miseAPrix = miseAPrix;
-        this.prixVente = prixVente;
-        this.etatVente = etatVente;
+        this(numArticle, nomArticle, description, dateDebutEnchere, dateFinEnchere, miseAPrix, prixVente, lUtilisateur);
         this.lieuRetrait = lieuRetrait;
         this.laCategorie = laCategorie;
-        this.lUtilisateur = lUtilisateur;
+
     }
 
-    public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, String etatVente, Retrait lieuRetrait, Categorie laCategorie, Utilisateur lUtilisateur) {
-        this.nomArticle = nomArticle;
-        this.description = description;
-        this.dateDebutEnchere = dateDebutEnchere;
-        this.dateFinEnchere = dateFinEnchere;
-        this.miseAPrix = miseAPrix;
+    public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, int miseAPrix, String etatVente, Categorie laCategorie, Utilisateur idUser) {
+        this(nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix);
         this.etatVente = etatVente;
-        this.lieuRetrait = lieuRetrait;
         this.laCategorie = laCategorie;
-        this.lUtilisateur = lUtilisateur;
+        this.lUtilisateur = idUser;
     }
 
     public int getNumArticle() {

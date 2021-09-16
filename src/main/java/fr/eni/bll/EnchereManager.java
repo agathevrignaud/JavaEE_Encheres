@@ -8,9 +8,12 @@ import fr.eni.dal.EnchereDAO;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class EnchereManager {
     private EnchereDAO enchereDAO;
+    private static final Logger myLogger = Logger.getLogger("LogsBLL_Retrait");
 
     public EnchereManager() {
         enchereDAO = DAOFactory.getEnchereDAO();
@@ -24,18 +27,30 @@ public class EnchereManager {
         return enchereDAO.selectHighestBidByIdArticle(idArticle);
     }
 
-    public Enchere addNewEnchere(Utilisateur lUtilisateur, ArticleVendu lArticle, LocalDateTime dateEnchere, int montantEnchere) throws Exception {
+    public Enchere addNewEnchere(Utilisateur lUtilisateur, ArticleVendu lArticle, LocalDateTime dateEnchere, int montantEnchere) throws BLLException {
+        BLLException bllException = new BLLException();
         Enchere lEnchere = new Enchere(
                 lUtilisateur,
                 lArticle,
                 dateEnchere,
                 montantEnchere
         );
-        return enchereDAO.createEnchere(lEnchere);
+        try {
+            enchereDAO.createEnchere(lEnchere);
+        } catch (Exception e) {
+            e.printStackTrace();
+            myLogger.log(Level.WARNING,"Erreur lors de la création de l'enchère sur l'article " + lArticle.getNumArticle(), bllException);
+            throw bllException;
+        }
+        return lEnchere;
     }
 
-    public void cancelAllBidsByUser(int idUser) {
+    public void cancelAllBidsByUser(int idUser) throws BLLException {
         enchereDAO.deleteAllBidsByUser(idUser);
+    }
+
+    public void cancelAllBidsForAuction(int idArticle) throws BLLException {
+        enchereDAO.deleteAllBidsOnArticle(idArticle);
     }
 }
 

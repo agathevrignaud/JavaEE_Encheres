@@ -17,7 +17,7 @@ public class RetraitManager {
         return retraitDAO.selectById(idRetrait);
     }
 
-    public Retrait addNewRetrait(ArticleVendu lArticle, String rue, String codePostal, String ville) {
+    public Retrait addNewRetrait(ArticleVendu lArticle, String rue, String codePostal, String ville) throws BLLException {
         Retrait lieuRetrait = new Retrait(rue, codePostal, ville, lArticle);
         return retraitDAO.createRetrait(lieuRetrait);
     }

@@ -13,10 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(
-        urlPatterns= {
-                "/creditShop"
-        })
+@WebServlet(value= "/creditShop")
 public class ServletBuyCredit extends HttpServlet {
     private static final UtilisateurManager utilisateurManager = new UtilisateurManager();
 

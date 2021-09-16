@@ -1,9 +1,12 @@
 package fr.eni.servlets;
 
 import fr.eni.bll.*;
+import fr.eni.bo.ArticleVendu;
 import fr.eni.bo.Categorie;
+import fr.eni.bo.Enchere;
 import fr.eni.bo.Utilisateur;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,6 +32,9 @@ public class ServletAdminTools extends HttpServlet {
     private static final ArticleVenduManager articleVenduManager = new ArticleVenduManager();
     private static final EnchereManager enchereManager = new EnchereManager();
     private static final CategorieManager categorieManager = new CategorieManager();
+    final String CANCELLED = "A";
+    final String NOT_STARTED = "P";
+    final String IN_PROGRESS = "E";
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Integer> listeCodesErreur = new ArrayList<>();
@@ -45,10 +51,17 @@ public class ServletAdminTools extends HttpServlet {
                 case "/deactivateAccount":
                     try {
                         int idUser = Integer.parseInt(request.getParameter("idUser"));
-                        utilisateurManager.updateUserAccountStatus(idUser);
                         // Cancel all sales & bids by user, not reimboursed of his credit (?)
-                        articleVenduManager.cancelAllSalesByUser(idUser);
+                        utilisateurManager.updateUserAccountStatus(idUser);
                         enchereManager.cancelAllBidsByUser(idUser);
+                        // Bidders reimboursed on cancelled auctions
+                        for(ArticleVendu unArticle : articleVenduManager.getAllArticlesByUser(idUser)) {
+                            unArticle.setEtatVente(CANCELLED);
+                            Enchere lEnchere = enchereManager.getHighestBidByIdArticle(unArticle.getNumArticle());
+                            utilisateurManager.updateUserCredit(unArticle.getPrixVente(), lEnchere.getlUtilisateur().getNumUtilisateur());
+                            enchereManager.cancelAllBidsForAuction(unArticle.getNumArticle());
+                            unArticle.setPrixVente(unArticle.getMiseAPrix());
+                        }
                     } catch (BLLException e) {
                         e.printStackTrace();
                         listeCodesErreur.add(CodesResultatServlets.DEACTIVATE_ACCOUNT_ERROR);
@@ -60,6 +73,14 @@ public class ServletAdminTools extends HttpServlet {
                     try {
                         int idUser = Integer.parseInt(request.getParameter("idUser"));
                         utilisateurManager.updateUserAccountStatus(idUser);
+                        for(ArticleVendu unArticle : articleVenduManager.getAllArticlesByUser(idUser)) {
+                            if (LocalDate.now().isAfter(unArticle.getDateFinEnchere())) {
+                                articleVenduManager.updateAuctionStatus(NOT_STARTED, unArticle.getNumArticle());
+                            }
+                            if (LocalDate.now().isAfter(unArticle.getDateDebutEnchere())) {
+                                articleVenduManager.updateAuctionStatus(IN_PROGRESS, unArticle.getNumArticle());
+                            }
+                        }
                     } catch (BLLException e) {
                         e.printStackTrace();
                         listeCodesErreur.add(CodesResultatServlets.REACTIVATE_ACCOUNT_ERROR);
@@ -70,6 +91,7 @@ public class ServletAdminTools extends HttpServlet {
                 case "/deleteAccount":
                     try {
                         int idUser = Integer.parseInt(request.getParameter("idUser"));
+                        reimburseAllBidders(idUser);
                         utilisateurManager.deleteUser(idUser);
                     } catch (BLLException e) {
                         e.printStackTrace();
@@ -87,7 +109,13 @@ public class ServletAdminTools extends HttpServlet {
                     break;
                 case "/editCategory":
                     try {
-                        categorieManager.updateCategory(Integer.parseInt(request.getParameter("idCategory")),request.getParameter("newName"));
+                        int idCategory = Integer.parseInt(request.getParameter("idCategory"));
+                        String newCategoryName = checkCategoryName(request, listeCodesErreur);
+                        if (listeCodesErreur.size() > 0) {
+                            request.setAttribute("listeCodesErreur",listeCodesErreur);
+                            doGet(request, response);
+                        }
+                        categorieManager.updateCategory(idCategory,newCategoryName);
                     } catch (BLLException e) {
                         e.printStackTrace();
                         listeCodesErreur.add(CodesResultatServlets.EDIT_CATEGORY_ERROR);
@@ -96,11 +124,24 @@ public class ServletAdminTools extends HttpServlet {
                     loadCategoryList(request, listeCodesErreur);
                     break;
                 case "/deleteCategory":
-                    int nbrOfUses = categorieManager.getAllUses(Integer.parseInt(request.getParameter("idCategory")));
+                    int nbrOfUses = 0;
+                    try {
+                        nbrOfUses = categorieManager.getAllUses(Integer.parseInt(request.getParameter("idCategory")));
+                    } catch (BLLException e) {
+                        e.printStackTrace();
+                        listeCodesErreur.add(CodesResultatServlets.GET_CATEGORY_USES_ERROR);
+                        request.setAttribute("listeCodesErreur", e.getListeCodesErreur());
+                    }
                     if (nbrOfUses > 0) {
                         request.setAttribute("deleteCategoryError", true);
                     } else {
-                        categorieManager.deleteCategory(Integer.parseInt(request.getParameter("idCategory")));
+                        try {
+                            categorieManager.deleteCategory(Integer.parseInt(request.getParameter("idCategory")));
+                        } catch (BLLException e) {
+                            e.printStackTrace();
+                            listeCodesErreur.add(CodesResultatServlets.DELETE_CATEGORY_ERROR);
+                            request.setAttribute("listeCodesErreur", e.getListeCodesErreur());
+                        }
                     }
                     loadCategoryList(request, listeCodesErreur);
                     break;
@@ -142,6 +183,28 @@ public class ServletAdminTools extends HttpServlet {
             listeCodesErreur.add(CodesResultatServlets.LOAD_CATEGORIES_ERROR);
         }
     }
+
+    private String checkCategoryName(HttpServletRequest request, List<Integer> listeCodesErreur) {
+        String categoryName;
+        categoryName = request.getParameter("newName");
+        if(categoryName == null || categoryName.trim().equals("")) {
+            listeCodesErreur.add(CodesResultatServlets.CATEGORY_NAME_REQUIRED);
+        }
+        return categoryName;
+    }
+
+    private void reimburseAllBidders(int idUser) {
+        List<ArticleVendu> lesArticles = articleVenduManager.getAllArticlesByUser(idUser);
+        for (ArticleVendu unArticle : lesArticles) {
+            Enchere lEnchere = enchereManager.getHighestBidByIdArticle(unArticle.getNumArticle());
+            try {
+                utilisateurManager.updateUserCredit(unArticle.getPrixVente(), lEnchere.getlUtilisateur().getNumUtilisateur());
+            } catch (BLLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
 }
 

@@ -13,7 +13,6 @@
     </head>
     <body>
         <%@include file="/WEB-INF/navigation/header.jsp" %>
-
         <c:choose>
             <c:when test="${auctionInProgress && !auctionEditable}">
                 <h2><fmt:message key="displaysell.title"/></h2>
@@ -102,12 +101,14 @@
                 </fmt:message>
             </c:if>
         </c:if>
+        <c:if test="${!lArticle.lUtilisateur.compteActif}">
+            <p>Le compte de ce vendeur n'est plus actif. La vente a été annulée.</p>
+        </c:if>
 
         <!-- The user logged in is the seller -->
         <c:if test="${(userInfo.numUtilisateur == lArticle.numUtilisateur)}">
-            <!-- TODO : à compléter vers la page de modification d'une vente -->
             <c:if test="${auctionEditable}">
-                <a href="${pageContext.request.contextPath}/home">Modifier la vente</a>
+                <a href="${pageContext.request.contextPath}/editMyAuction">Modifier la vente</a>
             </c:if>
             <br/>
             <c:if test="${!auctionEditable}">

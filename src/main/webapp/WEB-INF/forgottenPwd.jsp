@@ -10,7 +10,7 @@
     <head>
         <title><fmt:message key="forgotpwd.title"/></title>
     </head>
-    <body>
+        <body>
         <%@ include file="/WEB-INF/navigation/header.jsp" %>
         <h3><fmt:message key="forgotpwd.msg_input"/></h3>
         <form method="post" action="${pageContext.request.contextPath}/forgottenPwd">

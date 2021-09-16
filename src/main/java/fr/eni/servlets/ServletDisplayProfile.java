@@ -8,7 +8,10 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "ServletDisplayProfile", value = "/myProfile")
+@WebServlet(urlPatterns= {
+        "myProfile",
+        "profile"
+})
 public class ServletDisplayProfile extends HttpServlet {
     private static final UtilisateurManager utilisateurManager = new UtilisateurManager();
 
@@ -17,7 +20,7 @@ public class ServletDisplayProfile extends HttpServlet {
         HttpSession laSession = request.getSession();
         Utilisateur lUtilisateurCo = (Utilisateur) laSession.getAttribute("userInfo");
         Utilisateur lUtilisateurVu = null;
-        
+
         try {
             lUtilisateurVu = utilisateurManager.getUserById(Integer.parseInt(request.getParameter("idUser")));
             request.setAttribute("userInfo", lUtilisateurVu);
@@ -38,7 +41,6 @@ public class ServletDisplayProfile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("idUser", request.getParameter("idUser"));
-        System.out.println("displayProfile : " + request.getParameter("idUser"));
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/editProfile.jsp");
         rd.forward(request, response);
     }

@@ -2,7 +2,7 @@ package fr.eni.servlets;
 
 // 30000-39999
 public abstract class CodesResultatServlets {
-// Codes for Accounts/Users
+    // Codes for Accounts/Users
     //  Codes for Account Creation
     public static final int CREATE_ACCOUNT_ERROR=30000;
     public static final int CREATE_ACCOUNT_SUCCESS=30001;
@@ -31,7 +31,7 @@ public abstract class CodesResultatServlets {
     public static final int PROFILE_EDIT_ERROR = 30300;
     public static final int PROFILE_EDIT_SUCCESS = 30301;
 
-// Codes for Auctions
+    // Codes for Auctions
     // Codes for Auction Creation
     public static final int AUCTION_CREATION_SUCCESS = 30400;
     public static final int USER_BID_TOO_LOW=30401;
@@ -39,7 +39,7 @@ public abstract class CodesResultatServlets {
     // Codes for Auction Edition
 
 
-// Codes for Administration Pannel
+    // Codes for Administration Pannel
     // Codes for User Management
     public static final int LOAD_USERS_ERROR = 30500;
     public static final int LOAD_CATEGORIES_ERROR = 30501;
@@ -49,6 +49,8 @@ public abstract class CodesResultatServlets {
     // Codes for Category Management
     public static final int EDIT_CATEGORY_ERROR=30504;
     public static final int CREATE_CATEGORY_ERROR=30505;
-
+    public static final int CATEGORY_NAME_REQUIRED=30508;
+    public static final int GET_CATEGORY_USES_ERROR=30509;
+    public static final int DELETE_CATEGORY_ERROR=30510;
 
 }

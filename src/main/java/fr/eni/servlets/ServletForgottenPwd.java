@@ -2,7 +2,6 @@ package fr.eni.servlets;
 
 import fr.eni.bll.BLLException;
 import fr.eni.bll.UtilisateurManager;
-import fr.eni.bo.EmailMessage;
 import fr.eni.bo.Utilisateur;
 
 import javax.servlet.*;
@@ -15,10 +14,6 @@ import java.util.List;
 @WebServlet(value = "/forgottenPwd")
 public class ServletForgottenPwd extends HttpServlet {
     private static final UtilisateurManager utilisateurManager = new UtilisateurManager();
-    private static final String EMAIL_SENDER = "eni-encheres@no-reply.com";
-    private static final String EMAIL_SUBJECT = "Eni-Encheres - Réinitialisation de votre mot de passe";
-    private String email_msg = "Hello %s,%n Vous avez demandé la réinitialisation de votre mot de passe. Votre nouveau mot de passe est : %s" +
-            "%n%n Ceci est un message généré automatiquement, merci de ne pas y répondre.";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -45,15 +40,6 @@ public class ServletForgottenPwd extends HttpServlet {
                 request.setAttribute("listeCodesErreur",e.getListeCodesErreur());
             }
         }
-        /*
-            //  TODO : Ajouter un envoi de mail
-            EmailMessage lEmail = new EmailMessage();
-            lEmail.setDestinataire(lUtilisateur.getEmail());
-            lEmail.setExpediteur(EMAIL_SENDER);
-            lEmail.setSujet(EMAIL_SUBJECT);
-            String leMessage = String.format(email_msg, lUtilisateur.getPrenom(), "Testing456!");
-            lEmail.setMsg(leMessage);
-        */
         doGet(request, response);
     }
 

@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 public class UtilisateurManager {
     private final UtilisateurDAO utilisateurDAO;
-    private static final Logger myLogger = Logger.getLogger("LogsBLL");
+    private static final Logger myLogger = Logger.getLogger("LogsBLL_Utilisateur");
 
     public UtilisateurManager() {
         utilisateurDAO = DAOFactory.getUtilisateurDAO();

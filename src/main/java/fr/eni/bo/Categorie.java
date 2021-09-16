@@ -6,13 +6,13 @@ public class Categorie {
 
     public Categorie() {}
 
-    public Categorie(int numCategorie, String libelle) {
-        this.numCategorie = numCategorie;
+    public Categorie(String libelleCategorie) {
         this.libelle = libelle;
     }
 
-    public Categorie(String libelle) {
-        this.libelle = libelle;
+    public Categorie(int numCategorie, String libelle) {
+        this(libelle);
+        this.numCategorie = numCategorie;
     }
 
     public int getNumCategorie() {
