@@ -112,8 +112,6 @@ public class ServletHome extends HttpServlet {
         Utilisateur lUtilisateur = (Utilisateur) laSession.getAttribute("userInfo");
 
         if (request.getParameter("choix") != null) {
-            System.out.println("ACHAT =" + (request.getParameter("choix").equals("achat")));
-            System.out.println("VENTE =" + (request.getParameter("choix").equals("vente")));
             if (request.getParameter("choix").equals("achat")) {
                 boolean enchereOuverte = Boolean.parseBoolean(request.getParameter("enchereOuverte"));
                 boolean enchereEnCours = Boolean.parseBoolean(request.getParameter("enchereEnCours"));

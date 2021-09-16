@@ -5,6 +5,25 @@
 
 <!DOCTYPE html>
 <html>
+<script>
+    function verifyChoix(choix) {
+        if (choix === 'achat') {
+             document.getElementById('enchereOuverte').disabled = false;
+             document.getElementById('enchereEnCours').disabled = false;
+             document.getElementById('enchereRemportees').disabled = false;
+             document.getElementById('ventesNonCommence').disabled = true;
+             document.getElementById('ventesEnCours').disabled = true;
+             document.getElementById('ventesTermine').disabled = true;
+        } else {
+            document.getElementById('enchereOuverte').disabled = true;
+            document.getElementById('enchereEnCours').disabled = true;
+            document.getElementById('enchereRemportees').disabled = true;
+            document.getElementById('ventesNonCommence').disabled = false;
+            document.getElementById('ventesEnCours').disabled = false;
+            document.getElementById('ventesTermine').disabled = false;
+        }
+    }
+</script>
 <head>
     <title>Accueil</title>
 </head>
@@ -26,41 +45,47 @@
         </select>
     </label>
     <c:if test="${isUserLoggedIn}">
-        <card>
+        <card id="filtresAchat">
             <div class="form-check">
                 <input class="form-check-input position-static" type="radio" name="choix" value="achat"
-                       aria-label="...">Achats
+                       aria-label="..." onclick="verifyChoix('achat')">Achats
             </div>
             <div class="form-check">
-                <input class="form-check-input position-static" type="checkbox" name="enchereOuverte" value="true"
-                       aria-label="...">Enchères ouvertes
+                <input class="form-check-input position-static" type="checkbox" id="enchereOuverte"
+                       name="enchereOuverte" value="true"
+                       aria-label="..." disabled>Enchères ouvertes
             </div>
             <div class="form-check">
-                <input class="form-check-input position-static" type="checkbox" name="enchereEnCours" value="true"
+                <input class="form-check-input position-static" type="checkbox" id="enchereEnCours"
+                       name="enchereEnCours" value="true"
 
-                       aria-label="...">Enchères en cours
+                       aria-label="..." disabled>Enchères en cours
             </div>
             <div class="form-check">
-                <input class="form-check-input position-static" type="checkbox" name="enchereRemportees" value="true"
-                       aria-label="...">Enchères remportées
+                <input class="form-check-input position-static" type="checkbox" id="enchereRemportees"
+                       name="enchereRemportees" value="true"
+                       aria-label="..." disabled>Enchères remportées
             </div>
         </card>
-        <card>
+        <card id="filtresVente">
             <div class="form-check">
                 <input class="form-check-input position-static" type="radio" name="choix" value="vente"
-                       aria-label="...">Mes ventes
+                       aria-label="..." onclick="verifyChoix('vente')">Mes ventes
             </div>
             <div class="form-check">
-                <input class="form-check-input position-static" type="checkbox" name="ventesEnCours" value="true"
-                       aria-label="...">mes ventes en cours
+                <input class="form-check-input position-static" type="checkbox" id="ventesEnCours" name="ventesEnCours"
+                       value="true"
+                       aria-label="..." disabled>mes ventes en cours
             </div>
             <div class="form-check">
-                <input class="form-check-input position-static" type="checkbox" name="ventesNonCommence" value="true"
-                       aria-label="...">ventes non débuté
+                <input class="form-check-input position-static" type="checkbox" id="ventesNonCommence"
+                       name="ventesNonCommence" value="true"
+                       aria-label="..." disabled>ventes non débuté
             </div>
             <div class="form-check">
-                <input class="form-check-input position-static" type="checkbox" name="ventesTermine" value="true"
-                       aria-label="...">ventes terminées
+                <input class="form-check-input position-static" type="checkbox" id="ventesTermine" name="ventesTermine"
+                       value="true"
+                       aria-label="..." disabled>ventes terminées
             </div>
         </card>
     </c:if>
