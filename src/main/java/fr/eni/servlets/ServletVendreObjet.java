@@ -28,57 +28,10 @@ public class ServletVendreObjet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vendreObjet.jsp");
-
-        CategorieDAO dao = DAOFactory.getCategorieDAO();
-        List<Categorie> listeCategorie = dao.selectAll();
-        request.setAttribute("listeCategorie", listeCategorie);
-
-
-        rd.forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ArticleVendu articleVendu = null ;
-        HttpSession laSession = request.getSession();
-        Utilisateur lUtilisateur = (Utilisateur) laSession.getAttribute("userInfo");
 
-
-        if ("save".equals(request.getParameter("btnPressed"))) {
-
-            try {
-                articleVendu = articleVenduManager.addNewArticle(
-                        request.getParameter("nomArticle"),
-                        request.getParameter("descArticle"),
-                        LocalDate.parse(request.getParameter("debutEnchere")),
-                        LocalDate.parse(request.getParameter("finEnchere")),
-                        Integer.parseInt(request.getParameter("prixArticle")),
-                        "C",
-                        lUtilisateur.getNumUtilisateur(),
-                        categorieManager.selectCategoryById(Integer.parseInt(request.getParameter("categories")))
-                );
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-
-
-            try {
-                retraitManager.addNewRetrait(
-                        articleVendu.getNumArticle(),
-                        request.getParameter("rue"),
-                        request.getParameter("cp"),
-                        request.getParameter("ville")
-                );
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
-            rd.forward(request, response);
-        }
     }
 }
