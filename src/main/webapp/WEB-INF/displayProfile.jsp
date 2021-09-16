@@ -19,7 +19,7 @@
         <%@include file="/WEB-INF/navigation/header.jsp" %>
         <form>
             <legend><fmt:message key="displayprofile.myProfile"/></legend>
-            <input type="hidden" name="idUser" value="${userInfo.no_utilisateur}"/>
+            <input type="hidden" name="idUser" value="${userInfo.numUtilisateur}"/>
             <label for="username">
                 <fmt:message key="displayprofile.username"/>
             </label>
@@ -54,7 +54,7 @@
         </form>
         <c:if test="${isItYou}">
             <div>
-                <a href="${pageContext.request.contextPath}/editMyProfile?idUser=${userInfo.no_utilisateur}">
+                <a href="${pageContext.request.contextPath}/editMyProfile?idUser=${userInfo.numUtilisateur}">
                     <i class="fas fa-pen" title="<fmt:message key="displayprofile.msg_edit"/>"></i>
                 </a>
             </div>

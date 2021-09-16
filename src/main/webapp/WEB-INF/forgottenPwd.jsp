@@ -27,10 +27,10 @@
                 <fmt:message key="forgotpwd.reinitializePwd"/>
             </button>
             <c:choose>
-                <c:when test="${isUserInDb != null && isUserInDb}">
+                <c:when test="${isUserInDb && isUserInDb}">
                     <fmt:message key='forgotpwd.success'/>"
                 </c:when>
-                <c:when test="${isUserInDb != null && !isUserInDb}">
+                <c:when test="${!isUserInDb}">
                     <fmt:message key='forgotpwd.error'/>"
                     <c:if test="${not empty listeCodesErreurs}">
                         <c:forEach var="code" items="${listeCodesErreur}">

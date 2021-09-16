@@ -5,7 +5,8 @@ import fr.eni.bo.Enchere;
 import java.util.List;
 
 public interface EnchereDAO {
-    public List<Enchere> selectByIdArticle(int idArticle);
-
-    public void createEnchere(Enchere lEnchere);
+    List<Enchere> selectBidByIdArticle(int idArticle);
+    Enchere selectHighestBidByIdArticle(int idArticle);
+    Enchere createEnchere(Enchere lEnchere);
+    void deleteAllBidsByUser(int idUser);
 }

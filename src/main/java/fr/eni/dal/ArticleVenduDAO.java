@@ -7,5 +7,8 @@ import java.util.List;
 public interface ArticleVenduDAO {
     List<ArticleVendu> selectAll();
     ArticleVendu selectArticleById(int idArticle);
-    void createArticle(ArticleVendu lArticle);
+    ArticleVendu createArticle(ArticleVendu lArticle);
+    void updateBidOnArticle(int bid, int idArticle);
+    void deleteAllArticlesByUserId(int idUser);
+
 }

@@ -9,7 +9,7 @@
         <unpackNestedArchives>false</unpackNestedArchives>
       </options>
     </properties>
-    <root id="archive" name="ENI-Encheres-1.0-SNAPSHOT.war">
+    <root id="archive" name="ENI_Encheres-1.0-SNAPSHOT.war">
       <element id="artifact" artifact-name="ENI_Encheres:war exploded" />
     </root>
   </artifact>

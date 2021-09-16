@@ -4,29 +4,34 @@ package fr.eni.bo;
 import java.time.LocalDateTime;
 
 public class Enchere {
-
-    private int no_utilisateur;
-    private int no_article;
+    private Utilisateur lUtilisateur;
+    private ArticleVendu lArticle;
     private LocalDateTime dateEnchere;
     private int montantEnchere;
 
-    public Enchere() {
+    public Enchere() {}
+
+    public Enchere(Utilisateur lUtilisateur, ArticleVendu lArticle, LocalDateTime dateEnchere, int montantEnchere) {
+        this.lUtilisateur = lUtilisateur;
+        this.lArticle = lArticle;
+        this.dateEnchere = dateEnchere;
+        this.montantEnchere = montantEnchere;
     }
 
-    public int getNo_utilisateur() {
-        return no_utilisateur;
+    public Utilisateur getlUtilisateur() {
+        return lUtilisateur;
     }
 
-    public void setNo_utilisateur(int no_utilisateur) {
-        this.no_utilisateur = no_utilisateur;
+    public void setlUtilisateur(Utilisateur lUtilisateur) {
+        this.lUtilisateur = lUtilisateur;
     }
 
-    public int getNo_article() {
-        return no_article;
+    public ArticleVendu getlArticle() {
+        return lArticle;
     }
 
-    public void setNo_article(int no_article) {
-        this.no_article = no_article;
+    public void setlArticle(ArticleVendu lArticle) {
+        this.lArticle = lArticle;
     }
 
     public LocalDateTime getDateEnchere() {
@@ -43,16 +48,6 @@ public class Enchere {
 
     public void setMontantEnchere(int montantEnchere) {
         this.montantEnchere = montantEnchere;
-    }
-
-    @Override
-    public String toString() {
-        return "Enchere{" +
-                "no_utilisateur=" + no_utilisateur +
-                ", no_article=" + no_article +
-                ", dateEnchere=" + dateEnchere +
-                ", montantEnchere=" + montantEnchere +
-                '}';
     }
 
 }

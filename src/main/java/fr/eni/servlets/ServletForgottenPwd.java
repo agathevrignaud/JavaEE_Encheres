@@ -37,7 +37,7 @@ public class ServletForgottenPwd extends HttpServlet {
             doGet(request, response);
         } else {
             try {
-                utilisateurManager.resetPassword(lUtilisateur.getNo_utilisateur());
+                utilisateurManager.resetPassword(lUtilisateur.getNumUtilisateur());
                 request.setAttribute("isUserInDb", true);
             } catch (BLLException e) {
                 e.printStackTrace();

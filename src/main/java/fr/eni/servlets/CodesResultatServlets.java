@@ -34,6 +34,8 @@ public abstract class CodesResultatServlets {
 // Codes for Auctions
     // Codes for Auction Creation
     public static final int AUCTION_CREATION_SUCCESS = 30400;
+    public static final int USER_BID_TOO_LOW=30401;
+    public static final int NOT_ENOUGH_TO_BID=30402;
     // Codes for Auction Edition
 
 
@@ -41,10 +43,12 @@ public abstract class CodesResultatServlets {
     // Codes for User Management
     public static final int LOAD_USERS_ERROR = 30500;
     public static final int LOAD_CATEGORIES_ERROR = 30501;
-    public static final int UPDATE_ACCOUNT_STATUS_ERROR = 30502;
+    public static final int DEACTIVATE_ACCOUNT_ERROR=30506;
+    public static final int REACTIVATE_ACCOUNT_ERROR=30507;
     public static final int DELETE_ACCOUNT_ERROR = 30503;
+    // Codes for Category Management
     public static final int EDIT_CATEGORY_ERROR=30504;
     public static final int CREATE_CATEGORY_ERROR=30505;
-    // Codes for Category Management
+
 
 }

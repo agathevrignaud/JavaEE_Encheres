@@ -26,7 +26,7 @@ public class ServletDisplayProfile extends HttpServlet {
         }
 
         if (lUtilisateurCo != null) {
-            if (lUtilisateurVu.getNo_utilisateur() == lUtilisateurCo.getNo_utilisateur()) {
+            if (lUtilisateurVu.getNumUtilisateur() == lUtilisateurCo.getNumUtilisateur()) {
                 request.setAttribute("isItYou", true);
             }
         }

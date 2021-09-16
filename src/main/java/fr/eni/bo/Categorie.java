@@ -1,27 +1,26 @@
 package fr.eni.bo;
 
 public class Categorie {
-    private int no_categorie;
+    private int numCategorie;
     private String libelle;
 
-    public Categorie() {
-    }
+    public Categorie() {}
 
-    public Categorie(String libelle) {
+    public Categorie(int numCategorie, String libelle) {
+        this.numCategorie = numCategorie;
         this.libelle = libelle;
     }
 
-    public Categorie(int no_categorie, String libelle) {
-        this.no_categorie = no_categorie;
+    public Categorie(String libelleCategorie) {
         this.libelle = libelle;
     }
 
-    public int getNo_categorie() {
-        return no_categorie;
+    public int getNumCategorie() {
+        return numCategorie;
     }
 
-    public void setNo_categorie(int no_categorie) {
-        this.no_categorie = no_categorie;
+    public void setNumCategorie(int no_categorie) {
+        this.numCategorie = no_categorie;
     }
 
     public String getLibelle() {
@@ -32,11 +31,4 @@ public class Categorie {
         this.libelle = libelle;
     }
 
-    @Override
-    public String toString() {
-        return "Categorie{" +
-                "no_categorie=" + no_categorie +
-                ", libelle='" + libelle + '\'' +
-                '}';
-    }
 }

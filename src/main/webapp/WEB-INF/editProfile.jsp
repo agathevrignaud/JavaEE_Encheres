@@ -16,7 +16,7 @@
         <form method="post" action="${pageContext.request.contextPath}/editMyProfile" >
             <fieldset>
                 <legend><fmt:message key="editprofile.myProfile"/></legend>
-                <input type="hidden" name="idUser" id="idUser" value="${userInfo.no_utilisateur}">
+                <input type="hidden" name="idUser" id="idUser" value="${userInfo.numUtilisateur}">
                 <label for="username">
                     <fmt:message key="editprofile.username"/>
                 </label>
@@ -65,7 +65,7 @@
                     <fmt:message key="editprofile.credit"/>
                 </label>
                 <input type="text" name="credit" id="credit" value="${userInfo.credit}" readonly><br/>
-                <a href="${pageContext.request.contextPath}/creditShop?idUser=${userInfo.no_utilisateur}&firstName=${userInfo.prenom}">
+                <a href="${pageContext.request.contextPath}/creditShop?idUser=${userInfo.numUtilisateur}&firstName=${userInfo.prenom}">
                     <fmt:message key="editprofile.creditShop"/>
                 </a>
             </fieldset>

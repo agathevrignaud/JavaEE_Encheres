@@ -1,6 +1,6 @@
 -- Script de création de la base de données ENCHERES
 --   type :      SQL Server 2012
---
+-- TODO : enlever etatvente si personne ne s'en sert
 
 CREATE TABLE CATEGORIES
 (
@@ -62,7 +62,7 @@ CREATE TABLE ARTICLES_VENDUS
     description         VARCHAR(300)           NOT NULL,
     date_debut_encheres DATE                   NOT NULL,
     date_fin_encheres   DATE                   NOT NULL,
-    prix_initial        INTEGER,
+    prix_initial        INTEGER                NOT NULL,
     prix_vente          INTEGER,
     etat_vente          CHAR(1)                NOT NULL,
     no_utilisateur      INTEGER                NOT NULL,

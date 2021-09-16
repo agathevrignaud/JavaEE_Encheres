@@ -14,4 +14,6 @@ public interface CategorieDAO {
     void deleteCategory(int idCategory);
 
     int getAllUses(int idCategory);
+
+    Categorie selectCategoryById(int idCat);
 }

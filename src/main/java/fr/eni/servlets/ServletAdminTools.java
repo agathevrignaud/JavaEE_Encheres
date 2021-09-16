@@ -1,8 +1,6 @@
 package fr.eni.servlets;
 
-import fr.eni.bll.BLLException;
-import fr.eni.bll.CategorieManager;
-import fr.eni.bll.UtilisateurManager;
+import fr.eni.bll.*;
 import fr.eni.bo.Categorie;
 import fr.eni.bo.Utilisateur;
 import java.io.IOException;
@@ -28,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
         })
 public class ServletAdminTools extends HttpServlet {
     private static final UtilisateurManager utilisateurManager = new UtilisateurManager();
+    private static final ArticleVenduManager articleVenduManager = new ArticleVenduManager();
+    private static final EnchereManager enchereManager = new EnchereManager();
     private static final CategorieManager categorieManager = new CategorieManager();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -43,19 +43,34 @@ public class ServletAdminTools extends HttpServlet {
             switch (request.getServletPath()) {
                 //  User Account Management
                 case "/deactivateAccount":
-                case "/reactivateAccount":
                     try {
-                        utilisateurManager.updateUserAccountStatus(Integer.parseInt(request.getParameter("idUser")));
+                        int idUser = Integer.parseInt(request.getParameter("idUser"));
+                        utilisateurManager.updateUserAccountStatus(idUser);
+                        // Cancel all sales & bids by user, not reimboursed of his credit (?)
+                        articleVenduManager.cancelAllSalesByUser(idUser);
+                        enchereManager.cancelAllBidsByUser(idUser);
                     } catch (BLLException e) {
                         e.printStackTrace();
-                        listeCodesErreur.add(CodesResultatServlets.UPDATE_ACCOUNT_STATUS_ERROR);
+                        listeCodesErreur.add(CodesResultatServlets.DEACTIVATE_ACCOUNT_ERROR);
+                        request.setAttribute("listeCodesErreur", e.getListeCodesErreur());
+                    }
+                    loadUserList(request, listeCodesErreur);
+                    break;
+                case "/reactivateAccount":
+                    try {
+                        int idUser = Integer.parseInt(request.getParameter("idUser"));
+                        utilisateurManager.updateUserAccountStatus(idUser);
+                    } catch (BLLException e) {
+                        e.printStackTrace();
+                        listeCodesErreur.add(CodesResultatServlets.REACTIVATE_ACCOUNT_ERROR);
                         request.setAttribute("listeCodesErreur", e.getListeCodesErreur());
                     }
                     loadUserList(request, listeCodesErreur);
                     break;
                 case "/deleteAccount":
                     try {
-                        utilisateurManager.deleteUser(Integer.parseInt(request.getParameter("idUser")));
+                        int idUser = Integer.parseInt(request.getParameter("idUser"));
+                        utilisateurManager.deleteUser(idUser);
                     } catch (BLLException e) {
                         e.printStackTrace();
                         listeCodesErreur.add(CodesResultatServlets.DELETE_ACCOUNT_ERROR);
@@ -110,7 +125,7 @@ public class ServletAdminTools extends HttpServlet {
     }
 
     private void loadUserList(HttpServletRequest request, List<Integer> listeCodesErreur) {
-        List<Utilisateur> lesUtilisateurs = null;
+        List<Utilisateur> lesUtilisateurs;
         try {
             lesUtilisateurs = utilisateurManager.getAllUsers();
             request.setAttribute("lesUtilisateurs", lesUtilisateurs);

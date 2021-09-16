@@ -1,6 +1,8 @@
 package fr.eni.bll;
 
+import fr.eni.bo.ArticleVendu;
 import fr.eni.bo.Enchere;
+import fr.eni.bo.Utilisateur;
 import fr.eni.dal.DAOFactory;
 import fr.eni.dal.EnchereDAO;
 
@@ -14,22 +16,26 @@ public class EnchereManager {
         enchereDAO = DAOFactory.getEnchereDAO();
     }
 
-    public List<Enchere> getAllEncheresByIdArticle(int idArticle) {
-        return enchereDAO.selectByIdArticle(idArticle);
+    public List<Enchere> getAllBidsByIdArticle(int idArticle) {
+        return enchereDAO.selectBidByIdArticle(idArticle);
     }
 
-    public void addNewEnchere(int idUser, int idArticle, LocalDateTime dateEnchere, int montantEnchere) throws Exception {
-        Enchere lEnchereAvant = getAllEncheresByIdArticle(idArticle).get(0);
-        Enchere lEnchere = new Enchere();
-        if (lEnchereAvant.getMontantEnchere() > montantEnchere) {
-            System.out.print("Impossible d'ajouter l'enchère ! Le montant est plus bas que la dernière enchère valide !");
-            throw new Exception();
-        } else {
-            lEnchere.setNo_article(idArticle);
-            lEnchere.setNo_utilisateur(idUser);
-            lEnchere.setDateEnchere(dateEnchere);
-            lEnchere.setMontantEnchere(montantEnchere);
-            enchereDAO.createEnchere(lEnchere);
-        }
+    public Enchere getHighestBidByIdArticle(int idArticle) {
+        return enchereDAO.selectHighestBidByIdArticle(idArticle);
+    }
+
+    public Enchere addNewEnchere(Utilisateur lUtilisateur, ArticleVendu lArticle, LocalDateTime dateEnchere, int montantEnchere) throws Exception {
+        Enchere lEnchere = new Enchere(
+                lUtilisateur,
+                lArticle,
+                dateEnchere,
+                montantEnchere
+        );
+        return enchereDAO.createEnchere(lEnchere);
+    }
+
+    public void cancelAllBidsByUser(int idUser) {
+        enchereDAO.deleteAllBidsByUser(idUser);
     }
 }
+

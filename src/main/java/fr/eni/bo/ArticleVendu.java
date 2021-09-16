@@ -3,7 +3,7 @@ package fr.eni.bo;
 import java.time.LocalDate;
 
 public class ArticleVendu {
-    private int no_article;
+    private int numArticle;
     private String nomArticle;
     private String description;
     private LocalDate dateDebutEnchere;
@@ -13,16 +13,74 @@ public class ArticleVendu {
     private String etatVente; // A - en attente, C - en cours, F - finie
     private Retrait lieuRetrait;
     private Categorie laCategorie;
-    private int no_utilisateur;
+    private Utilisateur lUtilisateur;
 
     public ArticleVendu() {}
 
-    public int getNo_article() {
-        return no_article;
+    public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, Retrait lieuRetrait, Categorie laCategorie, Utilisateur lUtilisateur) {
+        this.nomArticle = nomArticle;
+        this.description = description;
+        this.dateDebutEnchere = dateDebutEnchere;
+        this.dateFinEnchere = dateFinEnchere;
+        this.miseAPrix = miseAPrix;
+        this.lieuRetrait = lieuRetrait;
+        this.laCategorie = laCategorie;
+        this.lUtilisateur = lUtilisateur;
     }
 
-    public void setNo_article(int no_article) {
-        this.no_article = no_article;
+    public ArticleVendu(int numArticle, String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, int prixVente, Utilisateur lUtilisateur) {
+        this.numArticle = numArticle;
+        this.nomArticle = nomArticle;
+        this.description = description;
+        this.dateDebutEnchere = dateDebutEnchere;
+        this.dateFinEnchere = dateFinEnchere;
+        this.miseAPrix = miseAPrix;
+        this.prixVente = prixVente;
+        this.lUtilisateur = lUtilisateur;
+    }
+
+    public ArticleVendu(int numArticle, String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, int prixVente) {
+        this.numArticle = numArticle;
+        this.nomArticle = nomArticle;
+        this.description = description;
+        this.dateDebutEnchere = dateDebutEnchere;
+        this.dateFinEnchere = dateFinEnchere;
+        this.miseAPrix = miseAPrix;
+        this.prixVente = prixVente;
+    }
+
+    public ArticleVendu(int numArticle, String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, int prixVente, String etatVente, Retrait lieuRetrait, Categorie laCategorie, Utilisateur lUtilisateur) {
+        this.numArticle = numArticle;
+        this.nomArticle = nomArticle;
+        this.description = description;
+        this.dateDebutEnchere = dateDebutEnchere;
+        this.dateFinEnchere = dateFinEnchere;
+        this.miseAPrix = miseAPrix;
+        this.prixVente = prixVente;
+        this.etatVente = etatVente;
+        this.lieuRetrait = lieuRetrait;
+        this.laCategorie = laCategorie;
+        this.lUtilisateur = lUtilisateur;
+    }
+
+    public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, String etatVente, Retrait lieuRetrait, Categorie laCategorie, Utilisateur lUtilisateur) {
+        this.nomArticle = nomArticle;
+        this.description = description;
+        this.dateDebutEnchere = dateDebutEnchere;
+        this.dateFinEnchere = dateFinEnchere;
+        this.miseAPrix = miseAPrix;
+        this.etatVente = etatVente;
+        this.lieuRetrait = lieuRetrait;
+        this.laCategorie = laCategorie;
+        this.lUtilisateur = lUtilisateur;
+    }
+
+    public int getNumArticle() {
+        return numArticle;
+    }
+
+    public void setNumArticle(int numArticle) {
+        this.numArticle = numArticle;
     }
 
     public String getNomArticle() {
@@ -97,29 +155,12 @@ public class ArticleVendu {
         this.laCategorie = laCategorie;
     }
 
-    public int getNo_utilisateur() {
-        return no_utilisateur;
+    public Utilisateur getlUtilisateur() {
+        return lUtilisateur;
     }
 
-    public void setNo_utilisateur(int no_utilisateur) {
-        this.no_utilisateur = no_utilisateur;
-    }
-
-    @Override
-    public String toString() {
-        return "ArticleVendu{" +
-                "no_article=" + no_article +
-                ", nomArticle='" + nomArticle + '\'' +
-                ", description='" + description + '\'' +
-                ", dateDebutEnchere=" + dateDebutEnchere +
-                ", dateFinEnchere=" + dateFinEnchere +
-                ", miseAPrix=" + miseAPrix +
-                ", prixVente=" + prixVente +
-                ", etatVente='" + etatVente + '\'' +
-                ", lieuRetrait=" + lieuRetrait +
-                ", laCategorie=" + laCategorie +
-                ", no_utilisateur=" + no_utilisateur +
-                '}';
+    public void setlUtilisateur(Utilisateur lUtilisateur) {
+        this.lUtilisateur = lUtilisateur;
     }
 
 }

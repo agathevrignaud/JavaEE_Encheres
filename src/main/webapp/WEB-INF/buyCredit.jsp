@@ -19,7 +19,7 @@
         </h3>
         <form method="post" action="${pageContext.request.contextPath}/creditShop">
             <input type="number" min="0" max="500" step="10" name="creditsBought">
-            <input type="hidden" value="${userInfo.no_utilisateur}" name="idUser">
+            <input type="hidden" value="${userInfo.numUtilisateur}" name="idUser">
             <button type="submit"><fmt:message key="buycredit.confirm"/></button>
         </form>
         <c:if test="${newBalance != null}">
