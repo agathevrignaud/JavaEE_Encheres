@@ -34,7 +34,9 @@ public class ServletHome extends HttpServlet {
         try {
             for (ArticleVendu unArticle : articleVenduManager.getAllArticles()) {
                 if (unArticle.getEtatVente().equals(IN_PROGRESS) || unArticle.getEtatVente().equals(NOT_STARTED)) {
-                    updateAllAuctions(enchereManager.getHighestBidByIdArticle(unArticle.getNumArticle()));
+                    if (enchereManager.getHighestBidByIdArticle(unArticle.getNumArticle()) != null) {
+                        updateAllAuctions(enchereManager.getHighestBidByIdArticle(unArticle.getNumArticle()));
+                    }
                 }
             }
             List<ArticleVendu> lesArticles = articleVenduManager.getAllArticles();
@@ -72,6 +74,5 @@ public class ServletHome extends HttpServlet {
                 e.printStackTrace();
             }
         }
-
     }
 }

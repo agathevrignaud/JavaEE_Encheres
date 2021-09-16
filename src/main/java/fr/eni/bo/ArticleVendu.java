@@ -20,43 +20,42 @@ public class ArticleVendu {
 
     public ArticleVendu() {}
 
-    public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix) {
+    public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, String etatVente) {
         this.nomArticle = nomArticle;
         this.description = description;
         this.dateDebutEnchere = dateDebutEnchere;
         this.dateFinEnchere = dateFinEnchere;
         this.miseAPrix = miseAPrix;
+        this.etatVente = etatVente;
     }
 
-    public ArticleVendu(int numArticle, String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, int prixVente) {
-        this(nomArticle, description, dateDebutEnchere, dateFinEnchere, miseAPrix);
+    public ArticleVendu(int numArticle, String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, int prixVente, String etatVente) {
+        this(nomArticle, description, dateDebutEnchere, dateFinEnchere, miseAPrix, etatVente);
         this.numArticle = numArticle;
         this.prixVente = prixVente;
     }
 
     public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, String etatVente, Retrait lieuRetrait, Categorie laCategorie, Utilisateur lUtilisateur) {
-        this(nomArticle, description, dateDebutEnchere, dateFinEnchere, miseAPrix);
-        this.etatVente = etatVente;
+        this(nomArticle, description, dateDebutEnchere, dateFinEnchere, miseAPrix, etatVente);
         this.lieuRetrait = lieuRetrait;
         this.laCategorie = laCategorie;
         this.lUtilisateur = lUtilisateur;
     }
 
-    public ArticleVendu(int numArticle, String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, int prixVente, Utilisateur lUtilisateur) {
-        this(numArticle, nomArticle, description, dateDebutEnchere, dateFinEnchere, miseAPrix, prixVente);
+    public ArticleVendu(int numArticle, String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, int prixVente, String etatVente, Utilisateur lUtilisateur) {
+        this(numArticle, nomArticle, description, dateDebutEnchere, dateFinEnchere, miseAPrix, prixVente, etatVente);
         this.lUtilisateur = lUtilisateur;
     }
 
     public ArticleVendu(int numArticle, String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, int prixVente, String etatVente, Retrait lieuRetrait, Categorie laCategorie, Utilisateur lUtilisateur) {
-        this(numArticle, nomArticle, description, dateDebutEnchere, dateFinEnchere, miseAPrix, prixVente, lUtilisateur);
+        this(numArticle, nomArticle, description, dateDebutEnchere, dateFinEnchere, miseAPrix, prixVente, etatVente, lUtilisateur);
         this.lieuRetrait = lieuRetrait;
         this.laCategorie = laCategorie;
 
     }
 
-    public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, int miseAPrix, String etatVente, Categorie laCategorie, Utilisateur idUser) {
-        this(nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix);
-        this.etatVente = etatVente;
+    public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, String etatVente, Categorie laCategorie, Utilisateur idUser) {
+        this(nomArticle, description, dateDebutEnchere, dateFinEnchere, miseAPrix, etatVente);
         this.laCategorie = laCategorie;
         this.lUtilisateur = idUser;
     }

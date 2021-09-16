@@ -8,9 +8,10 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(urlPatterns= {
-        "myProfile",
-        "profile"
+@WebServlet(
+        urlPatterns= {
+            "/myProfile",
+            "/profile"
 })
 public class ServletDisplayProfile extends HttpServlet {
     private static final UtilisateurManager utilisateurManager = new UtilisateurManager();

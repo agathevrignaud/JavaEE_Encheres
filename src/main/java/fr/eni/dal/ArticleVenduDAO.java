@@ -9,13 +9,10 @@ public interface ArticleVenduDAO {
     List<ArticleVendu> selectAll();
     List<ArticleVendu> selectAllByUserId(int idUser);
     ArticleVendu selectArticleById(int idArticle);
-
-    void deleteAllArticlesByUserId(int idUser);
-    void deleteArticle(int id);
-    void updateArticle(ArticleVendu articleVendu);
-
     ArticleVendu createArticle(ArticleVendu lArticle) throws BLLException;
     void updateBidOnArticle(int bid, int idArticle) throws BLLException;
     void updateAuctionStatus(String newStatus, int idArticle) throws BLLException;
-
+    void updateArticle(ArticleVendu lArticle);
+    void deleteAllArticlesByUserId(int idUser);
+    void deleteArticle(int id);
 }

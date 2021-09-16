@@ -6,7 +6,7 @@ public class Categorie {
 
     public Categorie() {}
 
-    public Categorie(String libelleCategorie) {
+    public Categorie(String libelle) {
         this.libelle = libelle;
     }
 

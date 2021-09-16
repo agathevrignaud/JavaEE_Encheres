@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 public class UtilisateurDAOJdbc implements UtilisateurDAO {
     private static final Logger myLogger = Logger.getLogger("LogsDAL_Utilisateur");
+
     private static final String SELECT_ALL_USERS = "SELECT * FROM UTILISATEURS";
     private static final String SELECT_USER_BY_ID = "SELECT * FROM UTILISATEURS WHERE NO_UTILISATEUR=?";
     private static final String INSERT_USER = "INSERT INTO UTILISATEURS VALUES(?,?,?,?,?,?,?,?,?)";
@@ -213,15 +214,15 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
 
     private Utilisateur getUtilisateur(ResultSet rs) throws SQLException {
         Utilisateur lUtilisateur = new Utilisateur(
-                rs.getInt("U.no_utilisateur"),
-                rs.getString("U.pseudo"),
-                rs.getString("U.nom"),
-                rs.getString("U.prenom"),
-                rs.getString("U.email"),
-                rs.getString("U.telephone"),
-                rs.getString("U.rue"),
-                rs.getString("U.codePostal"),
-                rs.getString("U.ville"),
+                rs.getInt("no_utilisateur"),
+                rs.getString("pseudo"),
+                rs.getString("nom"),
+                rs.getString("prenom"),
+                rs.getString("email"),
+                rs.getString("telephone"),
+                rs.getString("rue"),
+                rs.getString("code_postal"),
+                rs.getString("ville"),
                 rs.getString("mot_de_passe"),
                 rs.getInt("credit"),
                 rs.getBoolean("administrateur"),

@@ -38,7 +38,8 @@ public class RetraitDAOJdbc implements RetraitDAO {
                         rs.getDate("A.date_debut_encheres").toLocalDate(),
                         rs.getDate("A.date_fin_encheres").toLocalDate(),
                         rs.getInt("A.prix_initial"),
-                        rs.getInt("A.prix_vente")
+                        rs.getInt("A.prix_vente"),
+                        rs.getString("etat_vente")
                 );
                 lieuRetrait = new Retrait(
                         rs.getString("rue"),

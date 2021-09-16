@@ -1,6 +1,5 @@
 -- Script de création de la base de données ENCHERES
 --   type :      SQL Server 2012
--- TODO : enlever etatvente si personne ne s'en sert
 
 CREATE TABLE CATEGORIES
 (

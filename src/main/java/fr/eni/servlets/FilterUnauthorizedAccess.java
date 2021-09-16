@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
             "/editCategory",
             "/deleteCategory",
             "/createNewCategory",
-            "/editMyProfile",
+            "/editMy",
             "/creditShop",
             "/auctionDetails",
             "/createAuction",
