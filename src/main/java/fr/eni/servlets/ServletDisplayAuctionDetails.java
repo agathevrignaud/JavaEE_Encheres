@@ -26,7 +26,7 @@ import java.util.List;
             "/articleDetails",
             "/makeABid"
         })
-public class ServletDisplaySellArticle extends HttpServlet {
+public class ServletDisplayAuctionDetails extends HttpServlet {
         public static ArticleVenduManager articleVenduManager = new ArticleVenduManager();
         public static EnchereManager enchereManager = new EnchereManager();
         public static UtilisateurManager utilisateurManager = new UtilisateurManager();

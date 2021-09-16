@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/encheres")
-public class ServletHome extends HttpServlet {
+@WebServlet(value = "/editMyAuction")
+public class ServletEditAuction extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/editMyAuction.jsp");
         rd.forward(request, response);
     }
 
@@ -21,3 +21,4 @@ public class ServletHome extends HttpServlet {
         doGet(request, response);
     }
 }
+

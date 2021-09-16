@@ -21,6 +21,11 @@
                         </a>
                     </li>
                     <li>
+                        <a href="${pageContext.request.contextPath}/createAuction">
+                            <fmt:message key="header.createAuction"/>
+                        </a>
+                    </li>
+                    <li>
                         <a href="${pageContext.request.contextPath}/myProfile?idUser=${userInfo.numUtilisateur}">
                             <fmt:message key="header.myProfile"/>
                         </a>
