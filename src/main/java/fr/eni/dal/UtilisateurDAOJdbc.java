@@ -34,7 +34,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 Utilisateur lUtilisateur = new Utilisateur();
-                lUtilisateur.setNo_utilisateur(rs.getInt("no_utilisateur"));
+                lUtilisateur.setNumUtilisateur(rs.getInt("no_utilisateur"));
                 lUtilisateur.setPseudo(rs.getString("pseudo"));
                 lUtilisateur.setNom(rs.getString("nom"));
                 lUtilisateur.setPrenom(rs.getString("prenom"));
@@ -67,7 +67,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.setInt(1, idUser);
             ResultSet rs = pstmt.executeQuery();
             if(rs.next()) {
-                lUtilisateur.setNo_utilisateur(rs.getInt("no_utilisateur"));
+                lUtilisateur.setNumUtilisateur(rs.getInt("no_utilisateur"));
                 lUtilisateur.setPseudo(rs.getString("pseudo"));
                 lUtilisateur.setNom(rs.getString("nom"));
                 lUtilisateur.setPrenom(rs.getString("prenom"));
@@ -110,7 +110,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.executeUpdate();
             ResultSet rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
-             lUtilisateur.setNo_utilisateur(rs.getInt("no_utilisateur"));
+             lUtilisateur.setNumUtilisateur(rs.getInt("no_utilisateur"));
             }
             rs.close();
             pstmt.close();
@@ -138,7 +138,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.setString(7, lUtilisateur.getCodePostal());
             pstmt.setString(8, lUtilisateur.getVille());
             pstmt.setString(9, lUtilisateur.getMotDePasse());
-            pstmt.setInt(10, lUtilisateur.getNo_utilisateur());
+            pstmt.setInt(10, lUtilisateur.getNumUtilisateur());
 
             pstmt.executeUpdate();
         } catch (Exception e) {
@@ -146,7 +146,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             e.printStackTrace();
             BLLException bllException = new BLLException();
             bllException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_USER_DATA);
-            myLogger.log(Level.WARNING,"Erreur lors de la mise à jour des informations de l'utilisateur (idUser : " + lUtilisateur.getNo_utilisateur()  + ")", bllException);
+            myLogger.log(Level.WARNING,"Erreur lors de la mise à jour des informations de l'utilisateur (idUser : " + lUtilisateur.getNumUtilisateur()  + ")", bllException);
             throw bllException;
         }
     }
@@ -209,7 +209,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
             pstmt.setString(2, email);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                lUtilisateur.setNo_utilisateur(rs.getInt("no_utilisateur"));
+                lUtilisateur.setNumUtilisateur(rs.getInt("no_utilisateur"));
                 lUtilisateur.setPseudo(rs.getString("pseudo"));
                 lUtilisateur.setNom(rs.getString("nom"));
                 lUtilisateur.setPrenom(rs.getString("prenom"));

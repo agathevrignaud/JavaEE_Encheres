@@ -14,6 +14,13 @@ public class Retrait {
         this.ville = ville;
     }
 
+    public Retrait(String rue, String codePostal, String ville, ArticleVendu lArticle) {
+        this.rue = rue;
+        this.codePostal = codePostal;
+        this.ville = ville;
+        this.lArticle = lArticle;
+    }
+
     public String getRue() {
         return rue;
     }

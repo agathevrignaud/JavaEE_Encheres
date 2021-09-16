@@ -4,11 +4,18 @@ import java.time.LocalDateTime;
 
 public class Enchere {
     private Utilisateur lUtilisateur;
-    private Categorie laCategorie;
+    private ArticleVendu lArticle;
     private LocalDateTime dateEnchere;
     private int montantEnchere;
 
     public Enchere() {}
+
+    public Enchere(Utilisateur lUtilisateur, ArticleVendu lArticle, LocalDateTime dateEnchere, int montantEnchere) {
+        this.lUtilisateur = lUtilisateur;
+        this.lArticle = lArticle;
+        this.dateEnchere = dateEnchere;
+        this.montantEnchere = montantEnchere;
+    }
 
     public Utilisateur getlUtilisateur() {
         return lUtilisateur;
@@ -18,12 +25,12 @@ public class Enchere {
         this.lUtilisateur = lUtilisateur;
     }
 
-    public Categorie getLaCategorie() {
-        return laCategorie;
+    public ArticleVendu getlArticle() {
+        return lArticle;
     }
 
-    public void setLaCategorie(Categorie laCategorie) {
-        this.laCategorie = laCategorie;
+    public void setlArticle(ArticleVendu lArticle) {
+        this.lArticle = lArticle;
     }
 
     public LocalDateTime getDateEnchere() {

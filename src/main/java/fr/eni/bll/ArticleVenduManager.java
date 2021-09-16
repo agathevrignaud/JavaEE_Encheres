@@ -3,6 +3,7 @@ package fr.eni.bll;
 import fr.eni.bo.ArticleVendu;
 import fr.eni.bo.Categorie;
 import fr.eni.bo.Retrait;
+import fr.eni.bo.Utilisateur;
 import fr.eni.dal.ArticleVenduDAO;
 import fr.eni.dal.DAOFactory;
 
@@ -24,21 +25,19 @@ public class ArticleVenduManager {
         return articleVenduDAO.selectArticleById(idArticle);
     }
 
-    public void addNewArticle(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-                              int miseAPrix, String etatVente, int idUser, Categorie laCategorie, Retrait lieuRetrait) {
-        ArticleVendu lArticle = new ArticleVendu();
-
-        lArticle.setNomArticle(nomArticle);
-        lArticle.setDescription(description);
-        lArticle.setDateDebutEnchere(dateDebutEncheres);
-        lArticle.setDateFinEnchere(dateFinEncheres);
-        lArticle.setMiseAPrix(miseAPrix);
-        lArticle.setEtatVente(etatVente);
-        lArticle.setNo_utilisateur(idUser);
-        lArticle.setLaCategorie(laCategorie);
-        lArticle.setLieuRetrait(lieuRetrait);
-
-        articleVenduDAO.createArticle(lArticle);
+    public ArticleVendu addNewArticle(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+                              int miseAPrix, Utilisateur lUtilisateur, Categorie laCategorie, Retrait lieuRetrait) {
+        ArticleVendu lArticle = new ArticleVendu(
+                nomArticle,
+                description,
+                dateDebutEncheres,
+                dateFinEncheres,
+                miseAPrix,
+                lieuRetrait,
+                laCategorie,
+                lUtilisateur
+        );
+        return articleVenduDAO.createArticle(lArticle);
     }
 
     public void updateArticlePrice(int bid, int idArticle) {

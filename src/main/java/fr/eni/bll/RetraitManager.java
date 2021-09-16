@@ -1,5 +1,6 @@
 package fr.eni.bll;
 
+import fr.eni.bo.ArticleVendu;
 import fr.eni.bo.Retrait;
 import fr.eni.dal.DAOFactory;
 import fr.eni.dal.RetraitDAO;
@@ -16,9 +17,9 @@ public class RetraitManager {
         return retraitDAO.selectById(idRetrait);
     }
 
-    public void addNewRetrait(int idArticle, String rue, String codePostal, String ville) {
-        Retrait lieuRetrait = new Retrait(idArticle, rue, codePostal, ville);
-        retraitDAO.createRetrait(lieuRetrait);
+    public Retrait addNewRetrait(ArticleVendu lArticle, String rue, String codePostal, String ville) {
+        Retrait lieuRetrait = new Retrait(rue, codePostal, ville, lArticle);
+        return retraitDAO.createRetrait(lieuRetrait);
     }
 
 }

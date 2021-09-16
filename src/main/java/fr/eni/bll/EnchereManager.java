@@ -1,6 +1,8 @@
 package fr.eni.bll;
 
+import fr.eni.bo.ArticleVendu;
 import fr.eni.bo.Enchere;
+import fr.eni.bo.Utilisateur;
 import fr.eni.dal.DAOFactory;
 import fr.eni.dal.EnchereDAO;
 
@@ -22,15 +24,14 @@ public class EnchereManager {
         return enchereDAO.selectHighestBidByIdArticle(idArticle);
     }
 
-    public void addNewEnchere(int idUser, int idArticle, LocalDateTime dateEnchere, int montantEnchere) throws Exception {
-        Enchere lEnchere = new Enchere();
-
-        lEnchere.setNo_article(idArticle);
-        lEnchere.setNo_utilisateur(idUser);
-        lEnchere.setDateEnchere(dateEnchere);
-        lEnchere.setMontantEnchere(montantEnchere);
-
-        enchereDAO.createEnchere(lEnchere);
+    public Enchere addNewEnchere(Utilisateur lUtilisateur, ArticleVendu lArticle, LocalDateTime dateEnchere, int montantEnchere) throws Exception {
+        Enchere lEnchere = new Enchere(
+                lUtilisateur,
+                lArticle,
+                dateEnchere,
+                montantEnchere
+        );
+        return enchereDAO.createEnchere(lEnchere);
     }
 }
 

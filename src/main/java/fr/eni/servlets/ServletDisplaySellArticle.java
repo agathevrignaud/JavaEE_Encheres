@@ -35,7 +35,7 @@ public class ServletDisplaySellArticle extends HttpServlet {
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             //  TODO : rentre l'id article dynamique (sur 2 en dur)
             // request.getParameter(idArticle)
-            int idArticle = 1006;
+            int idArticle = 2;
             ArticleVendu lArticle = articleVenduManager.getArticleById(idArticle);
             request.setAttribute("lArticle", lArticle);
             Enchere lEnchere = enchereManager.getHighestBidByIdArticle(idArticle);
@@ -44,13 +44,7 @@ public class ServletDisplaySellArticle extends HttpServlet {
             request.setAttribute("lesEncherisseurs", lesEncherisseurs);
 
             if (LocalDate.now().isAfter(lArticle.getDateDebutEnchere()) && LocalDate.now().isBefore(lArticle.getDateFinEnchere())) {
-                Utilisateur lUtilisateur = null;
-                try {
-                    lUtilisateur = utilisateurManager.getUserById(lEnchere.getNo_utilisateur());
-                } catch (BLLException e) {
-                    e.printStackTrace();
-                }
-                request.setAttribute("highestBidder", lUtilisateur);
+                request.setAttribute("highestBidder", lEnchere.getlUtilisateur());
                 request.setAttribute("auctionInProgress", true);
                 request.setAttribute("auctionEditable", false);
             } else {
@@ -70,16 +64,13 @@ public class ServletDisplaySellArticle extends HttpServlet {
         protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             List<Integer> listeCodesErreur = new ArrayList<>();
             HttpSession laSession = request.getSession();
-            int bid = Integer.parseInt(request.getParameter("bid"));
-            int highestBid = Integer.parseInt(request.getParameter("highestBid"));
+            int newBid = Integer.parseInt(request.getParameter("newBid"));
             int idArticle = Integer.parseInt(request.getParameter("idArticle"));
-            Utilisateur lUtilisateur = (Utilisateur) laSession.getAttribute("userInfo");
-
-            checkBid(bid, highestBid, lUtilisateur.getCredit(), listeCodesErreur);
-
             Enchere lEnchere = enchereManager.getHighestBidByIdArticle(idArticle);
             int previousHighestBid = lEnchere.getMontantEnchere();
-            int idPreviousHighestBidder = lEnchere.getNo_utilisateur();
+            Utilisateur newBidder = (Utilisateur) laSession.getAttribute("userInfo");
+
+            checkBid(newBid, previousHighestBid, newBidder.getCredit(), listeCodesErreur);
 
             if (listeCodesErreur.size() > 0) {
                 request.setAttribute("errorOnBid", true);
@@ -88,14 +79,15 @@ public class ServletDisplaySellArticle extends HttpServlet {
             } else {
                 try {
                     enchereManager.addNewEnchere(
-                            lUtilisateur.getNo_utilisateur(),
-                            Integer.parseInt(request.getParameter("idArticle")),
+                            newBidder,
+                            lEnchere.getlArticle(),
                             LocalDateTime.now(),
                             Integer.parseInt(request.getParameter("bid"))
                     );
-                    articleVenduManager.updateArticlePrice(bid, idArticle);
-                    utilisateurManager.updateUserCredit(-bid, lUtilisateur.getNo_utilisateur());
-                    utilisateurManager.updateUserCredit(previousHighestBid, idPreviousHighestBidder);
+                    articleVenduManager.updateArticlePrice(newBid, idArticle);
+                    utilisateurManager.updateUserCredit(-newBid, newBidder.getNumUtilisateur());
+                    Utilisateur previousHighestBidder = lEnchere.getlUtilisateur();
+                    utilisateurManager.updateUserCredit(previousHighestBid, previousHighestBidder.getNumUtilisateur());
                     request.setAttribute("successfulBid", true);
                     doGet(request, response);
                 } catch (Exception e) {
@@ -104,14 +96,14 @@ public class ServletDisplaySellArticle extends HttpServlet {
             }
         }
 
-    private int checkBid(int bid, int highestBid, int credit, List<Integer> listeCodesErreur) {
-        if (!(bid > highestBid)) {
+    private int checkBid(int newBid, int previousHighestBid, int credit, List<Integer> listeCodesErreur) {
+        if (!(newBid > previousHighestBid)) {
             listeCodesErreur.add(CodesResultatServlets.USER_BID_TOO_LOW);
         }
-        if (!(credit - bid >= 0)) {
+        if (!(credit - previousHighestBid >= 0)) {
             listeCodesErreur.add(CodesResultatServlets.NOT_ENOUGH_TO_BID);
         }
-        return bid ;
+        return newBid ;
     }
 
 }

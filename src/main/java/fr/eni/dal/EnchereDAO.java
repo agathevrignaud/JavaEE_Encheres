@@ -7,5 +7,5 @@ import java.util.List;
 public interface EnchereDAO {
     List<Enchere> selectBidByIdArticle(int idArticle);
     Enchere selectHighestBidByIdArticle(int idArticle);
-    void createEnchere(Enchere lEnchere);
+    Enchere createEnchere(Enchere lEnchere);
 }

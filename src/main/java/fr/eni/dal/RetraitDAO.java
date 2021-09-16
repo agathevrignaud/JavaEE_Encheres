@@ -3,7 +3,6 @@ package fr.eni.dal;
 import fr.eni.bo.Retrait;
 
 public interface RetraitDAO {
-    public Retrait selectById(int idRetrait); // idRetrait = no_article
-
-    public void createRetrait(Retrait lieuRetrait);
+    Retrait selectById(int idRetrait);
+    Retrait createRetrait(Retrait lieuRetrait);
 }
