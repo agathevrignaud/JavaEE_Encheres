@@ -6,10 +6,6 @@ public class Categorie {
 
     public Categorie() {}
 
-    public Categorie(String libelle) {
-        this.libelle = libelle;
-    }
-
     public Categorie(int numCategorie, String libelle) {
         this.numCategorie = numCategorie;
         this.libelle = libelle;
