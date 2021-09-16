@@ -124,14 +124,14 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
     }
 
     @Override
-    public void createArticle(ArticleVendu lArticle) {
+    public ArticleVendu createArticle(ArticleVendu lArticle) {
         if (lArticle == null) {
             //throw exception
         }
 
         // TODO : Revoir l'histoire des Generated_Keys (récupérer le no_article après création ?)
         try (Connection cnx = ConnectionProvider.getConnection()) {
-            PreparedStatement pstmt = cnx.prepareStatement(INSERT_ARTICLE);
+            PreparedStatement pstmt = cnx.prepareStatement(INSERT_ARTICLE, PreparedStatement.RETURN_GENERATED_KEYS);
 
             pstmt.setString(1, lArticle.getNomArticle());
             pstmt.setString(2, lArticle.getDescription());
@@ -141,12 +141,17 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             pstmt.setString(6, lArticle.getEtatVente());
             pstmt.setInt(7, lArticle.getNo_utilisateur());
             pstmt.setInt(8, lArticle.getLaCategorie().getNo_categorie());
-
             pstmt.executeUpdate();
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()){
+                lArticle.setNo_article(rs.getInt(1));
+            }
+
             pstmt.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return lArticle;
     }
 
 

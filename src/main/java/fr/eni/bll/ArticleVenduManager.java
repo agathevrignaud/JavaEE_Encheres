@@ -10,11 +10,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ArticleVenduManager {
-    private ArticleVenduDAO articleVenduDAO;
+    private final ArticleVenduDAO articleVenduDAO;
 
-    public ArticleVenduManager() {
-        articleVenduDAO = DAOFactory.getArticleVenduDAO();
-    }
+    public ArticleVenduManager() { articleVenduDAO = DAOFactory.getArticleVenduDAO();}
 
     public List<ArticleVendu> getAllArticles() {
         return articleVenduDAO.selectAll();
@@ -24,8 +22,9 @@ public class ArticleVenduManager {
         return articleVenduDAO.selectArticleById(idArticle);
     }
 
-    public void addNewArticle(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-                              int miseAPrix, String etatVente, int idUser, Categorie laCategorie, Retrait lieuRetrait) {
+
+    public ArticleVendu addNewArticle(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+                              int miseAPrix, String etatVente, int idUser, Categorie laCategorie)  {
         ArticleVendu lArticle = new ArticleVendu();
 
         lArticle.setNomArticle(nomArticle);
@@ -36,9 +35,10 @@ public class ArticleVenduManager {
         lArticle.setEtatVente(etatVente);
         lArticle.setNo_utilisateur(idUser);
         lArticle.setLaCategorie(laCategorie);
-        lArticle.setLieuRetrait(lieuRetrait);
 
         articleVenduDAO.createArticle(lArticle);
+
+        return lArticle;
     }
 
 }

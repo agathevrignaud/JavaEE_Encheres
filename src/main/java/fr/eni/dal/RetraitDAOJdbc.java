@@ -8,8 +8,8 @@ import java.sql.ResultSet;
 
 public class RetraitDAOJdbc implements RetraitDAO {
 
-    private static final String SELECT_RETRAIT_BY_ID = "SELECT * FROM RETRAIT WHERE no_article=?";
-    private static final String INSERT_RETRAIT = "INSERT INTO RETRAIT VALUES (?,?,?)";
+    private static final String SELECT_RETRAIT_BY_ID = "SELECT * FROM RETRAITS WHERE no_article=?";
+    private static final String INSERT_RETRAIT = "INSERT INTO RETRAITS VALUES (?,?,?,?)";
 
     @Override
     public Retrait selectById(int idRetrait) {
@@ -34,9 +34,10 @@ public class RetraitDAOJdbc implements RetraitDAO {
     public void createRetrait(Retrait lieuRetrait) {
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(INSERT_RETRAIT);
-            pstmt.setString(1, lieuRetrait.getRue());
-            pstmt.setString(2, lieuRetrait.getCodePostal());
-            pstmt.setString(3, lieuRetrait.getVille());
+            pstmt.setInt(1,lieuRetrait.getNo_article());
+            pstmt.setString(2, lieuRetrait.getRue());
+            pstmt.setString(3, lieuRetrait.getCodePostal());
+            pstmt.setString(4, lieuRetrait.getVille());
             pstmt.executeUpdate();
             pstmt.close();
         } catch (Exception e) {
