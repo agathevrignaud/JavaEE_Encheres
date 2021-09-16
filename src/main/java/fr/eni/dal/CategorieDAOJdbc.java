@@ -109,7 +109,7 @@ public class CategorieDAOJdbc implements CategorieDAO {
             pstmt.setInt(1, idCat);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                categorie.setNo_categorie(rs.getInt("no_categorie"));
+                categorie.setNumCategorie(rs.getInt("no_categorie"));
                 categorie.setLibelle(rs.getString("libelle"));
             }
         } catch (Exception e) {

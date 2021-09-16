@@ -55,7 +55,7 @@ public class ServletVendreObjet extends HttpServlet {
                         LocalDate.parse(request.getParameter("finEnchere")),
                         Integer.parseInt(request.getParameter("prixArticle")),
                         "C",
-                        lUtilisateur.getNo_utilisateur(),
+                        lUtilisateur.getNumUtilisateur(),
                         categorieManager.selectCategoryById(Integer.parseInt(request.getParameter("categories")))
                 );
             } catch (Exception e) {
@@ -67,7 +67,7 @@ public class ServletVendreObjet extends HttpServlet {
 
             try {
                 retraitManager.addNewRetrait(
-                        articleVendu.getNo_article(),
+                        articleVendu.getNumArticle(),
                         request.getParameter("rue"),
                         request.getParameter("cp"),
                         request.getParameter("ville")

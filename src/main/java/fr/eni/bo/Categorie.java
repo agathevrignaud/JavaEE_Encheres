@@ -11,6 +11,10 @@ public class Categorie {
         this.libelle = libelle;
     }
 
+    public Categorie(String libelleCategorie) {
+        this.libelle = libelle;
+    }
+
     public int getNumCategorie() {
         return numCategorie;
     }
