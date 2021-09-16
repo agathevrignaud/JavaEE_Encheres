@@ -66,26 +66,39 @@ public class ServletHome extends HttpServlet {
                     }
                 }
             } else if (nomArticle.equals("") && laCategorie.equals("toutes")) {
-                articlesTrouveParFiltre.addAll(lesArticles);
+                for (ArticleVendu lArticle : lesArticles) {
+                    if (!isUserLoggedIn) {
+                        articlesTrouveParFiltre.add(lArticle);
+                    } else {
+                        filtreSupplementaireModeConnecte(request, articlesTrouveParFiltre, lArticle);
+                    }
+                }
             }
 
             if (!nomArticle.equals("") && !laCategorie.equals("toutes")) {
                 for (ArticleVendu lArticle : lesArticles) {
                     if (lArticle.getNomArticle().contains(nomArticle) && lArticle.getLaCategorie().getLibelle().equals(laCategorie)) {
-                        articlesTrouveParFiltre.add(lArticle);
+                        if (!isUserLoggedIn) {
+                            articlesTrouveParFiltre.add(lArticle);
+                        } else {
+                            filtreSupplementaireModeConnecte(request, articlesTrouveParFiltre, lArticle);
+                        }
                     }
                 }
             } else if (nomArticle.equals("") && !laCategorie.equals("toutes")) {
                 for (ArticleVendu lArticle : lesArticles) {
                     if (lArticle.getLaCategorie().getLibelle().equals(laCategorie)) {
-                        articlesTrouveParFiltre.add(lArticle);
+                        if (!isUserLoggedIn) {
+                            articlesTrouveParFiltre.add(lArticle);
+                        } else {
+                            filtreSupplementaireModeConnecte(request, articlesTrouveParFiltre, lArticle);
+                        }
                     }
                 }
             }
 
 
             request.setAttribute("lesArticles", articlesTrouveParFiltre);
-            System.out.println(nomArticle + " - " + laCategorie);
 
         } catch (BLLException e) {
             e.printStackTrace();
@@ -99,6 +112,8 @@ public class ServletHome extends HttpServlet {
         Utilisateur lUtilisateur = (Utilisateur) laSession.getAttribute("userInfo");
 
         if (request.getParameter("choix") != null) {
+            System.out.println("ACHAT =" + (request.getParameter("choix").equals("achat")));
+            System.out.println("VENTE =" + (request.getParameter("choix").equals("vente")));
             if (request.getParameter("choix").equals("achat")) {
                 boolean enchereOuverte = Boolean.parseBoolean(request.getParameter("enchereOuverte"));
                 boolean enchereEnCours = Boolean.parseBoolean(request.getParameter("enchereEnCours"));
@@ -112,7 +127,6 @@ public class ServletHome extends HttpServlet {
                     }
                 }
                 if (enchereEnCours) {
-
                     if ("E".equals(lArticle.getEtatVente())) {
                         List<Enchere> encheres = enchereManager.getAllEncheresByIdArticle(lArticle.getNo_article());
                         for (Enchere enchere : encheres) {
@@ -132,6 +146,36 @@ public class ServletHome extends HttpServlet {
                                 if (!articlesTrouveParFiltre.contains(lArticle)) {
                                     articlesTrouveParFiltre.add(lArticle);
                                 }
+                            }
+                        }
+                    }
+                }
+            } else if (request.getParameter("choix").equals("vente")) {
+                boolean venteEnCours = Boolean.parseBoolean(request.getParameter("ventesEnCours"));
+                boolean venteNonCommence = Boolean.parseBoolean(request.getParameter("ventesNonCommence"));
+                boolean venteTermine = Boolean.parseBoolean(request.getParameter("ventesTermine"));
+
+
+                if (lArticle.getNo_utilisateur() == lUtilisateur.getNo_utilisateur()) {
+
+                    if (venteEnCours) {
+                        if ("E".equals(lArticle.getEtatVente())) {
+                            if (!articlesTrouveParFiltre.contains(lArticle)) {
+                                articlesTrouveParFiltre.add(lArticle);
+                            }
+                        }
+                    }
+                    if (venteNonCommence) {
+                        if ("A".equals(lArticle.getEtatVente())) {
+                            if (!articlesTrouveParFiltre.contains(lArticle)) {
+                                articlesTrouveParFiltre.add(lArticle);
+                            }
+                        }
+                    }
+                    if (venteTermine) {
+                        if ("F".equals(lArticle.getEtatVente())) {
+                            if (!articlesTrouveParFiltre.contains(lArticle)) {
+                                articlesTrouveParFiltre.add(lArticle);
                             }
                         }
                     }

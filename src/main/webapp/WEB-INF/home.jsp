@@ -25,47 +25,45 @@
             </c:forEach>
         </select>
     </label>
-<c:if test="${isUserLoggedIn}">
-    <card>
-        <div class="form-check">
-            <input class="form-check-input position-static" type="radio" name="choix" value="achat"
-                   aria-label="..." CHECKED>Achats
-        </div>
-        <div class="form-check">
-            <input class="form-check-input position-static" type="checkbox" name="enchereOuverte" value="true"
-                   aria-label="...">Enchères ouvertes
-        </div>
-        <div class="form-check">
-            <input class="form-check-input position-static" type="checkbox" name="enchereEnCours" value="true"
+    <c:if test="${isUserLoggedIn}">
+        <card>
+            <div class="form-check">
+                <input class="form-check-input position-static" type="radio" name="choix" value="achat"
+                       aria-label="...">Achats
+            </div>
+            <div class="form-check">
+                <input class="form-check-input position-static" type="checkbox" name="enchereOuverte" value="true"
+                       aria-label="...">Enchères ouvertes
+            </div>
+            <div class="form-check">
+                <input class="form-check-input position-static" type="checkbox" name="enchereEnCours" value="true"
 
-                   aria-label="...">Enchères en cours
-        </div>
-        <div class="form-check">
-            <input class="form-check-input position-static" type="checkbox" name="enchereRemportees" value="true"
-                   aria-label="...">Enchères remportées
-        </div>
-    </card>
-    <card>
-        <div class="form-check">
-            <input class="form-check-input position-static" type="radio" name="choix" value="vente"
-                   aria-label="..." >Mes ventes
-        </div>
-        <div class="form-check">
-            <input class="form-check-input position-static" type="checkbox" id="inprogresssell"
-                   value="optioninprogresssell"
-                   aria-label="...">mes ventes en cours
-        </div>
-        <div class="form-check">
-            <input class="form-check-input position-static" type="checkbox" id="notstart"
-                   value="optionnotstart"
-                   aria-label="...">ventes non débuté
-        </div>
-        <div class="form-check">
-            <input class="form-check-input position-static" type="checkbox" id="close" value="optionclose"
-                   aria-label="...">ventes terminées
-        </div>
-    </card>
-</c:if>
+                       aria-label="...">Enchères en cours
+            </div>
+            <div class="form-check">
+                <input class="form-check-input position-static" type="checkbox" name="enchereRemportees" value="true"
+                       aria-label="...">Enchères remportées
+            </div>
+        </card>
+        <card>
+            <div class="form-check">
+                <input class="form-check-input position-static" type="radio" name="choix" value="vente"
+                       aria-label="...">Mes ventes
+            </div>
+            <div class="form-check">
+                <input class="form-check-input position-static" type="checkbox" name="ventesEnCours" value="true"
+                       aria-label="...">mes ventes en cours
+            </div>
+            <div class="form-check">
+                <input class="form-check-input position-static" type="checkbox" name="ventesNonCommence" value="true"
+                       aria-label="...">ventes non débuté
+            </div>
+            <div class="form-check">
+                <input class="form-check-input position-static" type="checkbox" name="ventesTermine" value="true"
+                       aria-label="...">ventes terminées
+            </div>
+        </card>
+    </c:if>
     <div>
         <button class="btn btn-primary" type="submit">Rechercher</button>
     </div>

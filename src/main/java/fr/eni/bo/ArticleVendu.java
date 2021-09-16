@@ -10,7 +10,7 @@ public class ArticleVendu {
     private LocalDate dateFinEnchere;
     private int miseAPrix;
     private int prixVente;
-    private String etatVente; // A - en attente, C - en cours, F - finie
+    private String etatVente; // A - en attente, E - en cours, F - finie
     private Retrait lieuRetrait;
     private Categorie laCategorie;
     private int no_utilisateur;
