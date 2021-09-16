@@ -8,12 +8,12 @@
 <script>
     function verifyChoix(choix) {
         if (choix === 'achat') {
-             document.getElementById('enchereOuverte').disabled = false;
-             document.getElementById('enchereEnCours').disabled = false;
-             document.getElementById('enchereRemportees').disabled = false;
-             document.getElementById('ventesNonCommence').disabled = true;
-             document.getElementById('ventesEnCours').disabled = true;
-             document.getElementById('ventesTermine').disabled = true;
+            document.getElementById('enchereOuverte').disabled = false;
+            document.getElementById('enchereEnCours').disabled = false;
+            document.getElementById('enchereRemportees').disabled = false;
+            document.getElementById('ventesNonCommence').disabled = true;
+            document.getElementById('ventesEnCours').disabled = true;
+            document.getElementById('ventesTermine').disabled = true;
         } else {
             document.getElementById('enchereOuverte').disabled = true;
             document.getElementById('enchereEnCours').disabled = true;
@@ -102,7 +102,16 @@
                  alt="" width="50px;">
         </div>
         <div class="card-body">
-            <p>${lArticle.getNomArticle()}</p>
+            <c:if test="${isUserLoggedIn}">
+                <p>
+                    <a href="${pageContext.request.contextPath}/articleDetails?idArticle=${lArticle.getNo_article()}"> ${lArticle.getNomArticle()}</a>
+                </p>
+            </c:if>
+            <c:if test="${not isUserLoggedIn}">
+                <p>
+                        ${lArticle.getNomArticle()}
+                </p>
+            </c:if>
             <p>Prix: ${lArticle.getPrixVente()}</p>
             <p>Fin de l'enchère: ${lArticle.getDateFinEnchere()}</p>
             <p>Vendeur: <a
