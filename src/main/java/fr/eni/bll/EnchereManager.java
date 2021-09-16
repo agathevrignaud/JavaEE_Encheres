@@ -33,5 +33,9 @@ public class EnchereManager {
         );
         return enchereDAO.createEnchere(lEnchere);
     }
+
+    public void cancelAllBidsByUser(int idUser) {
+        enchereDAO.deleteAllBidsByUser(idUser);
+    }
 }
 

@@ -36,6 +36,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
     private static final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article,description,date_debut_encheres, " +
             "date_fin_encheres, prix_initial, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?)";
     private static final String UPDATE_ARTICLE_BID = "UPDATE ARTICLES_VENDUS SET prix_vente=? WHERE no_article=?";
+    private static final String DELETE_ALL_ARTICLES_BY_USER_ID="DELETE FROM ARTICLES_VENDUS WHERE no_utilisateur=?";
 
     @Override
     public List<ArticleVendu> selectAll() {
@@ -168,6 +169,17 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             pstmt.setInt(2, idArticle);
             pstmt.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteAllArticlesByUserId(int idUser) {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pstmt = cnx.prepareStatement(DELETE_ALL_ARTICLES_BY_USER_ID);
+            pstmt.setInt(1, idUser);
+            pstmt.executeUpdate();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

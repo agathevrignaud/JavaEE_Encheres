@@ -43,4 +43,8 @@ public class ArticleVenduManager {
     public void updateArticlePrice(int bid, int idArticle) {
         articleVenduDAO.updateBidOnArticle(bid, idArticle);
     }
+
+    public void cancelAllSalesByUser(int idUser) {
+        articleVenduDAO.deleteAllArticlesByUserId(idUser);
+    }
 }

@@ -8,4 +8,5 @@ public interface EnchereDAO {
     List<Enchere> selectBidByIdArticle(int idArticle);
     Enchere selectHighestBidByIdArticle(int idArticle);
     Enchere createEnchere(Enchere lEnchere);
+    void deleteAllBidsByUser(int idUser);
 }

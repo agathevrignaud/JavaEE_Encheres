@@ -26,6 +26,7 @@ public class EnchereDAOJdbc implements EnchereDAO {
             "AND E.montant_enchere=(SELECT MAX(montant_enchere) FROM ENCHERES) " +
             "ORDER BY E.date_enchere DESC";
     public static final String INSERT_BID = "INSERT INTO ENCHERES VALUES(?,?,?,?)";
+    public static final String DELETE_BID_BY_USER = "DELETE FROM ENCHERES WHERE no_utilisateur=?";
 
     @Override
     public List<Enchere> selectBidByIdArticle(int idArticle) {
@@ -126,5 +127,16 @@ public class EnchereDAOJdbc implements EnchereDAO {
             e.printStackTrace();
         }
         return lEnchere;
+    }
+
+    @Override
+    public void deleteAllBidsByUser(int idUser) {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pstmt = cnx.prepareStatement(DELETE_BID_BY_USER);
+            pstmt.setInt(1, idUser);
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
