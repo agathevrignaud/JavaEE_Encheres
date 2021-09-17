@@ -45,34 +45,34 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 Utilisateur lUtilisateur = new Utilisateur(
-                        rs.getInt("U.no_utilisateur"),
-                        rs.getString("U.pseudo"),
-                        rs.getString("U.nom"),
-                        rs.getString("U.prenom"),
-                        rs.getString("U.email"),
-                        rs.getString("U.telephone"),
-                        rs.getString("U.rue"),
-                        rs.getString("U.codePostal"),
-                        rs.getString("U.ville")
+                        rs.getInt("no_utilisateur"),
+                        rs.getString("pseudo"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email"),
+                        rs.getString("telephone"),
+                        rs.getString("rue"),
+                        rs.getString("code_postal"),
+                        rs.getString("ville")
                 );
                 Retrait lieuRetrait = new Retrait(
-                    rs.getString("R.rue"),
-                    rs.getString("R.code_postal"),
-                    rs.getString("R.ville")
+                    rs.getString("rue"),
+                    rs.getString("code_postal"),
+                    rs.getString("ville")
                 );
                 Categorie laCategorie = new Categorie(
-                        rs.getInt("C.no_categorie"),
-                        rs.getString("C.libelle")
+                        rs.getInt("no_categorie"),
+                        rs.getString("libelle")
                 );
                 ArticleVendu lArticle = new ArticleVendu(
-                        rs.getInt("A.no_article"),
-                        rs.getString("A.nom_article"),
-                        rs.getString("A.description"),
-                        rs.getDate("A.date_debut_encheres").toLocalDate(),
-                        rs.getDate("A.date_fin_encheres").toLocalDate(),
-                        rs.getInt("A.prix_initial"),
-                        rs.getInt("A.prix_vente"),
-                        rs.getString("A.etat_vente"),
+                        rs.getInt("no_article"),
+                        rs.getString("nom_article"),
+                        rs.getString("description"),
+                        rs.getDate("date_debut_encheres").toLocalDate(),
+                        rs.getDate("date_fin_encheres").toLocalDate(),
+                        rs.getInt("prix_initial"),
+                        rs.getInt("prix_vente"),
+                        rs.getString("etat_vente"),
                         lieuRetrait,
                         laCategorie,
                         lUtilisateur
@@ -97,34 +97,34 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 Utilisateur lUtilisateur = new Utilisateur(
-                        rs.getInt("U.no_utilisateur"),
-                        rs.getString("U.pseudo"),
-                        rs.getString("U.nom"),
-                        rs.getString("U.prenom"),
-                        rs.getString("U.email"),
-                        rs.getString("U.telephone"),
-                        rs.getString("U.rue"),
-                        rs.getString("U.codePostal"),
-                        rs.getString("U.ville")
+                        rs.getInt("no_utilisateur"),
+                        rs.getString("pseudo"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email"),
+                        rs.getString("telephone"),
+                        rs.getString("rue"),
+                        rs.getString("code_postal"),
+                        rs.getString("ville")
                 );
                 Retrait lieuRetrait = new Retrait(
-                        rs.getString("R.rue"),
-                        rs.getString("R.code_postal"),
-                        rs.getString("R.ville")
+                        rs.getString("rue"),
+                        rs.getString("code_postal"),
+                        rs.getString("ville")
                 );
                 Categorie laCategorie = new Categorie(
-                        rs.getInt("C.no_categorie"),
-                        rs.getString("C.libelle")
+                        rs.getInt("no_categorie"),
+                        rs.getString("libelle")
                 );
                 lArticle = new ArticleVendu(
-                        rs.getInt("A.no_article"),
-                        rs.getString("A.nom_article"),
-                        rs.getString("A.description"),
-                        rs.getDate("A.date_debut_encheres").toLocalDate(),
-                        rs.getDate("A.date_fin_encheres").toLocalDate(),
-                        rs.getInt("A.prix_initial"),
-                        rs.getInt("A.prix_vente"),
-                        rs.getString("A.etat_vente"),
+                        rs.getInt("no_article"),
+                        rs.getString("nom_article"),
+                        rs.getString("description"),
+                        rs.getDate("date_debut_encheres").toLocalDate(),
+                        rs.getDate("date_fin_encheres").toLocalDate(),
+                        rs.getInt("prix_initial"),
+                        rs.getInt("prix_vente"),
+                        rs.getString("etat_vente"),
                         lieuRetrait,
                         laCategorie,
                         lUtilisateur

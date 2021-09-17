@@ -38,7 +38,7 @@ public class ServletDisplaySellArticle extends HttpServlet {
 
             //  TODO : rentre l'id article dynamique (sur 2 en dur)
             // request.getParameter(idArticle)
-            int idArticle = 2;
+            int idArticle = Integer.parseInt(request.getParameter("idArticle"));
             ArticleVendu lArticle = articleVenduManager.getArticleById(idArticle);
             request.setAttribute("lArticle", lArticle);
 
