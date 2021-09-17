@@ -10,12 +10,13 @@ public class ArticleVendu {
     private LocalDate dateFinEnchere;
     private int miseAPrix;
     private int prixVente;
-    private String etatVente; // A - en attente, C - en cours, F - finie
+    private String etatVente; // A - en attente, E - en cours, F - finie
     private Retrait lieuRetrait;
     private Categorie laCategorie;
     private Utilisateur lUtilisateur;
 
-    public ArticleVendu() {}
+    public ArticleVendu() {
+    }
 
     public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, Retrait lieuRetrait, Categorie laCategorie, Utilisateur lUtilisateur) {
         this.nomArticle = nomArticle;
@@ -162,5 +163,4 @@ public class ArticleVendu {
     public void setlUtilisateur(Utilisateur lUtilisateur) {
         this.lUtilisateur = lUtilisateur;
     }
-
 }

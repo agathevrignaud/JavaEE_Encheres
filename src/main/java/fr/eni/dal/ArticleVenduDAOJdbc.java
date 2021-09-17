@@ -85,6 +85,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
         return lesArticles;
     }
 
+
     @Override
     public ArticleVendu selectArticleById(int idArticle) {
         ArticleVendu lArticle = null ;
