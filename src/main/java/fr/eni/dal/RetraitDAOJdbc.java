@@ -14,7 +14,7 @@ public class RetraitDAOJdbc implements RetraitDAO {
             "INNER JOIN ARTICLES_VENDUS A " +
             "ON R.no_article = A.no_article " +
             "WHERE R.no_article=?";
-    private static final String INSERT_RETRAIT = "INSERT INTO RETRAITS VALUES (?,?,?,?)";
+    private static final String INSERT_RETRAIT = "INSERT INTO RETRAITS(no_article, rue, code_postal, ville) VALUES (?,?,?,?)";
     private static final String UPDATE_RETRAIT = "UPDATE RETRAITS SET rue=?, code_postal=?, ville=? WHERE no_article=?";
     private static final String DELETE_RETRAIT = "DELETE FROM RETRAITS WHERE no_article =?";
 

@@ -30,7 +30,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             "ON A.no_article = R.no_article " +
             "WHERE A.no_article=?";
     private static final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article,description,date_debut_encheres, " +
-            "date_fin_encheres, prix_initial, etat_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?)";
+            "date_fin_encheres, prix_initial, etat_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?,?)";
     private static final String UPDATE_ARTICLE_BID = "UPDATE ARTICLES_VENDUS SET prix_vente=? WHERE no_article=?";
     private static final String DELETE_ALL_ARTICLES_BY_USER_ID="DELETE FROM ARTICLES_VENDUS WHERE no_utilisateur=?";
     private static final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
@@ -149,12 +149,13 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             pstmt.setDate(3, Date.valueOf(lArticle.getDateDebutEnchere()));
             pstmt.setDate(4, Date.valueOf(lArticle.getDateFinEnchere()));
             pstmt.setInt(5, lArticle.getMiseAPrix());
-            pstmt.setInt(6, lArticle.getlUtilisateur().getNumUtilisateur());
-            pstmt.setInt(7, lArticle.getLaCategorie().getNumCategorie());
+            pstmt.setString(6, lArticle.getEtatVente());
+            pstmt.setInt(7, lArticle.getlUtilisateur().getNumUtilisateur());
+            pstmt.setInt(8, lArticle.getLaCategorie().getNumCategorie());
             pstmt.executeUpdate();
             ResultSet rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
-                lArticle.setNumArticle(rs.getInt("no_article"));
+                lArticle.setNumArticle(rs.getInt(1));
             }
         } catch (Exception e) {
             e.printStackTrace();

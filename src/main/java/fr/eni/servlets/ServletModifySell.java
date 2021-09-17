@@ -73,7 +73,8 @@ public class ServletModifySell extends HttpServlet {
 
             try {
                 retraitManager.updateRetrait(
-                        articleVenduManager.getArticleById(1),
+
+                articleVenduManager.getArticleById(1),
                         request.getParameter("rue"),
                         request.getParameter("cp"),
                         request.getParameter("ville")

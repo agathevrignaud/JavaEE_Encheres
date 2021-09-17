@@ -24,7 +24,7 @@ public class ArticleVenduManager {
     }
 
     public ArticleVendu addNewArticle(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-                              int miseAPrix, String etatVente, Utilisateur lUtilisateur, Categorie laCategorie, Retrait lieuRetrait) {
+                              int miseAPrix, String etatVente, Utilisateur lUtilisateur, Categorie laCategorie) {
         ArticleVendu lArticle = new ArticleVendu(
                 nomArticle,
                 description,
@@ -32,7 +32,6 @@ public class ArticleVenduManager {
                 dateFinEncheres,
                 miseAPrix,
                 etatVente,
-                lieuRetrait,
                 laCategorie,
                 lUtilisateur
         );

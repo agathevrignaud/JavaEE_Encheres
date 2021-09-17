@@ -19,6 +19,7 @@ public class RetraitManager {
 
     public Retrait addNewRetrait(ArticleVendu lArticle, String rue, String codePostal, String ville) {
         Retrait lieuRetrait = new Retrait(rue, codePostal, ville, lArticle);
+        System.out.println(lieuRetrait.toString());
         return retraitDAO.createRetrait(lieuRetrait);
     }
 

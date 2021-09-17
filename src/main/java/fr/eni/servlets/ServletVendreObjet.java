@@ -56,17 +56,19 @@ public class ServletVendreObjet extends HttpServlet {
                         Integer.parseInt(request.getParameter("prixArticle")),
                         "C",
                         utilisateurManager.getUserById(lUtilisateur.getNumUtilisateur()),
-                        categorieManager.selectCategoryById(Integer.parseInt(request.getParameter("categories"))),
-                        retraitManager.addNewRetrait(
-                                articleVenduManager.getArticleById(1),
-                                request.getParameter("rue"),
-                                request.getParameter("cp"),
-                                request.getParameter("ville")
-                        ));
+                        categorieManager.selectCategoryById(Integer.parseInt(request.getParameter("categories")))
+                        );
+
+                Retrait retrait = retraitManager.addNewRetrait(
+                        articleVendu,
+                        request.getParameter("rue"),
+                        request.getParameter("cp"),
+                        request.getParameter("ville"));
+
+               articleVendu.setLieuRetrait(retrait);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
 
             RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
             rd.forward(request, response);
