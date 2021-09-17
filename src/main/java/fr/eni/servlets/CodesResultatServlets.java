@@ -36,6 +36,15 @@ public abstract class CodesResultatServlets {
     public static final int AUCTION_CREATION_SUCCESS = 30400;
     public static final int USER_BID_TOO_LOW=30401;
     public static final int NOT_ENOUGH_TO_BID=30402;
+    public static final int ARTICLE_NAME_REQUIRED=30403;
+    public static final int DESCRIPTION_REQUIRED=30404;
+    public static final int CATEGORY_REQUIRED=30405;
+    public static final int STARTING_PRICE_INVALID=30406;
+    public static final int START_DATE_REQUIRED=30407;
+    public static final int END_DATE_REQUIRED=30408;
+    public static final int ERROR_ENDATE_BEFORE_STARTDATE=30409;
+    public static final int ERROR_ENDDATE_BEFORE_TODAY=30410;
+
     // Codes for Auction Edition
 
     // Codes for Display Auction Details

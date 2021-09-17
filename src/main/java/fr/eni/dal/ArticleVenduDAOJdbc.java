@@ -26,7 +26,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
     private static final String SELECT_ARTICLE_BY_ID = SELECT_ALL_ARTICLES + " WHERE A.no_article=?";
     private static final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article,description,date_debut_encheres, " +
             "date_fin_encheres, prix_initial, etat_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?)";
-    private static final String UPDATE_ARTICLE_BID = "UPDATE ARTICLES_VENDUS SET prix_vente=? WHERE no_article=?";
+    private static final String UPDATE_ARTICLE_PRICE = "UPDATE ARTICLES_VENDUS SET prix_vente=? WHERE no_article=?";
     private static final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS WHERE no_article=?";
     private static final String UPDATE_ARTICLE_VENDU = "UPDATE ARTICLES_VENDUS SET nom_article=?, description=?, date_debut_encheres=?, date_fin_encheres=?, prix_initial=?, etat_vente=?, no_utilisateur=?, no_categorie=? WHERE no_article=?";
     private static final String UPDATE_AUCTION_STATUS="UPDATE ARTICLES_VENDUS SET etat_vente=? WHERE no_article=?";
@@ -227,16 +227,40 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
     }
 
     @Override
+    public ArticleVendu updateArticle(ArticleVendu lArticle) throws BLLException {
+        BLLException bllException = new BLLException();
+        try(Connection cnx = ConnectionProvider.getConnection()){
+            PreparedStatement pstmt = cnx.prepareStatement(UPDATE_ARTICLE_VENDU);
+            pstmt.setString(1, lArticle.getNomArticle());
+            pstmt.setString(2, lArticle.getDescription());
+            pstmt.setDate(3, Date.valueOf(lArticle.getDateDebutEnchere()));
+            pstmt.setDate(4, Date.valueOf(lArticle.getDateFinEnchere()));
+            pstmt.setInt(5, lArticle.getMiseAPrix());
+            pstmt.setString(6, lArticle.getEtatVente());
+            pstmt.setInt(7, lArticle.getlUtilisateur().getNumUtilisateur());
+            pstmt.setInt(8, lArticle.getLaCategorie().getNumCategorie());
+            pstmt.setInt(9, lArticle.getNumArticle());
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_USER_DATA);
+            myLogger.log(Level.WARNING,"Erreur lors de la mise à jour de l'article " + lArticle.getNumArticle(), bllException);
+            throw bllException;
+        }
+        return lArticle;
+    }
+
+    @Override
     public void updateBidOnArticle(int bid, int idArticle) throws BLLException {
         BLLException bllException = new BLLException();
         try (Connection cnx = ConnectionProvider.getConnection()) {
-            PreparedStatement pstmt = cnx.prepareStatement(UPDATE_ARTICLE_BID);
+            PreparedStatement pstmt = cnx.prepareStatement(UPDATE_ARTICLE_PRICE);
             pstmt.setInt(1, bid);
             pstmt.setInt(2, idArticle);
             pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            bllException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_ARTICLE_BID);
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_ARTICLE_PRICE);
             myLogger.log(Level.WARNING,"Erreur lors de la mise à jour du prix de vente de l'article " + idArticle, bllException);
             throw bllException;
         }
@@ -258,6 +282,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
         }
     }
 
+
     // Trucs d'Ewen
     @Override
     public void deleteArticle(int id) {
@@ -271,24 +296,6 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
     }
 
 
-    @Override
-    public void updateArticle(ArticleVendu articleVendu) {
-        try(Connection cnx = ConnectionProvider.getConnection()){
-            PreparedStatement pstmt = cnx.prepareStatement(UPDATE_ARTICLE_VENDU);
-            pstmt.setString(1, articleVendu.getNomArticle());
-            pstmt.setString(2, articleVendu.getDescription());
-            pstmt.setDate(3, Date.valueOf(articleVendu.getDateDebutEnchere()));
-            pstmt.setDate(4, Date.valueOf(articleVendu.getDateFinEnchere()));
-            pstmt.setInt(5, articleVendu.getMiseAPrix());
-            pstmt.setString(6, articleVendu.getEtatVente());
-            pstmt.setInt(7, articleVendu.getlUtilisateur().getNumUtilisateur());
-            pstmt.setInt(8, articleVendu.getLaCategorie().getNumCategorie());
-            pstmt.setInt(9, articleVendu.getNumArticle());
-            pstmt.executeUpdate();
-            pstmt.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
+
 
 }

@@ -13,13 +13,17 @@ public class RetraitManager {
         retraitDAO = DAOFactory.getRetraitDAO();
     }
 
-    public Retrait getRetraitById(int idRetrait) {
+    public Retrait getRetraitById(int idRetrait) throws BLLException {
         return retraitDAO.selectById(idRetrait);
     }
 
     public Retrait addNewRetrait(ArticleVendu lArticle, String rue, String codePostal, String ville) throws BLLException {
         Retrait lieuRetrait = new Retrait(rue, codePostal, ville, lArticle);
         return retraitDAO.createRetrait(lieuRetrait);
+    }
+
+    public void updateRetrait(Retrait lieuRetrait) throws BLLException {
+        retraitDAO.updateRetrait(lieuRetrait);
     }
 
 }

@@ -68,6 +68,7 @@ public class ServletDisplayAuctionDetails extends HttpServlet {
         HttpSession laSession = request.getSession();
         int newBid = checkNewBid(request, listeCodesErreur);
         int idArticle = checkIdArticle(request,listeCodesErreur);
+        // TODO : gérer la première enchère ! (donc pas de previous highest bidder)
         Enchere lEnchere = checkHighestBidder(request, idArticle, listeCodesErreur);
         int previousHighestBid = lEnchere.getMontantEnchere();
         Utilisateur newBidder = (Utilisateur) laSession.getAttribute("userInfo");
@@ -84,7 +85,7 @@ public class ServletDisplayAuctionDetails extends HttpServlet {
                         newBidder,
                         lEnchere.getlArticle(),
                         LocalDateTime.now(),
-                        Integer.parseInt(request.getParameter("bid"))
+                        Integer.parseInt(request.getParameter("newBid"))
                 );
                 articleVenduManager.updateArticlePrice(newBid, idArticle);
                 utilisateurManager.updateUserCredit(-newBid, newBidder.getNumUtilisateur());

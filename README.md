@@ -41,7 +41,9 @@ Pre-requisites : SQL Server
        username="utilisateurBDD"
        password="Pa$$w0rd"`
 
-# Proxy issues
+# Issues
+
+## Proxy troubleshoting
 
 ### IntelliJ / Maven :
 
@@ -52,3 +54,7 @@ Pre-requisites : SQL Server
 ### GitHub :
 
 1) In Terminal : git config --global http.proxy http://10.35.0.248:8080
+
+## Internalionalization not working
+1) Right-click ressources folder - the one containing your .properties
+2) In 'Mark Directory as' select 'Ressource root'

@@ -5,21 +5,18 @@ import fr.eni.bo.ArticleVendu;
 import fr.eni.bo.Categorie;
 import fr.eni.bo.Retrait;
 import fr.eni.bo.Utilisateur;
-import fr.eni.dal.ArticleVenduDAO;
-import fr.eni.dal.CategorieDAO;
-import fr.eni.dal.DAOFactory;
-import jdk.vm.ci.meta.Local;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +27,7 @@ import java.util.List;
 public class ServletCreateAuction extends HttpServlet {
     public static ArticleVenduManager articleVenduManager = new ArticleVenduManager();
     public static final CategorieManager categorieManager = new CategorieManager();
-    public static EnchereManager enchereManager = new EnchereManager();
+    public static RetraitManager retraitManager = new RetraitManager();
     public static UtilisateurManager utilisateurManager = new UtilisateurManager();
     final String NOT_STARTED = "A";
     final String IN_PROGRESS = "E";
@@ -60,19 +57,26 @@ public class ServletCreateAuction extends HttpServlet {
         List<Integer> listeCodesErreur = new ArrayList<>();
         HttpSession laSession = request.getSession();
         Utilisateur lUtilisateur = (Utilisateur) laSession.getAttribute("userInfo");
+
+        String articleName, articleDescription, auctionStatus;
+        Categorie category;
+        int startingPrice;
+        LocalDate auctionStartDate, auctionEndDate;
+        Retrait collectPoint;
+
         switch (request.getParameter("btnPressed")) {
             // New Auction
             case "save":
-                String articleName = checkArticleName(request, listeCodesErreur);
-                String articleDescription = checkDescription(request, listeCodesErreur);
-                Categorie category = checkCategory(request, listeCodesErreur);
+                articleName = checkArticleName(request, listeCodesErreur);
+                articleDescription = checkDescription(request, listeCodesErreur);
+                category = checkCategory(request, listeCodesErreur);
                 //Todo : la photo
-                int startingPrice = checkStartingPrice(request, listeCodesErreur);
-                LocalDate auctionStartDate = checkStartDate(request, listeCodesErreur);
-                LocalDate auctionEndDate = checkEndDate(request, listeCodesErreur);
+                startingPrice = checkStartingPrice(request, listeCodesErreur);
+                auctionStartDate = checkStartDate(request, listeCodesErreur);
+                auctionEndDate = checkEndDate(request, listeCodesErreur);
                 checkDates(auctionStartDate, auctionEndDate, listeCodesErreur);
-                String auctionStatus = setAuctionStatus(auctionStartDate, auctionEndDate);
-                Retrait collectPoint = checkCollectPoint(request, listeCodesErreur);
+                auctionStatus = setAuctionStatus(auctionStartDate);
+                collectPoint = checkCollectPoint(request, listeCodesErreur);
 
                 if (listeCodesErreur.size() > 0) {
                     Collections.sort(listeCodesErreur);
@@ -80,7 +84,7 @@ public class ServletCreateAuction extends HttpServlet {
                     doGet(request, response);
                 } else {
                     try {
-                        articleVenduManager.addNewArticle(
+                        ArticleVendu lArticle = articleVenduManager.addNewArticle(
                             articleName,
                             articleDescription,
                             auctionStartDate,
@@ -91,6 +95,12 @@ public class ServletCreateAuction extends HttpServlet {
                             category,
                             collectPoint
                         );
+                        retraitManager.addNewRetrait(
+                            lArticle,
+                            collectPoint.getRue(),
+                            collectPoint.getCodePostal(),
+                            collectPoint.getVille()
+                        );
                         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
                         rd.forward(request, response);
                     } catch (BLLException e) {
@@ -100,16 +110,43 @@ public class ServletCreateAuction extends HttpServlet {
                     }
                 }
                 break;
-            case "cancelCreation":
-                break;
             // Auction Not Started - can still be edited
             case "edit":
-                break;
-            case "cancelEdit":
+                articleName = checkArticleName(request, listeCodesErreur);
+                articleDescription = checkDescription(request, listeCodesErreur);
+                category = checkCategory(request, listeCodesErreur);
+                //Todo : la photo
+                startingPrice = checkStartingPrice(request, listeCodesErreur);
+                auctionStartDate = checkStartDate(request, listeCodesErreur);
+                auctionEndDate = checkEndDate(request, listeCodesErreur);
+                checkDates(auctionStartDate, auctionEndDate, listeCodesErreur);
+                auctionStatus = setAuctionStatus(auctionStartDate);
+                collectPoint = checkCollectPoint(request, listeCodesErreur);
+                try {
+                    articleVenduManager.updateArticle(
+                            articleName,
+                            articleDescription,
+                            auctionStartDate,
+                            auctionEndDate,
+                            startingPrice,
+                            auctionStatus,
+                            collectPoint,
+                            category,
+                            lUtilisateur
+                    );
+                    retraitManager.updateRetrait(collectPoint);
+                } catch (BLLException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "cancelAuction":
-                break;
 
+                break;
+            // Cancelling creating new auction / editing auction
+            case "cancelCreation":
+            case "cancelEdit":
+                response.sendRedirect("encheres");
+                break;
         }
     }
 
@@ -148,7 +185,7 @@ public class ServletCreateAuction extends HttpServlet {
     }
 
     private int checkStartingPrice(HttpServletRequest request, List<Integer> listeCodesErreur) {
-        int startingPrice = 0 ;
+        int startingPrice;
         startingPrice = Integer.parseInt(request.getParameter("startingPrice"));
         if (startingPrice <= 0) {
             listeCodesErreur.add(CodesResultatServlets.STARTING_PRICE_INVALID);
@@ -186,17 +223,17 @@ public class ServletCreateAuction extends HttpServlet {
         if (auctionEndDate.isBefore(auctionStartDate)) {
             listeCodesErreur.add(CodesResultatServlets.ERROR_ENDATE_BEFORE_STARTDATE);
         }
-        if (auctionEndDate.isAfter(LocalDate.now()) || LocalDate.now() == auctionEndDate) {
+        if (auctionEndDate.isAfter(LocalDate.now()) || LocalDate.now().equals(auctionEndDate)) {
             listeCodesErreur.add(CodesResultatServlets.ERROR_ENDDATE_BEFORE_TODAY);
         }
     }
 
-    private String setAuctionStatus(LocalDate auctionStartDate, LocalDate auctionEndDate) {
+    private String setAuctionStatus(LocalDate auctionStartDate) {
         String auctionStatus = "";
         if(LocalDate.now().isBefore(auctionStartDate)) {
             auctionStatus = NOT_STARTED;
         }
-        if (LocalDate.now().isAfter(auctionStartDate) || LocalDate.now() == auctionStartDate) {
+        if (LocalDate.now().isAfter(auctionStartDate) || LocalDate.now().equals(auctionStartDate)) {
             auctionStatus = IN_PROGRESS;
         }
         return auctionStatus;
@@ -206,8 +243,7 @@ public class ServletCreateAuction extends HttpServlet {
         String streetName = checkStreetName(request, listeCodesErreur);
         String zipCode = checkzipCode(request, listeCodesErreur);
         String city = checkCity(request, listeCodesErreur);
-        Retrait collectPoint = new Retrait(streetName, zipCode, city);
-        return collectPoint;
+        return new Retrait(streetName, zipCode, city);
     }
 
     private String checkCity(HttpServletRequest request, List<Integer> listeCodesErreur) {

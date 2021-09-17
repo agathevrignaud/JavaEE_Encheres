@@ -9,16 +9,14 @@
 <!DOCTYPE html>
 <html lang="${cookie['cookie_lang'].value}">
     <head>
-        <title>Accueil</title>
+        <title><fmt:message key="home.title"/></title>
     </head>
     <body>
-
         <%@include file="/WEB-INF/navigation/header.jsp" %>
-
-        <p>Filtres :</p>
+        <p><fmt:message key="home.filterTitle"/></p>
         <form method="post" action="${pageContext.request.contextPath}/filterAuctions">
-            <input type="text" placeholder="Le nom de l'article contient" />
-            <label>Catégories</label>
+            <input type="text" placeholder="<fmt:message key="home.placeholder"/>" />
+            <label><fmt:message key="home.categories"/></label>
             <select>
                 <c:forEach var="c" items="${lesCategories}">
                     <option value="${c.numCategorie}">${c.libelle}</option>
@@ -26,16 +24,16 @@
             </select>
             <!-- Different research filters if logged in or not -->
             <c:if test="${isUserLoggedIn}">
-                <input type="radio" name="optionRdButton" id="optionRdButton" value="buy" onclick="onRdBtnBuy()"/><label>Achats</label>
-                <input type="checkbox" name="groupBuy" id="openAuctions" value="openAuctions" /><label>Enchères ouvertes</label>
-                <input type="checkbox" name="groupBuy" id="participated" value="participated"/><label>mes enchères en cours</label>
-                <input type="checkbox" name="groupBuy" id="won" value="won"/><label>mes enchères remportées</label>
-                <input type="radio" name="optionRdButton" id="optionRdButton" value="sell" onclick="onRdBtnSell()"><label>Mes Ventes</label>
-                <input type="checkbox" name="groupSell" id="myAuctionsInProgress" value="myAuctionsInProgress"/><label>mes ventes en cours</label>
-                <input type="checkbox" name="groupSell" id="myAuctionsNotStarted" value="myAuctionsNotStarted"/><label>ventes non débutées</label>
-                <input type="checkbox" name="groupSell" id="myAuctionsFinished" value="myAuctionsFinished"/><label>ventes terminées</label>
+                <input type="radio" name="optionRdButton" id="optionRdButton" value="buy" onclick="onRdBtnBuy()"/><label><fmt:message key="home.rdBtnBuy"/></label>
+                <input type="checkbox" name="groupBuy" id="openAuctions" value="openAuctions" /><label><fmt:message key="home.grpBuyOpenAuctions"/></label>
+                <input type="checkbox" name="groupBuy" id="participated" value="participated"/><label><fmt:message key="home.grpBuyparticipated"/></label>
+                <input type="checkbox" name="groupBuy" id="won" value="won"/><label><fmt:message key="home.grpBuyWon"/></label>
+                <input type="radio" name="optionRdButton" id="optionRdButton" value="sell" onclick="onRdBtnSell()"><label><fmt:message key="home.rdBtnSell"/></label>
+                <input type="checkbox" name="groupSell" id="myAuctionsInProgress" value="myAuctionsInProgress"/><label><fmt:message key="home.myAuctionsInProgress"/></label>
+                <input type="checkbox" name="groupSell" id="myAuctionsNotStarted" value="myAuctionsNotStarted"/><label><fmt:message key="home.myAuctionsNotStarted"/></label>
+                <input type="checkbox" name="groupSell" id="myAuctionsFinished" value="myAuctionsFinished"/><label><fmt:message key="home.myAuctionsFinished"/></label>
             </c:if>
-            <button type="submit">Rechercher</button>
+            <button type="submit"><fmt:message key="home.search"></fmt:message></button>
         </form>
 
         <!-- Display all articles -->

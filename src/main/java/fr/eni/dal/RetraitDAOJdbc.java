@@ -81,4 +81,27 @@ public class RetraitDAOJdbc implements RetraitDAO {
         return lieuRetrait;
     }
 
+    @Override
+    public void updateRetrait(Retrait lieuRetrait) throws BLLException {
+        BLLException bllException = new BLLException();
+        if (lieuRetrait == null) {
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_CATEGORY);
+            throw bllException;
+        }
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pstmt = cnx.prepareStatement(UPDATE_RETRAIT);
+            pstmt.setString(1, lieuRetrait.getRue());
+            pstmt.setString(2, lieuRetrait.getCodePostal());
+            pstmt.setString(3, lieuRetrait.getVille());
+            pstmt.setInt(4, lieuRetrait.getlArticle().getNumArticle());
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_UPDATE_CATEGORY);
+            myLogger.log(Level.WARNING,"Erreur lors de la mise à jour du retrait lié à l'article " + lieuRetrait.getlArticle().getNumArticle(), bllException);
+            throw bllException;
+        }
+    }
+
 }

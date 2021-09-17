@@ -17,7 +17,7 @@ public class CodesResultatDAL {
     public static final int ERROR_SELECT_ALL_ARTICLES=10101;
     public static final int ERROR_SELECT_ALL_ARTICLES_BY_USER_ID=10102;
     public static final int ERROR_SELECT_ARTICLE_BY_ID=10103;
-    public static final int ERROR_UPDATE_ARTICLE_BID=10104;
+    public static final int ERROR_UPDATE_ARTICLE_PRICE=10104;
     public static final int ERROR_UPDATE_AUCTION_STATUS=10105;
     public static final int ERROR_CREATE_ARTICLE=10106;
 

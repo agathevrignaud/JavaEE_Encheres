@@ -53,6 +53,30 @@ public class ArticleVenduManager {
         return lArticle;
     }
 
+    public ArticleVendu updateArticle(String nomArticle, String description, LocalDate dateDebutEncheres,
+                                      LocalDate dateFinEncheres, int miseAPrix, String etatVente, Retrait lieuRetrait,
+                                      Categorie laCategorie, Utilisateur lUtilisateur) throws BLLException {
+        BLLException bllException = new BLLException();
+        ArticleVendu lArticle = new ArticleVendu(
+                nomArticle,
+                description,
+                dateDebutEncheres,
+                dateFinEncheres,
+                miseAPrix,
+                etatVente,
+                lieuRetrait,
+                laCategorie,
+                lUtilisateur
+        );
+        try {
+            lArticle = articleVenduDAO.updateArticle(lArticle);
+        } catch (Exception e) {
+            myLogger.log(Level.WARNING,"Erreur lors de la création de l'article", bllException);
+            throw bllException;
+        }
+        return lArticle ;
+    }
+
     public void updateArticlePrice(int bid, int idArticle) throws BLLException {
         articleVenduDAO.updateBidOnArticle(bid, idArticle);
     }
