@@ -22,13 +22,13 @@ public class RetraitDAOJdbc implements RetraitDAO {
     private static final String UPDATE_RETRAIT = "UPDATE RETRAITS SET rue=?, code_postal=?, ville=? WHERE no_article=?";
     private static final String DELETE_RETRAIT = "DELETE FROM RETRAITS WHERE no_article =?";
 
-
     @Override
-    public Retrait selectById(int idRetrait) {
+    public Retrait selectById(int idArticle) throws BLLException {
         Retrait lieuRetrait = null;
+        BLLException bllException = new BLLException();
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_RETRAIT_BY_ID);
-            pstmt.setInt(1, idRetrait);
+            pstmt.setInt(1, idArticle);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 ArticleVendu lArticle = new ArticleVendu(
@@ -50,6 +50,9 @@ public class RetraitDAOJdbc implements RetraitDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_RETRAIT_BY_ID);
+            myLogger.log(Level.WARNING,"Erreur lors de la lecture du lieu de retrait de l'article  " + idArticle, bllException);
+            throw bllException;
         }
         return lieuRetrait;
     }

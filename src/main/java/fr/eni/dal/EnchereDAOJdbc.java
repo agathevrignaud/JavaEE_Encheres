@@ -13,30 +13,26 @@ import java.util.logging.Logger;
 
 public class EnchereDAOJdbc implements EnchereDAO {
     private static final Logger myLogger = Logger.getLogger("LogsDAL_Enchere");
-    private static final String SELECT_ALL_BIDS_BY_ARTICLE = "SELECT A.*, U.*, E.* " +
+    private static final String SELECT_ALL = "SELECT A.*, U.*, E.* " +
             "FROM ENCHERES E " +
             "INNER JOIN UTILISATEURS U " +
             "ON E.no_utilisateur = U.no_utilisateur " +
             "INNER JOIN ARTICLES_VENDUS A " +
             "ON A.no_article = E.no_article " +
-            "WHERE E.no_article=? " +
+            "WHERE E.no_article=? " ;
+    private static final String SELECT_ALL_BIDS_BY_ARTICLE = SELECT_ALL +
             "ORDER BY E.montant_enchere DESC";
-    private static final String SELECT_HIGHEST_BID_BY_ARTICLE = "SELECT A.*, U.*, E.* " +
-            "FROM ENCHERES E " +
-            "INNER JOIN UTILISATEURS U " +
-            "ON E.no_utilisateur = U.no_utilisateur " +
-            "INNER JOIN ARTICLES_VENDUS A " +
-            "ON A.no_article = E.no_article " +
-            "WHERE E.no_article=? " +
+    private static final String SELECT_HIGHEST_BID_BY_ARTICLE = SELECT_ALL +
             "AND E.montant_enchere=(SELECT MAX(montant_enchere) FROM ENCHERES) " +
             "ORDER BY E.date_enchere DESC";
     public static final String INSERT_BID = "INSERT INTO ENCHERES VALUES(?,?,?,?)";
-    public static final String DELETE_BID_BY_USER = "DELETE FROM ENCHERES WHERE no_utilisateur=?";
+    public static final String DELETE_BIDS_BY_USER = "DELETE FROM ENCHERES WHERE no_utilisateur=?";
     public static final String DELETE_BIDS_ON_ARTICLE = "DELETE FROM ENCHERES WHERE no_article=?";
 
     @Override
-    public List<Enchere> selectBidByIdArticle(int idArticle) {
+    public List<Enchere> selectBidByIdArticle(int idArticle) throws BLLException {
         List<Enchere> lesEncheres = new ArrayList<>();
+        BLLException bllException = new BLLException();
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_BIDS_BY_ARTICLE);
             pstmt.setInt(1, idArticle);
@@ -47,13 +43,17 @@ public class EnchereDAOJdbc implements EnchereDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_ALL_BIDS_BY_ARTICLE);
+            myLogger.log(Level.WARNING,"Erreur lors de la lecture des enchères en base sur l'article " + idArticle, bllException);
+            throw bllException;
         }
         return lesEncheres;
     }
 
     @Override
-    public Enchere selectHighestBidByIdArticle(int idArticle) {
+    public Enchere selectHighestBidByIdArticle(int idArticle) throws BLLException {
         Enchere lEnchere = null;
+        BLLException bllException = new BLLException();
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_HIGHEST_BID_BY_ARTICLE);
             pstmt.setInt(1, idArticle);
@@ -63,6 +63,9 @@ public class EnchereDAOJdbc implements EnchereDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_HIGHEST_BID_BY_ARTICLE);
+            myLogger.log(Level.WARNING,"Erreur lors de la lecture de la plus haute enchère sur l'article " + idArticle, bllException);
+            throw bllException;
         }
         return lEnchere;
     }
@@ -95,12 +98,12 @@ public class EnchereDAOJdbc implements EnchereDAO {
     public void deleteAllBidsByUser(int idUser) throws BLLException {
         BLLException bllException = new BLLException();
         try (Connection cnx = ConnectionProvider.getConnection()) {
-            PreparedStatement pstmt = cnx.prepareStatement(DELETE_BID_BY_USER);
+            PreparedStatement pstmt = cnx.prepareStatement(DELETE_BIDS_BY_USER);
             pstmt.setInt(1, idUser);
             pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            bllException.ajouterErreur(CodesResultatDAL.ERROR_DELETE_BID_BY_USER);
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_DELETE_BIDS_BY_USER);
             myLogger.log(Level.WARNING,"Erreur lors de la suppression des offres faites par l'utilisateur " + idUser, bllException);
             throw bllException;
         }

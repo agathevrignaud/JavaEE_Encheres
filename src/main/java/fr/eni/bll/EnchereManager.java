@@ -19,11 +19,11 @@ public class EnchereManager {
         enchereDAO = DAOFactory.getEnchereDAO();
     }
 
-    public List<Enchere> getAllBidsByIdArticle(int idArticle) {
+    public List<Enchere> getAllBidsByIdArticle(int idArticle) throws BLLException {
         return enchereDAO.selectBidByIdArticle(idArticle);
     }
 
-    public Enchere getHighestBidByIdArticle(int idArticle) {
+    public Enchere getHighestBidByIdArticle(int idArticle) throws BLLException {
         return enchereDAO.selectHighestBidByIdArticle(idArticle);
     }
 

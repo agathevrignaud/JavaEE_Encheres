@@ -7,7 +7,6 @@ import fr.eni.bo.Retrait;
 import fr.eni.bo.Utilisateur;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,22 +27,16 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
     private static final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article,description,date_debut_encheres, " +
             "date_fin_encheres, prix_initial, etat_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?)";
     private static final String UPDATE_ARTICLE_BID = "UPDATE ARTICLES_VENDUS SET prix_vente=? WHERE no_article=?";
-    private static final String DELETE_ALL_ARTICLES_BY_USER_ID="DELETE FROM ARTICLES_VENDUS WHERE no_utilisateur=?";
-    private static final String SELECT_BY_ID = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
     private static final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS WHERE no_article=?";
     private static final String UPDATE_ARTICLE_VENDU = "UPDATE ARTICLES_VENDUS SET nom_article=?, description=?, date_debut_encheres=?, date_fin_encheres=?, prix_initial=?, etat_vente=?, no_utilisateur=?, no_categorie=? WHERE no_article=?";
     private static final String UPDATE_AUCTION_STATUS="UPDATE ARTICLES_VENDUS SET etat_vente=? WHERE no_article=?";
+
+    // Fonction de recherche de la page d'accueil
     private static final String SELECT_ARTICLES_BY_NAME = SELECT_ALL_ARTICLES + " WHERE A.nom_article LIKE '%?%'";
 
-    // TODO : fournir List<ArticleVendu> avec toutes les infos, le tri se fera côté front ?
-
-    /**
-     * Séléctionner tous les articles
-     */
     @Override
-    public List<ArticleVendu> selectAll() {
+    public List<ArticleVendu> selectAll() throws BLLException {
         List<ArticleVendu> lesArticles = new ArrayList<>();
-
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_ARTICLES);
             ResultSet rs = pstmt.executeQuery();
@@ -86,12 +79,16 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            BLLException bllException = new BLLException();
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_ALL_ARTICLES);
+            myLogger.log(Level.WARNING,"Erreur lors de la lecture des articles en base", bllException);
+            throw bllException;
         }
         return lesArticles;
     }
 
     @Override
-    public List<ArticleVendu> selectAllByUserId(int idUser) {
+    public List<ArticleVendu> selectAllByUserId(int idUser) throws BLLException {
         List<ArticleVendu> lesArticles = new ArrayList<>();
 
         try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -137,13 +134,17 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            BLLException bllException = new BLLException();
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_ALL_ARTICLES_BY_USER_ID);
+            myLogger.log(Level.WARNING,"Erreur lors de la lecture des articles de l'utilisateur" + idUser, bllException);
+            throw bllException;
         }
         return lesArticles;
     }
 
 
     @Override
-    public ArticleVendu selectArticleById(int idArticle) {
+    public ArticleVendu selectArticleById(int idArticle) throws BLLException {
         ArticleVendu lArticle = null ;
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ARTICLE_BY_ID);
@@ -187,6 +188,10 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            BLLException bllException = new BLLException();
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_ARTICLE_BY_ID);
+            myLogger.log(Level.WARNING,"Erreur lors de la lecture de l'article " + idArticle, bllException);
+            throw bllException;
         }
         return lArticle;
     }
@@ -195,7 +200,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
     public ArticleVendu createArticle(ArticleVendu lArticle) throws BLLException {
         BLLException bllException = new BLLException();
         if (lArticle == null) {
-            bllException.ajouterErreur(CodesResultatDAL.ERROR_CREATE_BID);
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_CREATE_ARTICLE);
             throw bllException;
         }
         try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -214,7 +219,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            bllException.ajouterErreur(CodesResultatDAL.ERROR_CREATE_BID);
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_CREATE_ARTICLE);
             myLogger.log(Level.WARNING,"Erreur lors de la création d'une nouvelle enchère", bllException);
             throw bllException;
         }
@@ -253,16 +258,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
         }
     }
 
-    @Override
-    public void deleteAllArticlesByUserId(int idUser) {
-
-    }
-
     // Trucs d'Ewen
-
-    /**
-     * Supprimer un article à partir de son id
-     */
     @Override
     public void deleteArticle(int id) {
         try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -273,7 +269,6 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             e.printStackTrace();
         }
     }
-
 
 
     @Override

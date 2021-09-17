@@ -22,11 +22,11 @@ public class ArticleVenduManager {
         return articleVenduDAO.selectAll();
     }
 
-    public List<ArticleVendu> getAllArticlesByUser(int idUser) {
+    public List<ArticleVendu> getAllArticlesByUser(int idUser) throws BLLException {
         return articleVenduDAO.selectAllByUserId(idUser);
     }
 
-    public ArticleVendu getArticleById(int idArticle) {
+    public ArticleVendu getArticleById(int idArticle) throws BLLException {
         return articleVenduDAO.selectArticleById(idArticle);
     }
 

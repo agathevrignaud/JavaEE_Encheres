@@ -20,11 +20,9 @@ public class CategorieDAOJdbc implements CategorieDAO {
     private static final String SELECT_BY_ID = "SELECT * FROM CATEGORIES WHERE no_categorie = ?";
     private static final String CHECK_IF_CATEGORY_IS_USED = "SELECT COUNT(no_categorie) as nbrUtilisations FROM ARTICLES_VENDUS WHERE no_categorie=?";
 
-    /**
-     * Séléctionne toutes le catégories
-     */
     @Override
-    public List<Categorie> selectAll() {
+    public List<Categorie> selectAll() throws BLLException {
+        BLLException bllException = new BLLException();
         List<Categorie> lesCategories = new ArrayList<>();
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_CATEGORIES);
@@ -38,13 +36,13 @@ public class CategorieDAOJdbc implements CategorieDAO {
             }
         } catch(Exception e) {
             e.printStackTrace();
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_ALL_CATEGORIES);
+            myLogger.log(Level.WARNING,"Erreur lors de la lecture des catégories en base", bllException);
+            throw bllException;
         }
         return lesCategories;
     }
 
-    /**
-     * Créer une catégorie
-     */
     @Override
     public void createCategory(Categorie laCategorie) throws BLLException {
         BLLException bllException = new BLLException();
@@ -65,9 +63,6 @@ public class CategorieDAOJdbc implements CategorieDAO {
         }
     }
 
-    /**
-     * Mettre à jour une catégorie
-     */
     @Override
     public void updateCategory(Categorie laCategorie) throws BLLException {
         BLLException bllException = new BLLException();
@@ -88,10 +83,7 @@ public class CategorieDAOJdbc implements CategorieDAO {
             throw bllException;
         }
     }
-
-    /**
-     * Supprimer une catégorie
-     */
+    
     @Override
     public void deleteCategory(int idCategory) throws BLLException {
         try (Connection cnx = ConnectionProvider.getConnection()) {

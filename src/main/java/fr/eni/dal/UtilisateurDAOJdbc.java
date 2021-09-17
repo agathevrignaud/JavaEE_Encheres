@@ -40,7 +40,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         } catch (Exception e) {
             e.printStackTrace();
             BLLException bllException = new BLLException();
-            bllException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_ALL);
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_ALL_USERS);
             myLogger.log(Level.WARNING,"Erreur lors de la sélection des utilisateurs", bllException);
             throw bllException;
         }
@@ -60,7 +60,7 @@ public class UtilisateurDAOJdbc implements UtilisateurDAO {
         } catch (Exception e) {
             e.printStackTrace();
             BLLException bllException = new BLLException();
-            bllException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_BY_ID);
+            bllException.ajouterErreur(CodesResultatDAL.ERROR_SELECT_USER_BY_ID);
             myLogger.log(Level.WARNING,"Erreur lors de la sélection de l'utilisateur (idUser : " + idUser +")", bllException);
             throw bllException;
         }

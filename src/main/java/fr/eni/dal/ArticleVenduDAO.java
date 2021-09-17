@@ -6,13 +6,12 @@ import fr.eni.bo.ArticleVendu;
 import java.util.List;
 
 public interface ArticleVenduDAO {
-    List<ArticleVendu> selectAll();
-    List<ArticleVendu> selectAllByUserId(int idUser);
-    ArticleVendu selectArticleById(int idArticle);
+    List<ArticleVendu> selectAll() throws BLLException;
+    List<ArticleVendu> selectAllByUserId(int idUser) throws BLLException;
+    ArticleVendu selectArticleById(int idArticle) throws BLLException;
     ArticleVendu createArticle(ArticleVendu lArticle) throws BLLException;
     void updateBidOnArticle(int bid, int idArticle) throws BLLException;
     void updateAuctionStatus(String newStatus, int idArticle) throws BLLException;
     void updateArticle(ArticleVendu lArticle);
-    void deleteAllArticlesByUserId(int idUser);
     void deleteArticle(int id);
 }

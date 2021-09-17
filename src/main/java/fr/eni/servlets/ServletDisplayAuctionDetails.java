@@ -1,6 +1,7 @@
 package fr.eni.servlets;
 
 import fr.eni.bll.ArticleVenduManager;
+import fr.eni.bll.BLLException;
 import fr.eni.bll.EnchereManager;
 import fr.eni.bll.UtilisateurManager;
 import fr.eni.bo.ArticleVendu;
@@ -33,42 +34,41 @@ public class ServletDisplayAuctionDetails extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //  TODO : rentre l'id article dynamique (sur 2 en dur)
-        // request.getParameter("idArticle")
-        int idArticle = Integer.parseInt(request.getParameter("idArticle"));
-        ArticleVendu lArticle = articleVenduManager.getArticleById(idArticle);
-        request.setAttribute("lArticle", lArticle);
+        List<Integer> listeCodesErreur = new ArrayList<>();
+        int idArticle = checkIdArticle(request, listeCodesErreur);
+        ArticleVendu lArticle = checkArticle(request, idArticle, listeCodesErreur);
+        Enchere lEnchere = checkHighestBidder(request, idArticle, listeCodesErreur);
+        checkBidder(request, idArticle, listeCodesErreur);
 
-        Enchere lEnchere = enchereManager.getHighestBidByIdArticle(idArticle);
-        request.setAttribute("lEnchere", lEnchere);
-
-        List<Enchere> lesEncherisseurs = enchereManager.getAllBidsByIdArticle(idArticle);
-        request.setAttribute("lesEncherisseurs", lesEncherisseurs);
-
-        if (IN_PROGRESS.equals(lArticle.getEtatVente())) {
-            request.setAttribute("highestBidder", lEnchere.getlUtilisateur());
-            request.setAttribute("auctionInProgress", true);
-            request.setAttribute("auctionEditable", false);
+        if (listeCodesErreur.size() > 0) {
+            request.setAttribute("listeCodesErreur",listeCodesErreur);
+            doGet(request, response);
         } else {
-            if (NOT_STARTED.equals(lArticle.getEtatVente())) {
-                request.setAttribute("auctionInProgress", false);
-                request.setAttribute("auctionEditable", true);
-            } else {
-                request.setAttribute("auctionInProgress", false);
+            if (IN_PROGRESS.equals(lArticle.getEtatVente())) {
+                request.setAttribute("highestBidder", lEnchere.getlUtilisateur());
+                request.setAttribute("auctionInProgress", true);
                 request.setAttribute("auctionEditable", false);
+            } else {
+                if (NOT_STARTED.equals(lArticle.getEtatVente())) {
+                    request.setAttribute("auctionInProgress", false);
+                    request.setAttribute("auctionEditable", true);
+                } else {
+                    request.setAttribute("auctionInProgress", false);
+                    request.setAttribute("auctionEditable", false);
+                }
             }
+            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/displayAuctionDetails.jsp");
+            rd.forward(request, response);
         }
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/displayAuctionDetails.jsp");
-        rd.forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Integer> listeCodesErreur = new ArrayList<>();
         HttpSession laSession = request.getSession();
-        int newBid = Integer.parseInt(request.getParameter("newBid"));
-        int idArticle = Integer.parseInt(request.getParameter("idArticle"));
-        Enchere lEnchere = enchereManager.getHighestBidByIdArticle(idArticle);
+        int newBid = checkNewBid(request, listeCodesErreur);
+        int idArticle = checkIdArticle(request,listeCodesErreur);
+        Enchere lEnchere = checkHighestBidder(request, idArticle, listeCodesErreur);
         int previousHighestBid = lEnchere.getMontantEnchere();
         Utilisateur newBidder = (Utilisateur) laSession.getAttribute("userInfo");
 
@@ -106,6 +106,60 @@ public class ServletDisplayAuctionDetails extends HttpServlet {
             listeCodesErreur.add(CodesResultatServlets.NOT_ENOUGH_TO_BID);
         }
         return newBid ;
+    }
+
+    private int checkIdArticle(HttpServletRequest request, List<Integer> listeCodesErreur) {
+        int idArticle;
+        idArticle = Integer.parseInt(request.getParameter("idArticle"));
+        if(idArticle == 0) {
+            listeCodesErreur.add(CodesResultatServlets.EMPTY_ID_ARTICLE);
+        }
+        return idArticle;
+    }
+
+    private ArticleVendu checkArticle(HttpServletRequest request, int idArticle, List<Integer> listeCodesErreur) {
+        ArticleVendu lArticle = null ;
+        try {
+            lArticle = articleVenduManager.getArticleById(idArticle);
+            request.setAttribute("lArticle", lArticle);
+        } catch (Exception e) {
+            e.printStackTrace();
+            listeCodesErreur.add(CodesResultatServlets.EMPTY_ARTICLE);
+        }
+        return lArticle;
+    }
+
+    private Enchere checkHighestBidder(HttpServletRequest request, int idArticle, List<Integer> listeCodesErreur) {
+        Enchere lEnchere = null;
+        try {
+            lEnchere = enchereManager.getHighestBidByIdArticle(idArticle);
+            request.setAttribute("lEnchere", lEnchere);
+        } catch (Exception e) {
+            e.printStackTrace();
+            listeCodesErreur.add(CodesResultatServlets.EMPTY_ARTICLE);
+        }
+        return lEnchere;
+    }
+
+    private void checkBidder(HttpServletRequest request, int idArticle, List<Integer> listeCodesErreur) {
+        List<Enchere> lesEncherisseurs ;
+        try {
+            lesEncherisseurs = enchereManager.getAllBidsByIdArticle(idArticle);
+            request.setAttribute("lesEncherisseurs", lesEncherisseurs);
+        } catch (Exception e) {
+            e.printStackTrace();
+            listeCodesErreur.add(CodesResultatServlets.EMPTY_BIDDERS_LIST);
+        }
+    }
+
+    private int checkNewBid(HttpServletRequest request, List<Integer> listeCodesErreur) {
+        Integer.parseInt(request.getParameter("newBid"));
+        int newBid;
+        newBid = Integer.parseInt(request.getParameter("newBid"));
+        if(newBid == 0) {
+            listeCodesErreur.add(CodesResultatServlets.EMPTY_NEW_BID);
+        }
+        return newBid;
     }
 
 }
