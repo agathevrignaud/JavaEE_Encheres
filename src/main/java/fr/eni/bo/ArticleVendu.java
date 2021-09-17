@@ -15,7 +15,7 @@ public class ArticleVendu {
     private Categorie laCategorie;
     private Utilisateur lUtilisateur;
 
-    public ArticleVendu() {
+    public ArticleVendu(int idArticle, String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, int miseAPrix, String etatVente, Categorie laCategorie, Utilisateur utilisateur) {
     }
 
     public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, Retrait lieuRetrait, Categorie laCategorie, Utilisateur lUtilisateur) {

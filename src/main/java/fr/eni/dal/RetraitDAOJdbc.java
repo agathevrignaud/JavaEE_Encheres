@@ -27,13 +27,13 @@ public class RetraitDAOJdbc implements RetraitDAO {
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 ArticleVendu lArticle = new ArticleVendu(
-                        rs.getInt("A.no_article"),
-                        rs.getString("A.nom_article"),
-                        rs.getString("A.description"),
-                        rs.getDate("A.date_debut_encheres").toLocalDate(),
-                        rs.getDate("A.date_fin_encheres").toLocalDate(),
-                        rs.getInt("A.prix_initial"),
-                        rs.getInt("A.prix_vente")
+                        rs.getInt("no_article"),
+                        rs.getString("nom_article"),
+                        rs.getString("description"),
+                        rs.getDate("date_debut_encheres").toLocalDate(),
+                        rs.getDate("date_fin_encheres").toLocalDate(),
+                        rs.getInt("prix_initial"),
+                        rs.getInt("prix_vente")
                 );
                 lieuRetrait = new Retrait(
                         rs.getString("rue"),
@@ -79,10 +79,11 @@ public class RetraitDAOJdbc implements RetraitDAO {
         try(Connection cnx = ConnectionProvider.getConnection()){
             PreparedStatement pstmt = cnx.prepareStatement(UPDATE_RETRAIT);
 
-            pstmt.setInt(1, retrait.getlArticle().getNumArticle());
-            pstmt.setString(2, retrait.getRue());
-            pstmt.setString(3, retrait.getCodePostal());
-            pstmt.setString(4, retrait.getVille());
+            pstmt.setString(1, retrait.getRue());
+            pstmt.setString(2, retrait.getCodePostal());
+            pstmt.setString(3, retrait.getVille());
+            pstmt.setInt(4, retrait.getlArticle().getNumArticle());
+
             pstmt.executeUpdate();
             pstmt.close();
         } catch (Exception e) {

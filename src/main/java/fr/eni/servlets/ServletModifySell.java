@@ -29,7 +29,6 @@ public class ServletModifySell extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
-
         ArticleVenduManager articleVenduManager = new ArticleVenduManager();
         RetraitManager retraitManager = new RetraitManager();
 
@@ -37,11 +36,10 @@ public class ServletModifySell extends HttpServlet {
         List<Categorie> listeCategorie = dao.selectAll();
         request.setAttribute("listeCategorie", listeCategorie);
 
-        //TODO: récupérer l'id de l'article sur lequel l'utilisateur à cliqué avant d'arriver sur la page d'annulation
         ArticleVendu articleVendu = articleVenduManager.getArticleById(1);
         Retrait retrait = retraitManager.getRetraitById(articleVendu.getNumArticle());
 
-        request.setAttribute("articleVenduManager",articleVenduManager);
+        request.setAttribute("articleVenduManager", articleVenduManager);
         request.setAttribute("articleVendu", articleVendu);
         request.setAttribute("retraitManager", retraitManager);
         request.setAttribute("retrait", retrait);
@@ -57,31 +55,29 @@ public class ServletModifySell extends HttpServlet {
 
         if ("save".equals(request.getParameter("btnPressed"))) {
             try {
-                articleVenduManager.updateArticle(
-                        request.getParameter("nomArticle"),
-                        request.getParameter("descArticle"),
-                        LocalDate.parse(request.getParameter("debutEnchere")),
-                        LocalDate.parse(request.getParameter("finEnchere")),
-                        Integer.parseInt(request.getParameter("prixArticle")),
-                        "C",
-                        categorieManager.selectCategoryById(Integer.parseInt(request.getParameter("categories"))),
-                        utilisateurManager.getUserById(lUtilisateur.getNumUtilisateur())
-                );
+
+                ArticleVendu articleVendu = articleVenduManager.getArticleById(Integer.parseInt(request.getParameter("idArticle")));
+                articleVendu.setNomArticle(request.getParameter("nomArticle"));
+                articleVendu.setDescription(request.getParameter("descArticle"));
+                articleVendu.setDateDebutEnchere(LocalDate.parse(request.getParameter("debutEnchere")));
+                articleVendu.setDateFinEnchere(LocalDate.parse(request.getParameter("finEnchere")));
+                articleVendu.setEtatVente("C");
+                articleVendu.setLaCategorie(categorieManager.selectCategoryById(Integer.parseInt(request.getParameter("categories"))));
+                articleVendu.setlUtilisateur(utilisateurManager.getUserById(lUtilisateur.getNumUtilisateur()));
+
+                articleVenduManager.updateArticle(articleVendu);
+
+                        retraitManager.updateRetrait(
+
+                                articleVendu,
+                                request.getParameter("rue"),
+                                request.getParameter("cp"),
+                                request.getParameter("ville")
+                        );
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            try {
-                retraitManager.updateRetrait(
-
-                articleVenduManager.getArticleById(1),
-                        request.getParameter("rue"),
-                        request.getParameter("cp"),
-                        request.getParameter("ville")
-                );
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
             RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
             rd.forward(request, response);
         }

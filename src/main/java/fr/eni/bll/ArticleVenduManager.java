@@ -13,7 +13,9 @@ import java.util.List;
 public class ArticleVenduManager {
     private final ArticleVenduDAO articleVenduDAO;
 
-    public ArticleVenduManager() { articleVenduDAO = DAOFactory.getArticleVenduDAO();}
+    public ArticleVenduManager() {
+        articleVenduDAO = DAOFactory.getArticleVenduDAO();
+    }
 
     public List<ArticleVendu> getAllArticles() {
         return articleVenduDAO.selectAll();
@@ -24,7 +26,7 @@ public class ArticleVenduManager {
     }
 
     public ArticleVendu addNewArticle(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-                              int miseAPrix, String etatVente, Utilisateur lUtilisateur, Categorie laCategorie) {
+                                      int miseAPrix, String etatVente, Utilisateur lUtilisateur, Categorie laCategorie) {
         ArticleVendu lArticle = new ArticleVendu(
                 nomArticle,
                 description,
@@ -46,10 +48,7 @@ public class ArticleVenduManager {
         articleVenduDAO.deleteAllArticlesByUserId(idUser);
     }
 
-    public void updateArticle(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-                              int miseAPrix, String etatVente, Categorie laCategorie, Utilisateur utilisateur) {
-        ArticleVendu articleVendu;
-        articleVendu = new ArticleVendu(nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix, etatVente, laCategorie, utilisateur);
+    public void updateArticle(ArticleVendu articleVendu) {
         articleVenduDAO.updateArticle(articleVendu);
     }
 

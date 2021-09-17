@@ -1,6 +1,5 @@
 package fr.eni.dal;
 
-import fr.eni.bll.BLLException;
 import fr.eni.bo.ArticleVendu;
 import fr.eni.bo.Categorie;
 import fr.eni.bo.Retrait;
@@ -9,7 +8,6 @@ import fr.eni.bo.Utilisateur;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
     private static final String SELECT_ALL_ARTICLES = "SELECT U.*, A.*, C.*, R.* " +

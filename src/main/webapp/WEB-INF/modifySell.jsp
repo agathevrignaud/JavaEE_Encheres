@@ -30,6 +30,7 @@
     </div>
     <div class="card-body">
       <form action="${pageContext.request.contextPath}/modifysell" method="post">
+        <input type="hidden" value="${requestScope.articleVendu.numArticle}" name="idArticle"/>
 
         <label for="nomArticle">Article :</label>
         <input type="text" id="nomArticle" name="nomArticle" class="form-control" placeholder="${requestScope.articleVendu.nomArticle}"/><br/>
