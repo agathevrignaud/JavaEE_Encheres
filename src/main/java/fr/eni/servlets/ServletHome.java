@@ -18,9 +18,13 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-@WebServlet(value = "/encheres")
+@WebServlet(urlPatterns = {
+        "/encheres",
+        "/filterAuctions"
+})
 public class ServletHome extends HttpServlet {
     public static final ArticleVenduManager articleVenduManager = new ArticleVenduManager();
     public static final CategorieManager categorieManager = new CategorieManager();
@@ -52,11 +56,52 @@ public class ServletHome extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        // TODO : gérer la recherche
-
+        List<ArticleVendu> lesArticles = getSelectedOptions(request);
+        request.setAttribute("lesArticles", lesArticles);
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
         rd.forward(request, response);
+    }
+
+    private List<ArticleVendu> getSelectedOptions(HttpServletRequest request) {
+        List<ArticleVendu> lesArticles = new ArrayList<>();
+        switch (request.getParameter("optionRdButton")) {
+            case "buy":
+                String[] optionsBuy = request.getParameterValues("groupBuy");
+                List optionsBuyList = Arrays.asList(optionsBuy);
+                if (optionsBuyList.size() > 0) {
+                    if (optionsBuyList.contains("openAuctions")) {
+                        //ceux sur lequel y a pas de participation
+                    }
+                    if (optionsBuyList.contains("participated")) {
+                        //ceux sur lequel y a une participation
+                    }
+                    if (optionsBuyList.contains("won")) {
+                        //ceux sur lequel c gagné
+                    }
+                } else {
+                    //on affiche tout balec
+                }
+                break;
+            case "sell":
+                String[] optionsSell = request.getParameterValues("groupBuy");
+                List optionsSellList = Arrays.asList(optionsSell);
+                if (optionsSellList.size() > 0) {
+                    if (optionsSellList.contains("myAuctionsInProgress")) {
+                        //mes ventes non commencées
+                    }
+                    if (optionsSellList.contains("myAuctionsNotStarted")) {
+                        //mes ventes en cours
+                    }
+                    if (optionsSellList.contains("myAuctionsFinished")) {
+                        //mes ventes non terminées
+                    }
+                } else {
+                    //On montre tout
+                }
+                break;
+
+        }
+        return lesArticles;
     }
 
     private void updateAllAuctions(Enchere lEnchere) {

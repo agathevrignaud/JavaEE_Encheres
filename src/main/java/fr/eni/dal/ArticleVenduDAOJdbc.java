@@ -23,32 +23,17 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             "ON A.no_categorie = C.no_categorie " +
             "INNER JOIN RETRAITS R " +
             "ON A.no_article = R.no_article";
-    private static final String SELECT_ALL_ARTICLES_BY_USER_ID = "SELECT U.*, A.*, C.*, R.* " +
-            "FROM ARTICLES_VENDUS A " +
-            "INNER JOIN UTILISATEURS U " +
-            "ON A.no_utilisateur = U.no_utilisateur " +
-            "INNER JOIN CATEGORIES C " +
-            "ON A.no_categorie = C.no_categorie " +
-            "INNER JOIN RETRAITS R " +
-            "ON A.no_article = R.no_article " +
-            "WHERE U.no_utilisateur=?";
-    private static final String SELECT_ARTICLE_BY_ID = "SELECT U.*, A.*, C.*, R.* " +
-            "FROM ARTICLES_VENDUS A " +
-            "INNER JOIN UTILISATEURS U " +
-            "ON A.no_utilisateur = U.no_utilisateur " +
-            "INNER JOIN CATEGORIES C " +
-            "ON A.no_categorie = C.no_categorie " +
-            "INNER JOIN RETRAITS R " +
-            "ON A.no_article = R.no_article " +
-            "WHERE A.no_article=?";
+    private static final String SELECT_ALL_ARTICLES_BY_USER_ID = SELECT_ALL_ARTICLES + " WHERE U.no_utilisateur=?";
+    private static final String SELECT_ARTICLE_BY_ID = SELECT_ALL_ARTICLES + " WHERE A.no_article=?";
     private static final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article,description,date_debut_encheres, " +
             "date_fin_encheres, prix_initial, etat_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?)";
     private static final String UPDATE_ARTICLE_BID = "UPDATE ARTICLES_VENDUS SET prix_vente=? WHERE no_article=?";
     private static final String DELETE_ALL_ARTICLES_BY_USER_ID="DELETE FROM ARTICLES_VENDUS WHERE no_utilisateur=?";
     private static final String SELECT_BY_ID = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
-    private static final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
+    private static final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS WHERE no_article=?";
     private static final String UPDATE_ARTICLE_VENDU = "UPDATE ARTICLES_VENDUS SET nom_article=?, description=?, date_debut_encheres=?, date_fin_encheres=?, prix_initial=?, etat_vente=?, no_utilisateur=?, no_categorie=? WHERE no_article=?";
     private static final String UPDATE_AUCTION_STATUS="UPDATE ARTICLES_VENDUS SET etat_vente=? WHERE no_article=?";
+    private static final String SELECT_ARTICLES_BY_NAME = SELECT_ALL_ARTICLES + " WHERE A.nom_article LIKE '%?%'";
 
     // TODO : fournir List<ArticleVendu> avec toutes les infos, le tri se fera côté front ?
 

@@ -16,7 +16,7 @@
         <%@include file="/WEB-INF/navigation/header.jsp" %>
 
         <p>Filtres :</p>
-        <form>
+        <form method="post" action="${pageContext.request.contextPath}/filterAuctions">
             <input type="text" placeholder="Le nom de l'article contient" />
             <label>Catégories</label>
             <select>
@@ -26,24 +26,17 @@
             </select>
             <!-- Different research filters if logged in or not -->
             <c:if test="${isUserLoggedIn}">
-
                 <input type="radio" name="optionRdButton" id="optionRdButton" value="buy" onclick="onRdBtnBuy()"/><label>Achats</label>
-
                 <input type="checkbox" name="groupBuy" id="openAuctions" value="openAuctions" /><label>Enchères ouvertes</label>
                 <input type="checkbox" name="groupBuy" id="participated" value="participated"/><label>mes enchères en cours</label>
                 <input type="checkbox" name="groupBuy" id="won" value="won"/><label>mes enchères remportées</label>
-
                 <input type="radio" name="optionRdButton" id="optionRdButton" value="sell" onclick="onRdBtnSell()"><label>Mes Ventes</label>
-
                 <input type="checkbox" name="groupSell" id="myAuctionsInProgress" value="myAuctionsInProgress"/><label>mes ventes en cours</label>
                 <input type="checkbox" name="groupSell" id="myAuctionsNotStarted" value="myAuctionsNotStarted"/><label>ventes non débutées</label>
                 <input type="checkbox" name="groupSell" id="myAuctionsFinished" value="myAuctionsFinished"/><label>ventes terminées</label>
-
             </c:if>
+            <button type="submit">Rechercher</button>
         </form>
-
-
-
 
         <!-- Display all articles -->
         <c:forEach var="a" items="${lesArticles}">

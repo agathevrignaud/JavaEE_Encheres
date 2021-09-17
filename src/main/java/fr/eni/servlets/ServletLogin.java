@@ -71,13 +71,13 @@ public class ServletLogin extends HttpServlet {
                 lUtilisateur = checkUser(request, listeCodesErreur);
                 if (listeCodesErreur.size() > 0) {
                     request.setAttribute("listeCodesErreur",listeCodesErreur);
-                    doGet(request, response);
+                    rd = request.getRequestDispatcher("/WEB-INF/login.jsp");
+                    rd.forward(request, response);
                 } else {
                     HttpSession laSession = request.getSession();
                     laSession.setAttribute("isUserLoggedIn", true );
                     laSession.setAttribute("userInfo", lUtilisateur);
-                    rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
-                    rd.forward(request, response);
+                    response.sendRedirect("encheres");
                 }
                 break;
         }

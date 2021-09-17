@@ -16,8 +16,7 @@ public class ServletLogout extends HttpServlet {
         HttpSession laSession = request.getSession();
         laSession.setAttribute("isUserLoggedIn", false );
         laSession.setAttribute("userInfo", null);
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
-        rd.forward(request, response);
+        response.sendRedirect("encheres");
     }
 
     @Override
