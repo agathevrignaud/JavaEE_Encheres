@@ -58,7 +58,6 @@ public class ServletModifySell extends HttpServlet {
         if ("save".equals(request.getParameter("btnPressed"))) {
             try {
                 articleVenduManager.updateArticle(
-
                         request.getParameter("nomArticle"),
                         request.getParameter("descArticle"),
                         LocalDate.parse(request.getParameter("debutEnchere")),

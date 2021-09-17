@@ -76,6 +76,17 @@ public class ArticleVendu {
         this.lUtilisateur = lUtilisateur;
     }
 
+    public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEnchere, LocalDate dateFinEnchere, int miseAPrix, String etatVente, Categorie laCategorie, Utilisateur lUtilisateur) {
+        this.nomArticle = nomArticle;
+        this.description = description;
+        this.dateDebutEnchere = dateDebutEnchere;
+        this.dateFinEnchere = dateFinEnchere;
+        this.miseAPrix = miseAPrix;
+        this.etatVente = etatVente;
+        this.laCategorie = laCategorie;
+        this.lUtilisateur = lUtilisateur;
+    }
+
     public int getNumArticle() {
         return numArticle;
     }

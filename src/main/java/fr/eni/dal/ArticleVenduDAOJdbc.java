@@ -33,6 +33,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             "date_fin_encheres, prix_initial, etat_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?)";
     private static final String UPDATE_ARTICLE_BID = "UPDATE ARTICLES_VENDUS SET prix_vente=? WHERE no_article=?";
     private static final String DELETE_ALL_ARTICLES_BY_USER_ID="DELETE FROM ARTICLES_VENDUS WHERE no_utilisateur=?";
+    private static final String UPDATE_ARTICLE_VENDU = "UPDATE ARTICLES_VENDUS SET nom_article=?, description=?, date_debut_encheres=?, date_fin_encheres=?, prix_initial=?, etat_vente=?, no_utilisateur=?, no_categorie=? WHERE no_article=?";
 
     @Override
     public List<ArticleVendu> selectAll() {
@@ -167,10 +168,34 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             pstmt.setInt(1, bid);
             pstmt.setInt(2, idArticle);
             pstmt.executeUpdate();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void updateArticle(ArticleVendu articleVendu) {
+        try(Connection cnx = ConnectionProvider.getConnection()){
+            PreparedStatement pstmt = cnx.prepareStatement(UPDATE_ARTICLE_VENDU);
+
+            pstmt.setString(1, articleVendu.getNomArticle());
+            pstmt.setString(2, articleVendu.getDescription());
+            pstmt.setDate(3, Date.valueOf(articleVendu.getDateDebutEnchere()));
+            pstmt.setDate(4, Date.valueOf(articleVendu.getDateFinEnchere()));
+            pstmt.setInt(5, articleVendu.getMiseAPrix());
+            pstmt.setString(6, articleVendu.getEtatVente());
+            pstmt.setInt(7, articleVendu.getlUtilisateur().getNumUtilisateur());
+            pstmt.setInt(8, articleVendu.getLaCategorie().getNumCategorie());
+            pstmt.setInt(9, articleVendu.getNumArticle());
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
     @Override
     public void deleteAllArticlesByUserId(int idUser) {

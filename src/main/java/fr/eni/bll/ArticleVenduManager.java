@@ -46,4 +46,12 @@ public class ArticleVenduManager {
     public void cancelAllSalesByUser(int idUser) {
         articleVenduDAO.deleteAllArticlesByUserId(idUser);
     }
+
+    public void updateArticle(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+                              int miseAPrix, String etatVente, Categorie laCategorie, Utilisateur utilisateur) {
+        ArticleVendu articleVendu;
+        articleVendu = new ArticleVendu(nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix, etatVente, laCategorie, utilisateur);
+        articleVenduDAO.updateArticle(articleVendu);
+    }
+
 }
