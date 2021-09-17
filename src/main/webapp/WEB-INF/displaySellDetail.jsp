@@ -20,10 +20,10 @@
             </c:when>
             <c:when test="${!auctionInProgress && !auctionEditable}">
                 <c:choose>
-                    <c:when test="${userInfo.numUtilisateur == lEnchere.no_utilisateur}">
+                    <c:when test="${userInfo.numUtilisateur == lEnchere.lUtilisateur.numUtilisateur}">
                         <h2><fmt:message key="displaysell.youWon"/></h2>
                     </c:when>
-                    <c:when test="${userInfo.numUtilisateur != lEnchere.no_utilisateur}">
+                    <c:when test="${userInfo.numUtilisateur != lEnchere.lUtilisateur.numUtilisateur}">
                         <h2>
                             <fmt:message key='displaysell.someoneElseWon'>
                                 <fmt:param value="${highestBidder.nom}"></fmt:param>
@@ -35,7 +35,7 @@
         </c:choose>
 
         <h3>${lArticle.nomArticle}</h3>
-        <c:if test="${userInfo.numUtilisateur == lArticle.numUtilisateur}">
+        <c:if test="${userInfo.numUtilisateur == lArticle.lUtilisateur.numUtilisateur}">
             <fmt:message key="displaysell.youAreTheSeller"/>
         </c:if>
         <br/>
@@ -69,7 +69,7 @@
         ${lArticle.lUtilisateur.pseudo}<br/>
 
         <c:if test="${!auctionInProgress}">
-            <c:if test="${userInfo.numUtilisateur == lEnchere.numUtilisateur}">
+            <c:if test="${userInfo.numUtilisateur == lEnchere.lUtilisateur.numUtilisateur}">
                 <label>
                     <fmt:message key="displaysell.sellerTel"/>
                 </label>
@@ -78,7 +78,7 @@
         </c:if>
 
         <!-- The user logged in is not the seller -->
-        <c:if test="${(userInfo.numUtilisateur != lArticle.numUtilisateur) && (auctionInProgress)}">
+        <c:if test="${(userInfo.numUtilisateur != lArticle.lUtilisateur.numUtilisateur) && (auctionInProgress)}">
             <label>
                 <fmt:message key="displaysell.myBid"/>
             </label><br/>
@@ -104,7 +104,7 @@
         </c:if>
 
         <!-- The user logged in is the seller -->
-        <c:if test="${(userInfo.numUtilisateur == lArticle.numUtilisateur)}">
+        <c:if test="${(userInfo.numUtilisateur == lArticle.lUtilisateur.numUtilisateur)}">
             <!-- TODO : à compléter vers la page de modification d'une vente -->
             <c:if test="${auctionEditable}">
                 <a href="${pageContext.request.contextPath}/home">Modifier la vente</a>

@@ -22,4 +22,13 @@ public class RetraitManager {
         return retraitDAO.createRetrait(lieuRetrait);
     }
 
+    public void updateRetrait(ArticleVendu articleVendu, String rue, String cp, String ville) {
+        Retrait retrait;
+        retrait = new Retrait(rue, cp, ville, articleVendu);
+        retraitDAO.updateRetrait(retrait);
+    }
+
+    public void deleteRetrait(int id) {
+        retraitDAO.deleteRetrait(id);
+    }
 }

@@ -46,27 +46,17 @@ public class ServletHome extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            List<ArticleVendu> lesArticles = articleVenduManager.getAllArticles();
-            List<ArticleVendu> articlesTrouveParFiltre = new ArrayList<>();
+        List<ArticleVendu> lesArticles = articleVenduManager.getAllArticles();
+        List<ArticleVendu> articlesTrouveParFiltre = new ArrayList<>();
 
-            String nomArticle = new String(request.getParameter("nomArticle").getBytes(), "UTF-8");
-            String laCategorie = new String(request.getParameter("categories").getBytes(), "UTF-8");
+        String nomArticle = new String(request.getParameter("nomArticle").getBytes(), "UTF-8");
+        String laCategorie = new String(request.getParameter("categories").getBytes(), "UTF-8");
 
-            boolean isUserLoggedIn = request.getSession().getAttribute("isUserLoggedIn") != null && (boolean) request.getSession().getAttribute("isUserLoggedIn");
+        boolean isUserLoggedIn = request.getSession().getAttribute("isUserLoggedIn") != null && (boolean) request.getSession().getAttribute("isUserLoggedIn");
 
-            if (!nomArticle.equals("") && laCategorie.equals("toutes")) {
-                for (ArticleVendu lArticle : lesArticles) {
-                    if (lArticle.getNomArticle().contains(nomArticle)) {
-                        if (!isUserLoggedIn) {
-                            articlesTrouveParFiltre.add(lArticle);
-                        } else {
-                            filtreSupplementaireModeConnecte(request, articlesTrouveParFiltre, lArticle);
-                        }
-                    }
-                }
-            } else if (nomArticle.equals("") && laCategorie.equals("toutes")) {
-                for (ArticleVendu lArticle : lesArticles) {
+        if (!nomArticle.equals("") && laCategorie.equals("toutes")) {
+            for (ArticleVendu lArticle : lesArticles) {
+                if (lArticle.getNomArticle().contains(nomArticle)) {
                     if (!isUserLoggedIn) {
                         articlesTrouveParFiltre.add(lArticle);
                     } else {
@@ -74,35 +64,40 @@ public class ServletHome extends HttpServlet {
                     }
                 }
             }
-
-            if (!nomArticle.equals("") && !laCategorie.equals("toutes")) {
-                for (ArticleVendu lArticle : lesArticles) {
-                    if (lArticle.getNomArticle().contains(nomArticle) && lArticle.getLaCategorie().getLibelle().equals(laCategorie)) {
-                        if (!isUserLoggedIn) {
-                            articlesTrouveParFiltre.add(lArticle);
-                        } else {
-                            filtreSupplementaireModeConnecte(request, articlesTrouveParFiltre, lArticle);
-                        }
-                    }
+        } else if (nomArticle.equals("") && laCategorie.equals("toutes")) {
+            for (ArticleVendu lArticle : lesArticles) {
+                if (!isUserLoggedIn) {
+                    articlesTrouveParFiltre.add(lArticle);
+                } else {
+                    filtreSupplementaireModeConnecte(request, articlesTrouveParFiltre, lArticle);
                 }
-            } else if (nomArticle.equals("") && !laCategorie.equals("toutes")) {
-                for (ArticleVendu lArticle : lesArticles) {
-                    if (lArticle.getLaCategorie().getLibelle().equals(laCategorie)) {
-                        if (!isUserLoggedIn) {
-                            articlesTrouveParFiltre.add(lArticle);
-                        } else {
-                            filtreSupplementaireModeConnecte(request, articlesTrouveParFiltre, lArticle);
-                        }
+            }
+        }
+
+        if (!nomArticle.equals("") && !laCategorie.equals("toutes")) {
+            for (ArticleVendu lArticle : lesArticles) {
+                if (lArticle.getNomArticle().contains(nomArticle) && lArticle.getLaCategorie().getLibelle().equals(laCategorie)) {
+                    if (!isUserLoggedIn) {
+                        articlesTrouveParFiltre.add(lArticle);
+                    } else {
+                        filtreSupplementaireModeConnecte(request, articlesTrouveParFiltre, lArticle);
                     }
                 }
             }
-
-
-            request.setAttribute("lesArticles", articlesTrouveParFiltre);
-
-        } catch (BLLException e) {
-            e.printStackTrace();
+        } else if (nomArticle.equals("") && !laCategorie.equals("toutes")) {
+            for (ArticleVendu lArticle : lesArticles) {
+                if (lArticle.getLaCategorie().getLibelle().equals(laCategorie)) {
+                    if (!isUserLoggedIn) {
+                        articlesTrouveParFiltre.add(lArticle);
+                    } else {
+                        filtreSupplementaireModeConnecte(request, articlesTrouveParFiltre, lArticle);
+                    }
+                }
+            }
         }
+
+
+        request.setAttribute("lesArticles", articlesTrouveParFiltre);
 
         doGet(request, response);
     }
@@ -126,9 +121,9 @@ public class ServletHome extends HttpServlet {
                 }
                 if (enchereEnCours) {
                     if ("E".equals(lArticle.getEtatVente())) {
-                        List<Enchere> encheres = enchereManager.getAllEncheresByIdArticle(lArticle.getNo_article());
+                        List<Enchere> encheres = enchereManager.getAllBidsByIdArticle(lArticle.getNumArticle());
                         for (Enchere enchere : encheres) {
-                            if (enchere.getNo_utilisateur() == lUtilisateur.getNo_utilisateur()) {
+                            if (enchere.getlUtilisateur().equals(lUtilisateur)) {
                                 if (!articlesTrouveParFiltre.contains(lArticle)) {
                                     articlesTrouveParFiltre.add(lArticle);
                                 }
@@ -138,9 +133,9 @@ public class ServletHome extends HttpServlet {
                 }
                 if (enchereRemportees) {
                     if ("F".equals(lArticle.getEtatVente())) {
-                        List<Enchere> encheres = enchereManager.getAllEncheresByIdArticle(lArticle.getNo_article());
+                        List<Enchere> encheres = enchereManager.getAllBidsByIdArticle(lArticle.getNumArticle());
                         for (Enchere enchere : encheres) {
-                            if (enchere.getNo_utilisateur() == lUtilisateur.getNo_utilisateur() && enchere.getMontantEnchere() == lArticle.getPrixVente()) {
+                            if (enchere.getlUtilisateur().equals(lUtilisateur) && enchere.getMontantEnchere() == lArticle.getPrixVente()) {
                                 if (!articlesTrouveParFiltre.contains(lArticle)) {
                                     articlesTrouveParFiltre.add(lArticle);
                                 }
@@ -154,7 +149,7 @@ public class ServletHome extends HttpServlet {
                 boolean venteTermine = Boolean.parseBoolean(request.getParameter("ventesTermine"));
 
 
-                if (lArticle.getNo_utilisateur() == lUtilisateur.getNo_utilisateur()) {
+                if (lArticle.getlUtilisateur().equals(lUtilisateur)) {
 
                     if (venteEnCours) {
                         if ("E".equals(lArticle.getEtatVente())) {

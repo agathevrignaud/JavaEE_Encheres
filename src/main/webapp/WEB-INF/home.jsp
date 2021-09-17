@@ -106,7 +106,7 @@
         <div class="card-body">
             <c:if test="${isUserLoggedIn}">
                 <p>
-                    <a href="${pageContext.request.contextPath}/articleDetails?idArticle=${lArticle.getNo_article()}"> ${lArticle.getNomArticle()}</a>
+                    <a href="${pageContext.request.contextPath}/articleDetails?idArticle=${lArticle.getNumArticle()}"> ${lArticle.getNomArticle()}</a>
                 </p>
             </c:if>
             <c:if test="${not isUserLoggedIn}">
@@ -117,7 +117,7 @@
             <p>Prix: ${lArticle.getPrixVente()}</p>
             <p>Fin de l'enchère: ${lArticle.getDateFinEnchere()}</p>
             <p>Vendeur: <a
-                    href="${pageContext.request.contextPath}/myProfile?idUser=${lArticle.getNo_utilisateur()}">${lArticle.getPseudoUtilisateur()}</a>
+                    href="${pageContext.request.contextPath}/myProfile?idUser=${lArticle.getlUtilisateur().getNumUtilisateur()}">${lArticle.getlUtilisateur().getPseudo()}</a>
             </p>
 
 

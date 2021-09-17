@@ -33,6 +33,8 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             "date_fin_encheres, prix_initial, etat_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?)";
     private static final String UPDATE_ARTICLE_BID = "UPDATE ARTICLES_VENDUS SET prix_vente=? WHERE no_article=?";
     private static final String DELETE_ALL_ARTICLES_BY_USER_ID="DELETE FROM ARTICLES_VENDUS WHERE no_utilisateur=?";
+    private static final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
+    private static final String UPDATE_ARTICLE_VENDU = "UPDATE ARTICLES_VENDUS SET nom_article=?, description=?, date_debut_encheres=?, date_fin_encheres=?, prix_initial=?, etat_vente=?, no_utilisateur=?, no_categorie=? WHERE no_article=?";
 
     @Override
     public List<ArticleVendu> selectAll() {
@@ -43,34 +45,34 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 Utilisateur lUtilisateur = new Utilisateur(
-                        rs.getInt("U.no_utilisateur"),
-                        rs.getString("U.pseudo"),
-                        rs.getString("U.nom"),
-                        rs.getString("U.prenom"),
-                        rs.getString("U.email"),
-                        rs.getString("U.telephone"),
-                        rs.getString("U.rue"),
-                        rs.getString("U.codePostal"),
-                        rs.getString("U.ville")
+                        rs.getInt("no_utilisateur"),
+                        rs.getString("pseudo"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email"),
+                        rs.getString("telephone"),
+                        rs.getString("rue"),
+                        rs.getString("code_postal"),
+                        rs.getString("ville")
                 );
                 Retrait lieuRetrait = new Retrait(
-                    rs.getString("R.rue"),
-                    rs.getString("R.code_postal"),
-                    rs.getString("R.ville")
+                    rs.getString("rue"),
+                    rs.getString("code_postal"),
+                    rs.getString("ville")
                 );
                 Categorie laCategorie = new Categorie(
-                        rs.getInt("C.no_categorie"),
-                        rs.getString("C.libelle")
+                        rs.getInt("no_categorie"),
+                        rs.getString("libelle")
                 );
                 ArticleVendu lArticle = new ArticleVendu(
-                        rs.getInt("A.no_article"),
-                        rs.getString("A.nom_article"),
-                        rs.getString("A.description"),
-                        rs.getDate("A.date_debut_encheres").toLocalDate(),
-                        rs.getDate("A.date_fin_encheres").toLocalDate(),
-                        rs.getInt("A.prix_initial"),
-                        rs.getInt("A.prix_vente"),
-                        rs.getString("A.etat_vente"),
+                        rs.getInt("no_article"),
+                        rs.getString("nom_article"),
+                        rs.getString("description"),
+                        rs.getDate("date_debut_encheres").toLocalDate(),
+                        rs.getDate("date_fin_encheres").toLocalDate(),
+                        rs.getInt("prix_initial"),
+                        rs.getInt("prix_vente"),
+                        rs.getString("etat_vente"),
                         lieuRetrait,
                         laCategorie,
                         lUtilisateur
@@ -95,34 +97,34 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 Utilisateur lUtilisateur = new Utilisateur(
-                        rs.getInt("U.no_utilisateur"),
-                        rs.getString("U.pseudo"),
-                        rs.getString("U.nom"),
-                        rs.getString("U.prenom"),
-                        rs.getString("U.email"),
-                        rs.getString("U.telephone"),
-                        rs.getString("U.rue"),
-                        rs.getString("U.codePostal"),
-                        rs.getString("U.ville")
+                        rs.getInt("no_utilisateur"),
+                        rs.getString("pseudo"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email"),
+                        rs.getString("telephone"),
+                        rs.getString("rue"),
+                        rs.getString("code_postal"),
+                        rs.getString("ville")
                 );
                 Retrait lieuRetrait = new Retrait(
-                        rs.getString("R.rue"),
-                        rs.getString("R.code_postal"),
-                        rs.getString("R.ville")
+                        rs.getString("rue"),
+                        rs.getString("code_postal"),
+                        rs.getString("ville")
                 );
                 Categorie laCategorie = new Categorie(
-                        rs.getInt("C.no_categorie"),
-                        rs.getString("C.libelle")
+                        rs.getInt("no_categorie"),
+                        rs.getString("libelle")
                 );
                 lArticle = new ArticleVendu(
-                        rs.getInt("A.no_article"),
-                        rs.getString("A.nom_article"),
-                        rs.getString("A.description"),
-                        rs.getDate("A.date_debut_encheres").toLocalDate(),
-                        rs.getDate("A.date_fin_encheres").toLocalDate(),
-                        rs.getInt("A.prix_initial"),
-                        rs.getInt("A.prix_vente"),
-                        rs.getString("A.etat_vente"),
+                        rs.getInt("no_article"),
+                        rs.getString("nom_article"),
+                        rs.getString("description"),
+                        rs.getDate("date_debut_encheres").toLocalDate(),
+                        rs.getDate("date_fin_encheres").toLocalDate(),
+                        rs.getInt("prix_initial"),
+                        rs.getInt("prix_vente"),
+                        rs.getString("etat_vente"),
                         lieuRetrait,
                         laCategorie,
                         lUtilisateur
@@ -167,7 +169,28 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             pstmt.setInt(1, bid);
             pstmt.setInt(2, idArticle);
             pstmt.executeUpdate();
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateArticle(ArticleVendu articleVendu) {
+        try(Connection cnx = ConnectionProvider.getConnection()){
+            PreparedStatement pstmt = cnx.prepareStatement(UPDATE_ARTICLE_VENDU);
+
+            pstmt.setString(1, articleVendu.getNomArticle());
+            pstmt.setString(2, articleVendu.getDescription());
+            pstmt.setDate(3, Date.valueOf(articleVendu.getDateDebutEnchere()));
+            pstmt.setDate(4, Date.valueOf(articleVendu.getDateFinEnchere()));
+            pstmt.setInt(5, articleVendu.getMiseAPrix());
+            pstmt.setString(6, articleVendu.getEtatVente());
+            pstmt.setInt(7, articleVendu.getlUtilisateur().getNumUtilisateur());
+            pstmt.setInt(8, articleVendu.getLaCategorie().getNumCategorie());
+            pstmt.setInt(9, articleVendu.getNumArticle());
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -182,5 +205,17 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void deleteArticleById(int id) {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pstmt = cnx.prepareStatement(DELETE_ARTICLE);
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

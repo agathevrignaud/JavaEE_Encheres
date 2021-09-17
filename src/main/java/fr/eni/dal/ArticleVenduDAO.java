@@ -9,6 +9,10 @@ public interface ArticleVenduDAO {
     ArticleVendu selectArticleById(int idArticle);
     ArticleVendu createArticle(ArticleVendu lArticle);
     void updateBidOnArticle(int bid, int idArticle);
+
+    void updateArticle(ArticleVendu articleVendu);
+
     void deleteAllArticlesByUserId(int idUser);
 
+    void deleteArticleById(int id);
 }
