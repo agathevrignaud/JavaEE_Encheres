@@ -68,8 +68,8 @@ public class ServletDisplaySellArticle extends HttpServlet {
         @Override
         protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             List<Integer> listeCodesErreur = new ArrayList<>();
-            HttpSession laSession = request.getSession();
-            int newBid = Integer.parseInt(request.getParameter("newBid"));
+            HttpSession laSession = request.getSession(false);
+            int newBid = Integer.parseInt(request.getParameter("bid"));
             int idArticle = Integer.parseInt(request.getParameter("idArticle"));
             Enchere lEnchere = enchereManager.getHighestBidByIdArticle(idArticle);
             int previousHighestBid = lEnchere.getMontantEnchere();
