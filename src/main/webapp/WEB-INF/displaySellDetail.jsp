@@ -83,7 +83,7 @@
                 <fmt:message key="displaysell.myBid"/>
             </label><br/>
             <form method="post" action="${pageContext.request.contextPath}/makeABid">
-                <input type="hidden" id="idArticle" name="idArticle" value="${lArticle.numUtilisateur}"/>
+                <input type="hidden" id="idArticle" name="idArticle" value="${lArticle.lUtilisateur.numUtilisateur}"/>
                 <input type="hidden" id="highestBid" name="highestBid" value="${lArticle.prixVente}"/>
                 <input type="number" id="bid" name="bid" min="${lArticle.prixVente}" step="10" value="${lArticle.prixVente}"/>
                 <button type="submit" name="makeABid"><fmt:message key="displaysell.makeABid"/></button>

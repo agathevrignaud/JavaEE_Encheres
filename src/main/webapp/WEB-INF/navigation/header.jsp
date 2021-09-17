@@ -3,7 +3,6 @@
 
 <fmt:setLocale value="${cookie['cookie_lang'].value}" />
 <fmt:setBundle basename="messages"/>
-
 <!DOCTYPE html>
 
 <html lang="${cookie['cookie_lang'].value}">
@@ -11,6 +10,7 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/utils/css/all.css">
     </head>
     <body>
+
         <ul>
             <c:choose>
                 <c:when test="${isUserLoggedIn}">

@@ -113,9 +113,12 @@ public class ServletHome extends HttpServlet {
                 boolean enchereRemportees = Boolean.parseBoolean(request.getParameter("enchereRemportees"));
 
                 if (enchereOuverte) {
-                    if ("A".equals(lArticle.getEtatVente())) {
-                        if (!articlesTrouveParFiltre.contains(lArticle)) {
-                            articlesTrouveParFiltre.add(lArticle);
+                    if ("E".equals(lArticle.getEtatVente())) {
+                        List<Enchere> encheres = enchereManager.getAllBidsByIdArticle(lArticle.getNumArticle());
+                        for (Enchere enchere : encheres) {
+                            if (!articlesTrouveParFiltre.contains(lArticle)) {
+                                articlesTrouveParFiltre.add(lArticle);
+                            }
                         }
                     }
                 }
@@ -123,7 +126,7 @@ public class ServletHome extends HttpServlet {
                     if ("E".equals(lArticle.getEtatVente())) {
                         List<Enchere> encheres = enchereManager.getAllBidsByIdArticle(lArticle.getNumArticle());
                         for (Enchere enchere : encheres) {
-                            if (enchere.getlUtilisateur().equals(lUtilisateur)) {
+                            if (enchere.getlUtilisateur().getNumUtilisateur() == lUtilisateur.getNumUtilisateur()) {
                                 if (!articlesTrouveParFiltre.contains(lArticle)) {
                                     articlesTrouveParFiltre.add(lArticle);
                                 }
@@ -135,7 +138,7 @@ public class ServletHome extends HttpServlet {
                     if ("F".equals(lArticle.getEtatVente())) {
                         List<Enchere> encheres = enchereManager.getAllBidsByIdArticle(lArticle.getNumArticle());
                         for (Enchere enchere : encheres) {
-                            if (enchere.getlUtilisateur().equals(lUtilisateur) && enchere.getMontantEnchere() == lArticle.getPrixVente()) {
+                            if (enchere.getlUtilisateur().getNumUtilisateur() == lUtilisateur.getNumUtilisateur() && enchere.getMontantEnchere() == lArticle.getPrixVente()) {
                                 if (!articlesTrouveParFiltre.contains(lArticle)) {
                                     articlesTrouveParFiltre.add(lArticle);
                                 }
@@ -149,7 +152,7 @@ public class ServletHome extends HttpServlet {
                 boolean venteTermine = Boolean.parseBoolean(request.getParameter("ventesTermine"));
 
 
-                if (lArticle.getlUtilisateur().equals(lUtilisateur)) {
+                if (lArticle.getlUtilisateur().getNumUtilisateur() == lUtilisateur.getNumUtilisateur()) {
 
                     if (venteEnCours) {
                         if ("E".equals(lArticle.getEtatVente())) {
