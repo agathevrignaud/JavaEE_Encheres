@@ -8,104 +8,106 @@
 
 <!DOCTYPE html>
 <html lang="${cookie['cookie_lang'].value}">
-<head>
-  <title>
-    Vendre objet aux enchères
-  </title>
-</head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<header>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <h2>ENI-Enchères</h2>
-  </nav>
+  <head>
+    <title><fmt:message key="createauction.title"/></title>
+  </head>
+  <body>
+    <%@include file="/WEB-INF/navigation/header.jsp"%>
+    <h2><fmt:message key="createauction.title"/></h2>
+    <!-- Print errors (if any) -->
+    <c:if test="${!empty listeCodesErreur}">
+      <fmt:message key="createauction.error"/>
+      <ul>
+        <c:forEach var="code" items="${listeCodesErreur}">
+          <li>${LecteurMessage.getMessageErreur(code)}</li>
+        </c:forEach>
+      </ul>
+    </c:if>
+    <!-- Auction Details -->
+    <form method="post" action="${pageContext.request.contextPath}/createAuction">
+      <fieldset>
+        <label for="articleName">
+          <fmt:message key="createauction.article"/>
+        </label>
+        <input type="text" id="articleName" name="articleName"/><br/>
+        <label for="articleDescription">
+          <fmt:message key="createauction.description"/>
+        </label>
+        <input type="text" id="articleDescription" name="articleDescription"/><br/>
+        <label for="idCategory">
+          <fmt:message key="createauction.category"/>
+        </label>
+        <select id="category" name="category" onchange="getSelectedCategory(this);">
+          <c:forEach var="c" items="${lesCategories}">
+            <input type="hidden" name="selectedCategory" id="selectedCategory">
+            <option id="idCategory" value="${c.numCategorie}">
+                ${c.libelle}
+            </option>
+          </c:forEach>
+        </select><br/>
+        <label for="articleImg">
+          <fmt:message key="createauction.articleImg"/>
+        </label>
+        <input type="file" accept="image/*" name="articleImg" id="articleImg" onchange="loadFile(event)"
+               class="form-control">
+        <br/>
+        <label for="articleStartingPrice">
+          <fmt:message key="createauction.startingPrice"/>
+        </label>
+        <input type="number" id="articleStartingPrice" min="10" step="10" name="articleStartingPrice"/><br/>
+        <label for="auctionStartDate">
+          <fmt:message key="createauction.auctionStartDate"/>
+        </label>
+        <input type="date" id="auctionStartDate" name="auctionStartDate"><br/>
+        <label for="auctionEndDate">
+          <fmt:message key="createauction.auctionEndDate"/>
+        </label>
+        <input type="date" id="auctionEndDate" name="auctionEndDate"><br/>
+      </fieldset>
+      <!-- Collect point -->
+      <fieldset>
+        <legend><fmt:message key="createauction.collectPoint"/></legend>
+        <hr>
+        <label for="streetName">
+          <fmt:message key="createauction.streetName"/>
+        </label>
+        <input type="text" id="streetName" name="streetName" value="${lieuRetrait.rue}"/><br/>
+        <label for="zipCode">
+          <fmt:message key="createauction.zipCode"/>
+        </label>
+        <input type="text" id="zipCode" name="zipCode" minlength="5" maxlength="5" value="${lieuRetrait.codePostal}"/><br/>
+        <label for="city">
+          <fmt:message key="createauction.city"/>
+        </label>
+        <input type="text" id="city" name="city" value="${lieuRetrait.ville}"/><br/>
+      </fieldset>
 
-</header>
-<body>
-
-<div class="col-md-12 row">
-  <div class="col-md-6">
-    <card>
-      <div class="card-header d-flex justify-content-center" style="background-color: #ffff">
-        <h2>Nouvelle vente</h2>
-      </div>
-      <div class="card-body d-flex justify-content-center">
-        <form action="VendreObjet" method="post">
-          <div class="form-group">
-            <label for="nomArticle">Article : </label>
-            <input type="text" id="nomArticle" name="nomArticle" class="form-control"/>
-            <br/>
-            <label for="descArticle">Description : </label>
-            <input type="text" id="descArticle" name="descArticle" class="form-control"/>
-            <br/>
-            <label for="idCategory">Catégorie : </label>
-            <select id="idCategory" name="categories" class="form-control">
-              <c:forEach items="${listeCategorie}" var="categorie">
-                <option id="categoryId" value="${categorie.no_categorie}">
-                    ${categorie.libelle}
-                </option>
-              </c:forEach>
-            </select>
-            <br/>
-            <label for="file">Photo de l'article : </label>
-            <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)"
-                   class="form-control">
-            <br/>
-            <label for="prixArticle">Mise à prix : </label>
-            <input type="number" id="prixArticle" min="10" step="10" name="prixArticle"
-                   class="form-control"/>
-            <br/>
-            <label for="debutEnchere">Debut de l'enchère : </label>
-            <input type="date" id="debutEnchere" name="debutEnchere" class="form-control">
-            <br/>
-            <label for="finEnchere">Fin de l'enchère : </label>
-            <input type="date" id="finEnchere" name="finEnchere" class="form-control">
-            <br/>
-            <fieldset>
-              <legend>Retrait</legend>
-              <hr>
-              <label for="rue">Rue : </label>
-              <input type="text" id="rue" name="rue" class="form-control"/>
-              <br/>
-              <label for="cp">Code postal : </label>
-              <input type="text" id="cp" minlength="5" maxlength="5" name="cp" class="form-control"/>
-              <br/>
-              <label for="ville">Ville : </label>
-              <input type="text" id="ville" name="ville" class="form-control"/>
-              <br/>
-            </fieldset>
-
-            <input type="submit" name="btnPressed" value="save" class="btn btn-outline-primary">
-            <a href="home.jsp">
-              <button type="submit" name="btnPressed" value="backhome" class="btn btn-outline-danger">Annuler</button>
-            </a>
-          </div>
-        </form>
-      </div>
-    </card>
-  </div>
-  <div class="col-md-6 d-flex justify-content-center">
-    <card style="border: solid black 1px;height: 400px">
-      <div class="card-body">
-        <p><img id="output" width="400"/></p>
-      </div>
-    </card>
-  </div>
-</div>
-</body>
-<script>
-  var loadFile = function (event) {
-    var image = document.getElementById('output');
-    image.src = URL.createObjectURL(event.target.files[0]);
-  };
-</script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+      <c:choose>
+        <c:when test="${lArticle.etatVente.equals('P')}">
+          <button type="submit" name="btnPressed" value="edit">
+            <fmt:message key="createauction.save"/>
+          </button>
+          <button type="submit" name="btnPressed" value="cancelEdit">
+            <fmt:message key="createauction.cancel"/>
+          </button>
+          <button type="submit" name="btnPressed" value="cancelAuction">
+            <fmt:message key="createauction.cancel"/>
+          </button>
+        </c:when>
+        <c:otherwise>
+          <button type="submit" name="btnPressed" value="save">
+            <fmt:message key="createauction.save"/>
+          </button>
+          <button type="submit" name="btnPressed" value="cancelCreation">
+            <fmt:message key="createauction.cancel"/>
+          </button>
+        </c:otherwise>
+      </c:choose>
+    </form>
+  </body>
 </html>
+<script>
+function getSelectedCategory(sel) {
+  document.getElementById("selectedLabel").value = sel.options[sel.selectedIndex].text;
+}
+</script>

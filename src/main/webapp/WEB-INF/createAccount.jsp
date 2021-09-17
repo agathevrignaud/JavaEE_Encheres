@@ -13,6 +13,7 @@
     </head>
     <body>
         <%@include file="/WEB-INF/navigation/header.jsp"%>
+        <!-- Print errors (if any) -->
         <c:if test="${!empty listeCodesErreur}">
             <fmt:message key="createacc.error"/>
             <ul>
@@ -21,7 +22,8 @@
                 </c:forEach>
             </ul>
         </c:if>
-        <form action="${pageContext.request.contextPath}/signUp" method="post">
+        <!-- Account Details -->
+        <form method="post" action="${pageContext.request.contextPath}/signUp">
             <fieldset>
                 <legend><fmt:message key="createacc.myProfile"/></legend>
                 <label for="username">

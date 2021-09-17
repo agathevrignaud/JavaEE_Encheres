@@ -194,10 +194,16 @@ public class ServletAdminTools extends HttpServlet {
     }
 
     private void reimburseAllBidders(int idUser) {
-        List<ArticleVendu> lesArticles = articleVenduManager.getAllArticlesByUser(idUser);
+        List<ArticleVendu> lesArticles = null;
+        try {
+            lesArticles = articleVenduManager.getAllArticlesByUser(idUser);
+        } catch (BLLException e) {
+            e.printStackTrace();
+            //  TODO : à gérer mieux
+        }
         for (ArticleVendu unArticle : lesArticles) {
-            Enchere lEnchere = enchereManager.getHighestBidByIdArticle(unArticle.getNumArticle());
             try {
+                Enchere lEnchere = enchereManager.getHighestBidByIdArticle(unArticle.getNumArticle());
                 utilisateurManager.updateUserCredit(unArticle.getPrixVente(), lEnchere.getlUtilisateur().getNumUtilisateur());
             } catch (BLLException e) {
                 e.printStackTrace();
