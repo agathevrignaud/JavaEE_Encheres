@@ -14,4 +14,5 @@ public interface ArticleVenduDAO {
 
     void deleteAllArticlesByUserId(int idUser);
 
+    void deleteArticleById(int id);
 }

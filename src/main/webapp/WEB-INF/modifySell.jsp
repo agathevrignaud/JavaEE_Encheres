@@ -40,7 +40,7 @@
         <label for="idCategory">Catégorie : </label>
         <select id="idCategory" name="categories" class="form-control">
           <c:forEach items="${listeCategorie}" var="categorie">
-            <option id="categoryId" value="${categorie.no_categorie}">
+            <option id="categoryId" value="${categorie.numCategorie}">
                 ${categorie.libelle}
             </option>
           </c:forEach>

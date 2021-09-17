@@ -54,4 +54,8 @@ public class ArticleVenduManager {
         articleVenduDAO.updateArticle(articleVendu);
     }
 
+    public void deleteArticle(int id) {
+        articleVenduDAO.deleteArticleById(id);
+    }
+
 }
