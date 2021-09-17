@@ -41,40 +41,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_ARTICLES);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                Utilisateur lUtilisateur = new Utilisateur(
-                        rs.getInt("no_utilisateur"),
-                        rs.getString("pseudo"),
-                        rs.getString("nom"),
-                        rs.getString("prenom"),
-                        rs.getString("email"),
-                        rs.getString("telephone"),
-                        rs.getString("rue"),
-                        rs.getString("code_postal"),
-                        rs.getString("ville")
-                );
-                Retrait lieuRetrait = new Retrait(
-                        rs.getString("rue"),
-                        rs.getString("code_postal"),
-                        rs.getString("ville")
-                );
-                Categorie laCategorie = new Categorie(
-                        rs.getInt("no_categorie"),
-                        rs.getString("libelle")
-                );
-                ArticleVendu lArticle = new ArticleVendu(
-                        rs.getInt("no_article"),
-                        rs.getString("nom_article"),
-                        rs.getString("description"),
-                        rs.getDate("date_debut_encheres").toLocalDate(),
-                        rs.getDate("date_fin_encheres").toLocalDate(),
-                        rs.getInt("prix_initial"),
-                        rs.getInt("prix_vente"),
-                        rs.getString("etat_vente"),
-                        lieuRetrait,
-                        laCategorie,
-                        lUtilisateur
-                );
-                lieuRetrait.setlArticle(lArticle);
+                ArticleVendu lArticle = getArticleVendu(rs);
                 lesArticles.add(lArticle);
             }
         } catch (Exception e) {
@@ -87,6 +54,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
         return lesArticles;
     }
 
+
     @Override
     public List<ArticleVendu> selectAllByUserId(int idUser) throws BLLException {
         List<ArticleVendu> lesArticles = new ArrayList<>();
@@ -96,40 +64,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             pstmt.setInt(1, idUser);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                Utilisateur lUtilisateur = new Utilisateur(
-                        rs.getInt("U.no_utilisateur"),
-                        rs.getString("U.pseudo"),
-                        rs.getString("U.nom"),
-                        rs.getString("U.prenom"),
-                        rs.getString("U.email"),
-                        rs.getString("U.telephone"),
-                        rs.getString("U.rue"),
-                        rs.getString("U.code_postal"),
-                        rs.getString("U.ville")
-                );
-                Retrait lieuRetrait = new Retrait(
-                        rs.getString("R.rue"),
-                        rs.getString("R.code_postal"),
-                        rs.getString("R.ville")
-                );
-                Categorie laCategorie = new Categorie(
-                        rs.getInt("C.no_categorie"),
-                        rs.getString("C.libelle")
-                );
-                ArticleVendu lArticle = new ArticleVendu(
-                        rs.getInt("A.no_article"),
-                        rs.getString("A.nom_article"),
-                        rs.getString("A.description"),
-                        rs.getDate("A.date_debut_encheres").toLocalDate(),
-                        rs.getDate("A.date_fin_encheres").toLocalDate(),
-                        rs.getInt("A.prix_initial"),
-                        rs.getInt("A.prix_vente"),
-                        rs.getString("A.etat_vente"),
-                        lieuRetrait,
-                        laCategorie,
-                        lUtilisateur
-                );
-                lieuRetrait.setlArticle(lArticle);
+                ArticleVendu lArticle = getArticleVendu(rs);
                 lesArticles.add(lArticle);
             }
         } catch (Exception e) {
@@ -151,40 +86,7 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             pstmt.setInt(1, idArticle);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                Utilisateur lUtilisateur = new Utilisateur(
-                        rs.getInt("U.no_utilisateur"),
-                        rs.getString("U.pseudo"),
-                        rs.getString("U.nom"),
-                        rs.getString("U.prenom"),
-                        rs.getString("U.email"),
-                        rs.getString("U.telephone"),
-                        rs.getString("U.rue"),
-                        rs.getString("U.code_postal"),
-                        rs.getString("U.ville")
-                );
-                Retrait lieuRetrait = new Retrait(
-                        rs.getString("R.rue"),
-                        rs.getString("R.code_postal"),
-                        rs.getString("R.ville")
-                );
-                Categorie laCategorie = new Categorie(
-                        rs.getInt("C.no_categorie"),
-                        rs.getString("C.libelle")
-                );
-                lArticle = new ArticleVendu(
-                        rs.getInt("A.no_article"),
-                        rs.getString("A.nom_article"),
-                        rs.getString("A.description"),
-                        rs.getDate("A.date_debut_encheres").toLocalDate(),
-                        rs.getDate("A.date_fin_encheres").toLocalDate(),
-                        rs.getInt("A.prix_initial"),
-                        rs.getInt("A.prix_vente"),
-                        rs.getString("A.etat_vente"),
-                        lieuRetrait,
-                        laCategorie,
-                        lUtilisateur
-                );
-                lieuRetrait.setlArticle(lArticle);
+                lArticle = getArticleVendu(rs);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -280,6 +182,44 @@ public class ArticleVenduDAOJdbc implements ArticleVenduDAO {
             myLogger.log(Level.WARNING,"Erreur lors de la mise à jour du prix de vente de l'article " + idArticle, bllException);
             throw bllException;
         }
+    }
+
+    private ArticleVendu getArticleVendu(ResultSet rs) throws SQLException {
+        Utilisateur lUtilisateur = new Utilisateur(
+                rs.getInt("no_utilisateur"),
+                rs.getString("pseudo"),
+                rs.getString("nom"),
+                rs.getString("prenom"),
+                rs.getString("email"),
+                rs.getString("telephone"),
+                rs.getString("rue"),
+                rs.getString("code_postal"),
+                rs.getString("ville")
+        );
+        Retrait lieuRetrait = new Retrait(
+                rs.getString("rue"),
+                rs.getString("code_postal"),
+                rs.getString("ville")
+        );
+        Categorie laCategorie = new Categorie(
+                rs.getInt("no_categorie"),
+                rs.getString("libelle")
+        );
+        ArticleVendu lArticle = new ArticleVendu(
+                rs.getInt("no_article"),
+                rs.getString("nom_article"),
+                rs.getString("description"),
+                rs.getDate("date_debut_encheres").toLocalDate(),
+                rs.getDate("date_fin_encheres").toLocalDate(),
+                rs.getInt("prix_initial"),
+                rs.getInt("prix_vente"),
+                rs.getString("etat_vente"),
+                lieuRetrait,
+                laCategorie,
+                lUtilisateur
+        );
+        lieuRetrait.setlArticle(lArticle);
+        return lArticle;
     }
 
 
