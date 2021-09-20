@@ -9,7 +9,7 @@
 <html lang="${cookie['cookie_lang'].value}">
     <head>
         <title><fmt:message key="admin.title"/></title>
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/utils/css/all.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     </head>
     <body>
         <%@include file="/WEB-INF/navigation/header.jsp" %>

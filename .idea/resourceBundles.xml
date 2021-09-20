@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ResourceBundleManager">
-    <file url="file://$PROJECT_DIR$/src/main/ressources/messages_en.properties" />
-    <file url="file://$PROJECT_DIR$/src/main/ressources/messages_info.properties" />
-    <file url="file://$PROJECT_DIR$/src/main/ressources/messages_info_en.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/utils/ressources/messages_en.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/utils/ressources/messages_info.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/utils/ressources/messages_info_en.properties" />
   </component>
 </project>

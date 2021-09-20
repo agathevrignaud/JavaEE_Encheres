@@ -106,8 +106,3 @@
     </form>
   </body>
 </html>
-<script>
-function getSelectedCategory(sel) {
-  document.getElementById("selectedLabel").value = sel.options[sel.selectedIndex].text;
-}
-</script>

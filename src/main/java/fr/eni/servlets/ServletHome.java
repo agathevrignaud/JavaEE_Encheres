@@ -56,27 +56,40 @@ public class ServletHome extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<ArticleVendu> lesArticles = getSelectedOptions(request);
-        request.setAttribute("lesArticles", lesArticles);
+        List<ArticleVendu> lesArticlesFiltres = null;
+        try {
+            lesArticlesFiltres = getSelectedOptions(request);
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
+        request.setAttribute("lesArticlesFiltres", lesArticlesFiltres);
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/home.jsp");
         rd.forward(request, response);
     }
 
-    private List<ArticleVendu> getSelectedOptions(HttpServletRequest request) {
-        List<ArticleVendu> lesArticles = new ArrayList<>();
+    private List<ArticleVendu> getSelectedOptions(HttpServletRequest request) throws BLLException {
+        List<ArticleVendu> lesArticles = null;
+        HttpSession laSession = request.getSession();
+        Utilisateur lUtilisateur = (Utilisateur) laSession.getAttribute("userInfo");
+        try {
+            lesArticles = articleVenduManager.getAllArticles();
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
+        List<ArticleVendu> lesArticlesFiltres = new ArrayList<>();
         switch (request.getParameter("optionRdButton")) {
             case "buy":
                 String[] optionsBuy = request.getParameterValues("groupBuy");
                 List optionsBuyList = Arrays.asList(optionsBuy);
                 if (optionsBuyList.size() > 0) {
                     if (optionsBuyList.contains("openAuctions")) {
-                        //ceux sur lequel y a pas de participation
+                        //ceux sur lequel y a pas de participation + etat_vente E
                     }
                     if (optionsBuyList.contains("participated")) {
-                        //ceux sur lequel y a une participation
+                        //ceux sur lequel y a une participation (non finies ?)
                     }
                     if (optionsBuyList.contains("won")) {
-                        //ceux sur lequel c gagné
+                        //ceux sur lequel c gagné !
                     }
                 } else {
                     //on affiche tout balec
